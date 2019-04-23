@@ -23,5 +23,5 @@ make (all|corewar|asm)
 ## Team
 Jackson Beall  
 Thomas Cherret  
-Zied Tisnes  
+Zeid Tisnes  
 Logan Kaser  
