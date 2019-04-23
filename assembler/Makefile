@@ -6,44 +6,36 @@
 #    By: logan  <logan@42.us.org>                   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/13 10:03:24 by logan             #+#    #+#              #
-#    Updated: 2019/04/17 12:04:50 by lkaser           ###   ########.fr        #
+#    Updated: 2019/04/23 14:43:00 by lkaser           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-LIST_ASM = main
-
-LIST_COREWAR = main
+NAME = asm
+LIST = main
 
 OBJ_DIR = obj
-VPATH = assembler:virtual_machine
+VPATH = src
 
-OBJ_ASM = $(addsuffix .o, $(addprefix $(OBJ_DIR)/, $(LIST_ASM)))
-OBJ_COREWAR = $(addsuffix .o, $(addprefix $(OBJ_DIR)/, $(LIST_COREWAR)))
-DEP = $(OBJ_ASM:%.o=%.d) $(OBJ_COREWAR:%.o=%.d)
+OBJ = $(addsuffix .o, $(addprefix $(OBJ_DIR)/, $(LIST)))
+DEP = $(OBJ:%.o=%.d)
 
-INCLUDES = -I libft/include -I src
+INCLUDES = -I ../libft/include -I src
 
 MAKEOPTS=-j4
 
-#OPT = -flto=full -O3
+#OPT = -O3 -flto=full
 
-CPPFLAGS = -Wall -Wextra -Werror $(OPT) -march=native \
+CPPFLAGS = -Wall -Wextra -Werror $(OPT) -g -march=native \
 $(INCLUDES) \
--fsanitize=address -fsanitize=undefined -g
-
-LDFLAGS =  -flto=full -pipe \
 -fsanitize=address -fsanitize=undefined
 
-all: asm corewar
+LDFLAGS = -L ../libft -lft -pipe \
+-fsanitize=address -fsanitize=undefined
 
-asm: $(OBJ_ASM)
-	#make -sC libft
-	@printf "\e[32;1mLinking.. \e[0m\n"
-	$(CC) $^ $(LDFLAGS) -o $@
-	@printf "\e[32;1mCreated:\e[0m %s\n" $@
+all: $(NAME)
 
-corewar: $(OBJ_COREWAR)
-	#make -sC libft
+$(NAME): $(OBJ)
+	make -sC ../libft
 	@printf "\e[32;1mLinking.. \e[0m\n"
 	$(CC) $^ $(LDFLAGS) -o $@
 	@printf "\e[32;1mCreated:\e[0m %s\n" $@
@@ -58,15 +50,15 @@ $(OBJ_DIR)/%.o: %.c | $(OBJ_DIR)
 	$(CC) $(CPPFLAGS) -MMD -c $< -o $@
 
 clean:
-	make -sC libft clean
+	make -sC ../libft clean
 	@printf "\e[31;1mCleaning..\e[0m\n"
 	@rm -rf $(OBJ_DIR)
 
 fclean: clean
-	make -sC libft fclean
+	make -sC ../libft fclean
 	@printf "\e[31;1mFull Cleaning..\e[0m\n"
-	@rm -f asm corewar
-	@rm -rf asm.dSYM corewar.dSYM
+	@rm -f $(NAME)
+	@rm -rf $(NAME).dSYM
 
 re:	fclean all
 

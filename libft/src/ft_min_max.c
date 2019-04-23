@@ -1,18 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_min_max.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lkaser <lkaser@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/22 18:28:10 by lkaser            #+#    #+#             */
-/*   Updated: 2019/04/22 18:29:36 by lkaser           ###   ########.fr       */
+/*   Created: 2018/07/11 13:43:24 by lkaser            #+#    #+#             */
+/*   Updated: 2018/07/11 13:46:17 by lkaser           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-
-int main(void)
+double	ft_min(double a, double b)
 {
-	write(1, "Great\n", 6);
+	if (a > b)
+		return (b);
+	return (a);
+}
+
+double	ft_max(double a, double b)
+{
+	if (a < b)
+		return (b);
+	return (a);
 }
