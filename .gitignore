@@ -3,6 +3,7 @@ corewar
 DS*
 .nfs*
 ._*
+*.cor
 *.swp*
 
 # Prerequisites

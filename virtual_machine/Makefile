@@ -19,7 +19,7 @@ VPATH = src
 OBJ = $(addsuffix .o, $(addprefix $(OBJ_DIR)/, $(LIST)))
 DEP = $(OBJ:%.o=%.d)
 
-INCLUDES = -I ../libft/include -I src
+INCLUDES = -I ../libft/include -I src -I ../include
 
 MAKEOPTS=-j4
 
