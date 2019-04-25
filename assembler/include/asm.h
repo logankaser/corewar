@@ -6,7 +6,7 @@
 /*   By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 14:15:34 by jbeall            #+#    #+#             */
-/*   Updated: 2019/04/25 10:50:08 by jbeall           ###   ########.fr       */
+/*   Updated: 2019/04/25 11:47:53 by jbeall           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,33 @@ typedef struct s_asm
 {
 	t_header *header;
 	uint8_t program[CHAMP_MAX_SIZE];
+	t_uvector *label_vec;
+	t_uvector *cmd_vec;
 	int line;
 }				t_asm;
+
+typedef struct s_label
+{
+	char *label_name;
+	int label_id;
+	int mem_addr;
+}				t_label;
+
+typedef struct s_asm_arg
+{
+	int type;
+	int byte_size;
+	int val;
+}				t_asm_arg;
+
+typedef struct s_asm_cmd
+{
+	int op_code;
+	char *name;
+	int mem_addr;
+	int num_args;
+	t_uvector *args;
+}				t_asm_cmd;
 
 /*
 ** helpers
