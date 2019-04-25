@@ -11,7 +11,7 @@
 # **************************************************************************** #
 
 NAME = corewar
-LIST = main
+LIST = main instruction_dispatch
 
 OBJ_DIR = obj
 VPATH = src

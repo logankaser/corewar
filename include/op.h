@@ -14,6 +14,7 @@
 # define OP_H
 
 # include <stdint.h>
+# include <stdbool.h>
 
 # define IND_SIZE 2
 # define REG_SIZE 4
@@ -25,7 +26,7 @@
 
 # define MAX_ARGS_NUMBER 4
 # define MAX_PLAYERS 4
-# define MEM_SIZE (4*1024)
+# define MEM_SIZE (4 * 1024)
 # define IDX_MOD (MEM_SIZE / 8)
 # define CHAMP_MAX_SIZE (MEM_SIZE / 6)
 
@@ -77,26 +78,19 @@ typedef struct	s_header
 ** Op Table of questionable usefulness.
 */
 
-typedef struct	s_param_enc
-{
-	uint16_t	p1: 4;
-	uint16_t	p2: 4;
-	uint16_t	p3: 4;
-}				t_param_enc;
-
 typedef struct	s_op
 {
-	const char	*mnemonic;
+	const char	*name;
 	uint8_t		num_param;
-	t_param_enc	encoding;
-	uint32_t	opcode;
+	t_arg_type	args[3];
+	uint8_t		opcode;
 	uint32_t	cycles;
 	const char	*description;
 	bool		encoded;
 	bool		halfwidth;
 }				t_op;
 
-t_op	g_op_tab[17] =
+static t_op	g_op_tab[17] =
 {
 	{"live", 1, {T_DIR}, 1, 10, "alive", 0, 0},
 	{"ld", 2, {T_DIR | T_IND, T_REG}, 2, 5, "load", 1, 0},
