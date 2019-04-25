@@ -1,33 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlcat.c                                       :+:      :+:    :+:   */
+/*   asm.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/07/06 20:25:55 by lkaser            #+#    #+#             */
-/*   Updated: 2019/04/24 18:51:19 by jbeall           ###   ########.fr       */
+/*   Created: 2019/04/24 14:15:34 by jbeall            #+#    #+#             */
+/*   Updated: 2019/04/25 10:06:28 by jbeall           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef ASM_H
+# define ASM_H
+
 #include "libft.h"
+#include "op.h"
+#include <unistd.h>
+#include <fcntl.h>
+#include <errno.h>
 
-size_t		ft_strlcat(char *dst, const char *src, size_t size)
+#define CAPTURE_BUFF COMMENT_LENGTH
+
+typedef struct s_asm
 {
-	size_t	i;
-	size_t	srcl;
-	size_t	dstl;
+	t_header *header;
+	uint8_t program[CHAMP_MAX_SIZE];
+	int line;
+}				t_asm;
 
-	i = 0;
-	srcl = ft_strlen(src);
-	dstl = ft_strlen(dst);
-	if (size <= dstl)
-		return (size + srcl);
-	while ((i < size - dstl - 1) && src[i])
-	{
-		dst[i + dstl] = src[i];
-		++i;
-	}
-	dst[i + dstl] = '\0';
-	return (dstl + srcl);
-}
+#endif
