@@ -34,7 +34,10 @@ typedef struct	s_process {
 
 typedef struct	s_player {
 	unsigned	number;
-	int			cycles_to_live;
+	int			last_live_cycle;
+	char		*name;
+	char		*comment;
+	uint8_t		*source;
 	t_uvector	processes;
 }				t_player;
 
@@ -45,7 +48,8 @@ typedef struct	s_player {
 typedef struct	s_vm {
 	unsigned	cycle;
 	unsigned	dump_cycle;
-	t_vector	players;
+	t_player*	players[MAX_PLAYERS];
+	unsigned	player_count;
 	uint8_t		arena[MEM_SIZE];
 }				t_vm;
 

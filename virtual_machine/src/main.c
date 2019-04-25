@@ -24,6 +24,5 @@ int					main(int argc, char **argv)
 	parse_options(argc, argv, &vm);
 	ft_printf("vm.dump_cycle: %i\n", vm.dump_cycle);
 	// g_instruction_dispatch[0](NULL, NULL);
-	ft_putendl(g_op_tab[0].name);
 	vm_del(&vm);
 }

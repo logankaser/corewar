@@ -21,9 +21,7 @@ void	ft_map_init(t_map *m, unsigned key_size, unsigned size)
 }
 
 /*
-** Current implementation is chaining based,
-** Reuses the 42 list struct by storing the hash in the
-** content_size field, which allows the reuse of all the t_lst fucntions.
+** Current implementation is chaining based.
 */
 
 void	ft_map_set(t_map *m, const char *key, void *value)
