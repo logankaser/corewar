@@ -49,4 +49,8 @@ typedef struct	s_vm {
 	uint8_t		arena[MEM_SIZE];
 }				t_vm;
 
+void				vm_del(t_vm *vm);
+void				vm_init(t_vm *vm);
+void				parse_options(int argc, char **argv, t_vm *vm);
+
 #endif

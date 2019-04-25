@@ -11,7 +11,10 @@
 # **************************************************************************** #
 
 NAME = corewar
-LIST = main instruction_dispatch
+LIST = main \
+instruction_dispatch \
+option_parse \
+virtual_machine
 
 OBJ_DIR = obj
 VPATH = src
