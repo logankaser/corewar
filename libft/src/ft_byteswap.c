@@ -12,7 +12,16 @@
 
 #include "libft.h"
 
-uint32_t	ft_byteswap4(uint32_t const u32)
+uint16_t	ft_byteswap2(const uint16_t u16)
+{
+	uint8_t data[2];
+
+	*((uint16_t*)data) = u16;
+	return (((uint16_t)data[1] << 0)
+		| ((uint16_t)data[0] << 8));
+}
+
+uint32_t	ft_byteswap4(const uint32_t u32)
 {
 	uint8_t data[4];
 
@@ -23,7 +32,7 @@ uint32_t	ft_byteswap4(uint32_t const u32)
 		| ((uint32_t)data[0] << 24));
 }
 
-uint64_t	ft_byteswap8(uint64_t const u64)
+uint64_t	ft_byteswap8(const uint64_t u64)
 {
 	uint8_t data[8];
 

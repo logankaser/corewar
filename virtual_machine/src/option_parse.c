@@ -35,7 +35,15 @@ static void			load_warrior(char* fp, t_vm *vm, int n)
 
 static int		find_empty_slot(t_vm *vm)
 {
-	(void)vm;
+	unsigned i;
+
+	i = 0;
+	while (i < vm->players.length)
+	{
+		++i;
+	}
+	vm_del(vm);
+	ft_exit("corewar: too many players, no empty slots", 1);
 	return 0;
 }
 
@@ -82,9 +90,7 @@ void				parse_options(int argc, char **argv, t_vm *vm)
 			exit_usage(vm);
 		}
 		else
-		{
 			load_warrior(argv[i], vm, find_empty_slot(vm));
-		}
 		++i;
 	}
 	if (vm->players.length == 0)
