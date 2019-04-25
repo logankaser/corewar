@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: logan  <logan@42.us.org>                   +#+  +:+       +#+         #
+#    By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/13 10:03:24 by logan             #+#    #+#              #
-#    Updated: 2019/04/23 14:43:00 by lkaser           ###   ########.fr        #
+#    Updated: 2019/04/24 14:57:12 by jbeall           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ VPATH = src
 OBJ = $(addsuffix .o, $(addprefix $(OBJ_DIR)/, $(LIST)))
 DEP = $(OBJ:%.o=%.d)
 
-INCLUDES = -I ../libft/include -I src -I ../include
+INCLUDES = -I ../libft/include -I src -I ../include -I ./include
 
 MAKEOPTS=-j4
 
