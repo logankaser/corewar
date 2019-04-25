@@ -10,9 +10,20 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 
-int main(void)
+#include "libft.h"
+#include "virtual_machine.h"
+#include "instruction_dispatch.h"
+
+
+int					main(int argc, char **argv)
 {
-	ft_putendl("Test\n");
+	t_vm vm;
+
+	vm_init(&vm);
+	parse_options(argc, argv, &vm);
+	ft_printf("vm.dump_cycle: %i\n", vm.dump_cycle);
+	// g_instruction_dispatch[0](NULL, NULL);
+	ft_putendl(g_op_tab[0].name);
+	vm_del(&vm);
 }

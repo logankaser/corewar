@@ -47,6 +47,9 @@ void				*ft_memccpy(void *dst, const void *src, int c, size_t b);
 void				*ft_memmove(void *dst, const void *src, size_t b);
 void				*ft_memchr(const void *s, int c, size_t b);
 int					ft_memcmp(const void *m1, const void *m2, size_t b);
+uint16_t			ft_byteswap2(const uint16_t u16);
+uint32_t			ft_byteswap4(const uint32_t u32);
+uint64_t			ft_byteswap8(const uint64_t u64);
 
 /*
 ** Strings.

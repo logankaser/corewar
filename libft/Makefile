@@ -25,7 +25,8 @@ ft_strstr ft_strsub ft_strtrim ft_str_has_only ft_strprepend ft_strappend \
 ft_tolower ft_toupper ft_utoa_base ft_wchar_utf8 \
 ft_vector ft_uvector ft_fnv ft_map ft_map_internal ft_queue \
 format ft_fprintf ft_strf ft_printf \
-get_next_line
+get_next_line \
+ft_byteswap
 
 VPATH = src:src/map:src/vector:src/list:src/str
 
