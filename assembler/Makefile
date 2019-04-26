@@ -6,16 +6,13 @@
 #    By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/13 10:03:24 by logan             #+#    #+#              #
-#    Updated: 2019/04/26 10:50:35 by tcherret         ###   ########.fr        #
-#    Updated: 2019/04/25 10:48:40 by jbeall           ###   ########.fr        #
+#    Updated: 2019/04/26 13:58:56 by tcherret         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = asm
 
-LIST = main asm_parse_helper asm_parse_header op
-
-LIST = main asm_parse_helper asm_parse_header
+LIST = main asm_parse_helper asm_parse_header op asm_print
 
 OBJ_DIR = obj
 VPATH = src

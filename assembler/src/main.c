@@ -6,7 +6,7 @@
 /*   By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 18:28:10 by lkaser            #+#    #+#             */
-/*   Updated: 2019/04/26 13:38:24 by tcherret         ###   ########.fr       */
+/*   Updated: 2019/04/26 13:59:52 by tcherret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,10 +76,96 @@ int validate_label(char *label, int len, t_asm *out)
 	return (ft_strlen(name) + 1);
 }
 
-// void parse_arg(char *line, t_asm *out)
-// {
+char *parse_arg_reg(char *line, t_asm *out, t_asm_arg *new)
+{
+	int i;
+	char *tmp;
 
-// }
+	new->type = T_REG;
+	new->byte_size = 1;
+	i = 0;
+	while(line[i] >= '0' & line[i] <= '9')
+		i++;
+	tmp = ft_strnew(i + 1);
+	ft_strlcat(tmp, line, i + 1);
+	new->val = ft_atoi(tmp);
+	if (new->val < 0 || new->val > REG_NUMBER)
+		asm_error("error", "invalid register number", out->line);
+	free(tmp);
+	return (line + i);
+}
+
+char *ft_strndup(char *str, int len)
+{
+	char *new;
+
+	new = ft_strnew(len + 1);
+	ft_strlcat(new, str, len + 1);
+	return (new);
+}
+
+char *parse_arg_lab(char *line)
+{
+	int i;
+	char *tmp;
+
+	i = 0;
+	while (line[i] && ft_strchr(LABEL_CHARS, line[i]))
+		i++;
+	tmp = ft_strndup(line, i);
+	return (tmp);
+}
+
+char *parse_arg_val(char *line, t_asm_arg *new)
+{
+	int i;
+	char *tmp;
+
+	i = 0;
+	if (*line == DIRECT_CHAR)
+	{
+		line++;
+		new->type = T_DIR;
+		new->byte_size = 4;
+	}
+	else
+	{
+		new->type = T_IND;
+		new->byte_size = 2;
+	}
+	if (*line == LABEL_CHAR)
+	{
+		new->use_label = 1;
+		new->label_name = parse_arg_lab(++line);
+		while (*line && ft_strchr(LABEL_CHARS, *line))
+			line++;
+	}
+	else
+	{
+		if (line[i] == '-')
+			i++;
+		while(line[i] >= '0' & line[i] <= '9')
+			i++;
+		tmp = ft_strndup(line, i);
+		new->val = ft_atoi(tmp);
+		//validate conversion
+		free(tmp);
+	}
+	return (line + i);
+}
+
+char *parse_arg(char *line, t_asm *out, t_asm_cmd *cmd)
+{
+	t_asm_arg *new;
+
+	new = ft_memalloc(sizeof(t_asm_arg));
+	if (*line == 'r')
+		line = parse_arg_reg(++line, out, new);
+	else if (*line == DIRECT_CHAR || ft_strchr(NUM_CHARS, *line) || *line == LABEL_CHAR)
+		line = parse_arg_val(line, new);
+	ft_uvector_push(&(cmd->args), new);
+	return (line);
+}
 
 char *parse_cmd(char *line, t_asm *out)
 {
@@ -90,25 +176,26 @@ char *parse_cmd(char *line, t_asm *out)
 	len = 0;
 	while (line[len] && ft_strchr(LABEL_CHARS, line[len]))
 		len++;
-	cmd_name = ft_strnew(len);
-	ft_strncpy(cmd_name, line, len);
+	cmd_name = ft_strndup(line, len);
 	new = ft_memalloc(sizeof(t_asm_cmd));
 	new->name = cmd_name;
 	new->mem_addr = out->mem_ptr;
+	ft_uvector_init(&(new->args), sizeof(t_asm_arg));
 	line += len;
-	while (*line && *line != COMMENT_CHAR && new->num_args < 4)
+	while (*line && new->num_args < 4)
 	{
 		line = skip_space(line);
-		if (new->num_args && *line != SEPARATOR_CHAR)
+		if (*line == COMMENT_CHAR)
+			break;
+		if (new->num_args && *line++ != SEPARATOR_CHAR)
 			asm_error("syntax error", "no separator char", out->line);
 		line = skip_space(line);
-		// line = parse_arg(line, out);
+		line = parse_arg(line, out, new);
 		++new->num_args;
 	}
-
-	//verif command here !
-	
+	//validate cmd
 	//update mem_ptr
+	ft_uvector_push(&(out->cmd_vec), new);
 	return (line);
 }
 
@@ -176,5 +263,6 @@ int main(int argc, char **argv)
 		return(0);
 	}
 	parse(fd, &out);
+	asm_print_data(&out);
 	return (0);
 }
