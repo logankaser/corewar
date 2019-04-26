@@ -6,7 +6,7 @@
 /*   By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 18:28:10 by lkaser            #+#    #+#             */
-/*   Updated: 2019/04/26 16:10:29 by jbeall           ###   ########.fr       */
+/*   Updated: 2019/04/26 16:12:11 by jbeall           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,7 +217,7 @@ char *parse_cmd(char *line, t_asm *out)
 		++new->num_args;
 	}
 	valid_cmd(new, g_op_tab, out);
-	out->mem_ptr += calc_cmd_size(new); //move into validation?
+	out->mem_ptr += calc_cmd_size(new);
 	ft_uvector_push(&(out->cmd_vec), new);
 	return (line);
 }
