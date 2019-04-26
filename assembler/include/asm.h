@@ -6,11 +6,7 @@
 /*   By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 14:15:34 by jbeall            #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2019/04/25 16:15:23 by jbeall           ###   ########.fr       */
-=======
-/*   Updated: 2019/04/25 11:47:53 by jbeall           ###   ########.fr       */
->>>>>>> d63eafbe29a298e81ad28cff8791652640504f65
+/*   Updated: 2019/04/26 10:19:53 by jbeall           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,24 +20,16 @@
 #include <errno.h>
 
 #define CAPTURE_BUFF COMMENT_LENGTH
-<<<<<<< HEAD
 #define LABEL_MAP(x) &(x->label_map)
-=======
->>>>>>> d63eafbe29a298e81ad28cff8791652640504f65
 
 typedef struct s_asm
 {
 	t_header *header;
 	uint8_t program[CHAMP_MAX_SIZE];
-<<<<<<< HEAD
 	t_map label_map;
 	int num_label;
 	t_uvector cmd_vec;
 	unsigned mem_ptr;
-=======
-	t_uvector *label_vec;
-	t_uvector *cmd_vec;
->>>>>>> d63eafbe29a298e81ad28cff8791652640504f65
 	int line;
 }				t_asm;
 
@@ -49,11 +37,7 @@ typedef struct s_label
 {
 	char *label_name;
 	int label_id;
-<<<<<<< HEAD
 	unsigned mem_addr;
-=======
-	int mem_addr;
->>>>>>> d63eafbe29a298e81ad28cff8791652640504f65
 }				t_label;
 
 typedef struct s_asm_arg
@@ -69,11 +53,7 @@ typedef struct s_asm_cmd
 	char *name;
 	int mem_addr;
 	int num_args;
-<<<<<<< HEAD
 	t_uvector args;
-=======
-	t_uvector *args;
->>>>>>> d63eafbe29a298e81ad28cff8791652640504f65
 }				t_asm_cmd;
 
 /*

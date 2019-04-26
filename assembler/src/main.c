@@ -6,11 +6,7 @@
 /*   By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 18:28:10 by lkaser            #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2019/04/25 22:19:12 by jbeall           ###   ########.fr       */
-=======
-/*   Updated: 2019/04/25 14:31:50 by jbeall           ###   ########.fr       */
->>>>>>> d63eafbe29a298e81ad28cff8791652640504f65
+/*   Updated: 2019/04/26 10:20:11 by jbeall           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +57,6 @@ int parse_header(int fd, t_asm *out)
 	return (0);
 }
 
-<<<<<<< HEAD
 int validate_label(char *label, int len, t_asm *out)
 {
 	char *name;
@@ -134,21 +129,6 @@ void parse_line(char *line, t_asm *out)
 	line = skip_space(line);
 	if (*line && *line != COMMENT_CHAR)
 		asm_error("syntax error", "invalid command block", out->line);
-=======
-void parse_line(char *line, t_asm *out)
-{
-	char *token;
-	int i;
-
-	i = 0;
-	line = skip_space(line);
-	while (line[i] && ft_strchr(LABEL_CHARS, line[i]))
-	{
-
-	}
-
-
->>>>>>> d63eafbe29a298e81ad28cff8791652640504f65
 }
 
 void parse_body(int fd, t_asm *out)
@@ -157,12 +137,8 @@ void parse_body(int fd, t_asm *out)
 
 	while (asm_readline(out, fd, &buf))
 	{
-<<<<<<< HEAD
 		parse_line(buf, out);
 		ft_strdel(&buf);
-=======
-
->>>>>>> d63eafbe29a298e81ad28cff8791652640504f65
 	}
 }
 
@@ -171,18 +147,11 @@ void parse_body(int fd, t_asm *out)
 */
 void parse(int fd, t_asm *out)
 {
-<<<<<<< HEAD
 	ft_map_init(&(out->label_map), 0, 17);
 	ft_uvector_init(&(out->cmd_vec), sizeof(t_asm_cmd));
 	parse_header(fd, out);
 	out->header->magic = reverse_endian(COREWAR_EXEC_MAGIC);
 	parse_body(fd, out);
-=======
-	ft_uvector_init(out->label_vec, sizeof(t_label));
-	ft_uvector_init(out->cmd_vec, sizeof(t_asm_cmd));
-	parse_header(fd, out);
-	out->header->magic = reverse_endian(COREWAR_EXEC_MAGIC);
->>>>>>> d63eafbe29a298e81ad28cff8791652640504f65
 	//write size to header
 	write(1, out->header, sizeof(t_header));
 }
