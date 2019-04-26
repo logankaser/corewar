@@ -6,7 +6,7 @@
 /*   By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 14:15:34 by jbeall            #+#    #+#             */
-/*   Updated: 2019/04/26 10:19:53 by jbeall           ###   ########.fr       */
+/*   Updated: 2019/04/26 13:03:48 by jbeall           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 
 #define CAPTURE_BUFF COMMENT_LENGTH
 #define LABEL_MAP(x) &(x->label_map)
+#define NUM_CHARS "-0123456789"
 
 typedef struct s_asm
 {
@@ -44,6 +45,8 @@ typedef struct s_asm_arg
 {
 	int type;
 	int byte_size;
+	int use_label;
+	char *label_name;
 	int val;
 }				t_asm_arg;
 
@@ -78,5 +81,12 @@ char *capture_to_quote(char *in);
 ** error
 */
 void asm_error(char *er_name, char *er_type, int line);
+
+/*
+** print
+*/
+void asm_print_arg(t_asm_arg *arg);
+void asm_print_cmd(t_asm_cmd *cmd);
+void asm_print_data(t_asm *data);
 
 #endif
