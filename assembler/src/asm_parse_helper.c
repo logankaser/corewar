@@ -6,7 +6,11 @@
 /*   By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/25 10:43:58 by jbeall            #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2019/04/25 14:55:44 by jbeall           ###   ########.fr       */
+=======
+/*   Updated: 2019/04/25 10:46:19 by jbeall           ###   ########.fr       */
+>>>>>>> d63eafbe29a298e81ad28cff8791652640504f65
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +39,11 @@ char *skip_comment(char *in)
 	return in++;
 }
 
+<<<<<<< HEAD
 uint32_t reverse_endian(uint32_t in)
+=======
+unsigned reverse_endian(unsigned in)
+>>>>>>> d63eafbe29a298e81ad28cff8791652640504f65
 {
 	unsigned out;
 
