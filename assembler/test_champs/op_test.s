@@ -3,7 +3,8 @@
 .comment "op testing file"
 
 #comment
-ld:live %1
+label: #comment
+live: live %1
 		ld: ld %1, r2
 		ld 2,r1
-		fork %:ld
+		fork %1

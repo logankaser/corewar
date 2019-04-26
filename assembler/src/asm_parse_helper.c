@@ -6,7 +6,7 @@
 /*   By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/25 10:43:58 by jbeall            #+#    #+#             */
-/*   Updated: 2019/04/25 10:46:19 by jbeall           ###   ########.fr       */
+/*   Updated: 2019/04/25 14:55:44 by jbeall           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char *skip_comment(char *in)
 	return in++;
 }
 
-unsigned reverse_endian(unsigned in)
+uint32_t reverse_endian(uint32_t in)
 {
 	unsigned out;
 
