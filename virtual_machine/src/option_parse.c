@@ -49,44 +49,41 @@ static void			load_warrior_file(t_vm *vm, char *fp, t_player *player)
 {
 	unsigned	magic_number;
 	t_uvector	file;
+	char		*error;
 
+	error = NULL;
 	if (!read_file(fp, &file))
-	{
-		ft_fprintf(stderr, "corewar: invalid warrior file \"%s\"\n", fp);
-		exit_usage(vm);
-	}
-	else if (file.length <= sizeof(t_header))
-	{
-		ft_fprintf(stderr, "corewar: warrior too small \"%s\"\n", fp);
-		exit_usage(vm);
-	}
-	else if (file.length - sizeof(t_header) > CHAMP_MAX_SIZE)
-	{
-		ft_fprintf(stderr, "corewar: warrior too large \"%s\"\n", fp);
-		exit_usage(vm);
-	}
-	magic_number = 0;
+		error = "corewar: invalid warrior file \"%s\"\n";
 	ft_memcpy(&magic_number, file.data, 4);
-	magic_number = ft_byteswap4(magic_number);
-	if (magic_number != COREWAR_EXEC_MAGIC)
+	if (ft_byteswap4(magic_number) != COREWAR_EXEC_MAGIC)
+		error = "corewar: bad magic number in \"%s\"\n";
+	else if (file.length <= sizeof(t_header))
+		error = "corewar: warrior too small \"%s\"\n";
+	else if (file.length - sizeof(t_header) > CHAMP_MAX_SIZE)
+		error = "corewar: warrior too large \"%s\"\n";
+	if (error)
 	{
-		ft_fprintf(stderr, "corewar: bad magic number in \"%s\"\n", fp);
+		ft_fprintf(stderr, error, fp);
 		exit_usage(vm);
 	}
 	player->source = file.data + sizeof(t_header);
+	player->source_size = file.length - sizeof(t_header);
 }
 
 static void			load_warrior(t_vm *vm, char *fp, unsigned n)
 {
+	t_player *player;
+
 	if (vm->players[n - 1])
 	{
 		ft_fprintf(stderr, "corewar: player %u already assigned\n", n);
 		exit_usage(vm);
 	}
 	vm->players[n - 1] = malloc(sizeof(t_player));
-	vm->players[n - 1]->number = n;
-	vm->players[n - 1]->last_live_cycle = 0;
-	load_warrior_file(vm, fp, vm->players[n - 1]);
+	player = vm->players[n - 1];
+	player->number = n;
+	player->last_live_cycle = 0;
+	load_warrior_file(vm, fp, player);
 	vm->player_count += 1;
 }
 
