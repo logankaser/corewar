@@ -34,8 +34,12 @@ typedef struct	s_process {
 
 typedef struct	s_player {
 	unsigned	number;
-	int			cycles_to_live;
-	t_uvector	processes;
+	int			last_live_cycle;
+	char		*name;
+	char		*comment;
+	uint8_t		*source;
+	unsigned	source_size;
+	t_vector	processes;
 }				t_player;
 
 /*
@@ -45,12 +49,15 @@ typedef struct	s_player {
 typedef struct	s_vm {
 	unsigned	cycle;
 	unsigned	dump_cycle;
-	t_vector	players;
+	unsigned	cycles_to_die;
+	t_player	*players[MAX_PLAYERS];
+	unsigned	player_count;
 	uint8_t		arena[MEM_SIZE];
 }				t_vm;
 
-void				vm_del(t_vm *vm);
-void				vm_init(t_vm *vm);
-void				parse_options(int argc, char **argv, t_vm *vm);
+void			vm_init(t_vm *vm);
+void			vm_run(t_vm *vm);
+void			vm_del(t_vm *vm);
+void			parse_options(int argc, char **argv, t_vm *vm);
 
 #endif

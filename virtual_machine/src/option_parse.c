@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   option_parse.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lkaser <lkaser@student.42.us.org>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/04/25 16:47:49 by lkaser            #+#    #+#             */
+/*   Updated: 2019/04/25 16:47:50 by lkaser           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <fcntl.h>
 
 #include "virtual_machine.h"
@@ -11,40 +23,86 @@ static void			exit_usage(t_vm *vm)
 	ft_exit(g_usage, 1);
 }
 
-static void			load_warrior(char* fp, t_vm *vm, int n)
+static bool			read_file(const char *filepath, t_uvector *buf)
 {
 	int			fd;
-	unsigned	magic_number;
+	ssize_t		ret;
 
-	(void)n;
-	if ((fd = open(fp, O_RDONLY)) < 0)
+	fd = STDIN_FILENO;
+	if (filepath)
+		fd = open(filepath, O_RDONLY);
+	if (fd < 0)
+		return (false);
+	ft_uvector_init(buf, 1);
+	while ((ret =
+		read(fd, buf->data + buf->length, buf->capacity - buf->length)) > 0)
 	{
-		ft_fprintf(stderr, "corewar: invalid warrior file \"%s\"\n", fp);
-		exit_usage(vm);
+		buf->length += ret;
+		if (buf->capacity < buf->length + 1)
+			ft_uvector_resize(buf, buf->capacity * 2);
 	}
-	magic_number = 0;
-	read(fd, &magic_number, 4);
-	magic_number = ft_byteswap4(magic_number);
-	if (magic_number != COREWAR_EXEC_MAGIC)
-	{
-		ft_fprintf(stderr, "corewar: bad magic number in \"%s\"\n", fp);
-		exit_usage(vm);
-	}
-	// Load warrior into vm.
+	close(fd);
+	return (true);
 }
 
-static int		find_empty_slot(t_vm *vm)
+static void			load_warrior_file(t_vm *vm, char *fp, t_player *player)
 {
-	unsigned i;
+	unsigned	magic_number;
+	t_uvector	file;
+	char		*error;
+
+	error = NULL;
+	if (!read_file(fp, &file))
+		error = "corewar: invalid warrior file \"%s\"\n";
+	ft_memcpy(&magic_number, file.data, 4);
+	if (ft_byteswap4(magic_number) != COREWAR_EXEC_MAGIC)
+		error = "corewar: bad magic number in \"%s\"\n";
+	else if (file.length <= sizeof(t_header))
+		error = "corewar: warrior too small \"%s\"\n";
+	else if (file.length - sizeof(t_header) > CHAMP_MAX_SIZE)
+		error = "corewar: warrior too large \"%s\"\n";
+	if (error)
+	{
+		ft_fprintf(stderr, error, fp);
+		exit_usage(vm);
+	}
+	player->source = file.data + sizeof(t_header);
+	player->source_size = file.length - sizeof(t_header);
+}
+
+static void			load_warrior(t_vm *vm, char *fp, unsigned n)
+{
+	t_player *player;
+
+	if (vm->players[n - 1])
+	{
+		ft_fprintf(stderr, "corewar: player %u already assigned\n", n);
+		exit_usage(vm);
+	}
+	vm->players[n - 1] = malloc(sizeof(t_player));
+	player = vm->players[n - 1];
+	player->number = n;
+	player->last_live_cycle = 0;
+	load_warrior_file(vm, fp, player);
+	vm->player_count += 1;
+}
+
+static unsigned		find_empty_slot(t_vm *vm)
+{
+	unsigned	i;
 
 	i = 0;
-	while (i < vm->players.length)
+	while (i < MAX_PLAYERS)
 	{
+		if (!vm->players[i])
+			break ;
 		++i;
 	}
+	if (i != MAX_PLAYERS)
+		return (i + 1);
 	vm_del(vm);
 	ft_exit("corewar: too many players, no empty slots", 1);
-	return 0;
+	return (0);
 }
 
 void				parse_options(int argc, char **argv, t_vm *vm)
@@ -70,9 +128,10 @@ void				parse_options(int argc, char **argv, t_vm *vm)
 		else if (!ft_strcmp(argv[i], "-n"))
 		{
 			i += 1;
-			if (i >= argc || !ft_isdigit(argv[i][0]))
+			if (i >= argc || !ft_isdigit(argv[i][0])
+				|| ft_atoi(argv[i]) >= MAX_PLAYERS)
 			{
-				ft_fprintf(stderr, "corewar: -n requires a number argument\n");
+				ft_fprintf(stderr, "corewar: -n requires a valid number\n");
 				exit_usage(vm);
 			}
 			i += 1;
@@ -82,7 +141,7 @@ void				parse_options(int argc, char **argv, t_vm *vm)
 					"corewar: -n must be followed by warrior filepath\n");
 				exit_usage(vm);
 			}
-			load_warrior(argv[i], vm, ft_atoi(argv[i - 1]));
+			load_warrior(vm, argv[i], ft_atoi(argv[i - 1]));
 		}
 		else if (!ft_strncmp(argv[i], "-", 1))
 		{
@@ -90,10 +149,10 @@ void				parse_options(int argc, char **argv, t_vm *vm)
 			exit_usage(vm);
 		}
 		else
-			load_warrior(argv[i], vm, find_empty_slot(vm));
+			load_warrior(vm, argv[i], find_empty_slot(vm));
 		++i;
 	}
-	if (vm->players.length == 0)
+	if (vm->player_count == 0)
 	{
 		ft_fprintf(stderr, "corewar: no players!\n");
 		exit_usage(vm);
