@@ -6,7 +6,7 @@
 /*   By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 18:28:10 by lkaser            #+#    #+#             */
-/*   Updated: 2019/04/26 15:26:01 by tcherret         ###   ########.fr       */
+/*   Updated: 2019/04/26 15:48:17 by tcherret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,7 +216,7 @@ char *parse_cmd(char *line, t_asm *out)
 		line = parse_arg(line, out, new);
 		++new->num_args;
 	}
-	valid_cmd_arg(new, g_op_tab, out);
+	valid_cmd(new, g_op_tab, out);
 	//update mem_ptr
 	out->mem_ptr += calc_cmd_size(new); //move into validation?
 	ft_uvector_push(&(out->cmd_vec), new);
@@ -265,7 +265,7 @@ void parse(int fd, t_asm *out)
 	ft_uvector_init(&(out->cmd_vec), sizeof(t_asm_cmd));
 	parse_header(fd, out);
 	out->header->magic = reverse_endian(COREWAR_EXEC_MAGIC);
-	//parse_body(fd, out);
+	parse_body(fd, out);
 	//write size to header
 	write(1, out->header, sizeof(t_header));
 }

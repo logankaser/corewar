@@ -6,7 +6,7 @@
 /*   By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 14:15:34 by jbeall            #+#    #+#             */
-/*   Updated: 2019/04/26 15:25:01 by tcherret         ###   ########.fr       */
+/*   Updated: 2019/04/26 15:50:10 by tcherret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,8 @@ char *capture_to_quote(char *in);
 
 uint32_t	valid_cmd_name(t_asm_cmd *cmd, t_op *g_op_tab, t_asm *out);
 int		valid_cmd_nb_args(t_asm_cmd *cmd, t_op *g_op_tab, t_asm *out);
-int		valid_cmd_type(t_asm_cmd *cmd, t_op *g_op_tab, t_asm *out, int j);
-int		valid_cmd_arg(t_asm_cmd *cmd, t_op *g_op_tab, t_asm *out);
+int		valid_arg_type(t_asm_cmd *cmd, t_op *g_op_tab, t_asm *out, int j);
+int		valid_cmd(t_asm_cmd *cmd, t_op *g_op_tab, t_asm *out);
 
 /*
 ** error

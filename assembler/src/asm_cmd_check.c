@@ -6,18 +6,19 @@
 /*   By: tcherret <tcherret@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/25 12:45:56 by tcherret          #+#    #+#             */
-/*   Updated: 2019/04/26 15:20:55 by tcherret         ###   ########.fr       */
+/*   Updated: 2019/04/26 15:50:49 by tcherret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
+#include <stdio.h>
 
 uint32_t		valid_cmd_name(t_asm_cmd *cmd, t_op *g_op_tab, t_asm *out)
 {
 	int i;
 
 	i = 0;
-	while (i < 17)
+	while (i < 16)
 	{
 		if (ft_strcmp(cmd->name, g_op_tab[i].name) == 0)
 		{
@@ -37,17 +38,16 @@ int		valid_cmd_nb_args(t_asm_cmd *cmd, t_op *g_op_tab, t_asm *out)
 	return (1);
 }
 
-int		valid_cmd_type(t_asm_cmd *cmd, t_op *g_op_tab, t_asm *out, int j)
+int		valid_arg_type(t_asm_cmd *cmd, t_op *g_op_tab, t_asm *out, int j)
 {
 	t_asm_arg *arg;
 
 	arg = (t_asm_arg*)ft_uvector_get(&cmd->args, j);
-	//static char *type[5] = {"", "T_REG", "T_DIR", "", "T_IND"};
-	//if (g_op_tab[cmd->op_code - 1]->encoded == 1)
-	//	cmd->encode = 1;
+	if (g_op_tab[cmd->op_code - 1]->encoded == 1)
+		cmd->encode = 1;
 	if (arg->type & g_op_tab[cmd->op_code - 1].args[j])
 	{
-		if (arg->type == 2)
+		if (arg->type == T_DIR)
 			if (g_op_tab[cmd->op_code - 1].halfwidth == 1 && arg->byte_size == 4)
 				arg->byte_size = 2;
 	}
@@ -56,12 +56,11 @@ int		valid_cmd_type(t_asm_cmd *cmd, t_op *g_op_tab, t_asm *out, int j)
 	return (1);
 }
 
-int		valid_cmd_arg(t_asm_cmd *cmd, t_op *g_op_tab, t_asm *out)
+int		valid_cmd(t_asm_cmd *cmd, t_op *g_op_tab, t_asm *out)
 {
 	int k;
 	int j;
 
-	ft_printf("we enter there"); //delete
 	if (!valid_cmd_name(cmd, g_op_tab, out))
 		return (0);
 	if (!valid_cmd_nb_args(cmd, g_op_tab, out))
@@ -70,11 +69,10 @@ int		valid_cmd_arg(t_asm_cmd *cmd, t_op *g_op_tab, t_asm *out)
 	k = g_op_tab[cmd->op_code - 1].num_param;
 	while (j < k)
 	{
-		if (!valid_cmd_type(cmd, g_op_tab, out, j))
+		if (!valid_arg_type(cmd, g_op_tab, out, j))
 			return (0);
 		j++;
 	}
-	ft_printf("we go out here"); //delete
 	return (1);
 }
 
