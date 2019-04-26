@@ -6,7 +6,7 @@
 /*   By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 18:28:10 by lkaser            #+#    #+#             */
-/*   Updated: 2019/04/26 13:38:57 by jbeall           ###   ########.fr       */
+/*   Updated: 2019/04/26 14:53:47 by jbeall           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,9 @@ char *parse_arg_reg(char *line, t_asm *out, t_asm_arg *new)
 	new->type = T_REG;
 	new->byte_size = 1;
 	i = 0;
-	while(line[i] >= '0' & line[i] <= '9')
+	if (!(*line >= '0' && *line <= '9'))
+		asm_error("syntax error", "invalid register character", out->line);
+	while(line[i] >= '0' && line[i] <= '9')
 		i++;
 	tmp = ft_strnew(i + 1);
 	ft_strlcat(tmp, line, i + 1);
@@ -163,8 +165,29 @@ char *parse_arg(char *line, t_asm *out, t_asm_cmd *cmd)
 		line = parse_arg_reg(++line, out, new);
 	else if (*line == DIRECT_CHAR || ft_strchr(NUM_CHARS, *line) || *line == LABEL_CHAR)
 		line = parse_arg_val(line, new);
+	else
+		asm_error("syntax error", "invalid arg", out->line);
 	ft_uvector_push(&(cmd->args), new);
 	return (line);
+}
+
+int calc_cmd_size(t_asm_cmd *cmd)
+{
+	int size;
+	t_asm_arg *arg;
+	int i;
+
+	size = 1;
+	i = 0;
+	if (cmd->encode)
+		size += 1;
+	while (i < cmd->num_args)
+	{
+		arg = (t_asm_arg*)ft_uvector_get(&cmd->args, i);
+		size += arg->byte_size;
+		i++;
+	}
+	return (size);
 }
 
 char *parse_cmd(char *line, t_asm *out)
@@ -194,7 +217,7 @@ char *parse_cmd(char *line, t_asm *out)
 		++new->num_args;
 	}
 	//validate cmd
-	//update mem_ptr
+	out->mem_ptr += calc_cmd_size(new); //move into validation?
 	ft_uvector_push(&(out->cmd_vec), new);
 	return (line);
 }
