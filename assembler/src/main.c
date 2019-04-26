@@ -6,7 +6,7 @@
 /*   By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 18:28:10 by lkaser            #+#    #+#             */
-/*   Updated: 2019/04/26 13:59:52 by tcherret         ###   ########.fr       */
+/*   Updated: 2019/04/26 15:22:47 by tcherret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,7 +193,9 @@ char *parse_cmd(char *line, t_asm *out)
 		line = parse_arg(line, out, new);
 		++new->num_args;
 	}
-	//validate cmd
+	ft_printf("test"); // to delete
+	valid_cmd_arg(new, g_op_tab, out);
+	ft_printf("after the valid command"); // to delete
 	//update mem_ptr
 	ft_uvector_push(&(out->cmd_vec), new);
 	return (line);

@@ -6,13 +6,13 @@
 /*   By: tcherret <tcherret@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/25 12:45:56 by tcherret          #+#    #+#             */
-/*   Updated: 2019/04/26 14:00:04 by tcherret         ###   ########.fr       */
+/*   Updated: 2019/04/26 15:20:55 by tcherret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
 
-uint32_t		valid_cmd_name(t_asm_cmd *cmd, t_op g_op_tab, t_asm *out)
+uint32_t		valid_cmd_name(t_asm_cmd *cmd, t_op *g_op_tab, t_asm *out)
 {
 	int i;
 
@@ -30,53 +30,55 @@ uint32_t		valid_cmd_name(t_asm_cmd *cmd, t_op g_op_tab, t_asm *out)
 	return (0);
 }
 
-int		valid_cmd_nb_args(t_asm_cmd *cmd, t_op g_op_tab, t_asm *out)
+int		valid_cmd_nb_args(t_asm_cmd *cmd, t_op *g_op_tab, t_asm *out)
 {
 	if (cmd->num_args != g_op_tab[cmd->op_code - 1].num_param)
 		asm_error("arg error", "number of parameters not valid", out->line);
 	return (1);
 }
 
-int		valid_cmd_type(t_asm_cmd *cmd, t_op g_op_tab, t_asm *out, int j) // not sure at all how to access to the data
+int		valid_cmd_type(t_asm_cmd *cmd, t_op *g_op_tab, t_asm *out, int j)
 {
-	if (cmd->args.type.data[j] & g_op_tab[cmd->op_code - 1].args[j])
+	t_asm_arg *arg;
+
+	arg = (t_asm_arg*)ft_uvector_get(&cmd->args, j);
+	//static char *type[5] = {"", "T_REG", "T_DIR", "", "T_IND"};
+	//if (g_op_tab[cmd->op_code - 1]->encoded == 1)
+	//	cmd->encode = 1;
+	if (arg->type & g_op_tab[cmd->op_code - 1].args[j])
 	{
-		if (cmd->arg.data[j] == 2)
-			if (g_op_tab[cmd->op_code - 1].halfwidth == 1 && cmd->arg.bite_size == 4) // to verify
-				cmd->arg.bite_size = 2;
+		if (arg->type == 2)
+			if (g_op_tab[cmd->op_code - 1].halfwidth == 1 && arg->byte_size == 4)
+				arg->byte_size = 2;
 	}
 	else
 		asm_error("arg error", "type of a parameter not good", out->line);
 	return (1);
 }
 
-int		valid_cmd_arg(t_asm_cmd *cmd, t_op g_op_tab, t_asm *out)
+int		valid_cmd_arg(t_asm_cmd *cmd, t_op *g_op_tab, t_asm *out)
 {
-	int nb_args;
 	int k;
 	int j;
 
+	ft_printf("we enter there"); //delete
 	if (!valid_cmd_name(cmd, g_op_tab, out))
 		return (0);
 	if (!valid_cmd_nb_args(cmd, g_op_tab, out))
 		return (0);
-	else
+	j = 0;
+	k = g_op_tab[cmd->op_code - 1].num_param;
+	while (j < k)
 	{
-		j = 0;
-		k = g_op_tab[cmd->op_code - 1].num_param;
-		while (j < k)
-		{
-			if (!valid_cmd_type(cmd, g_op_tab, out, j))
-				return (0);
-			j++;
-		}
-		return (1);
+		if (!valid_cmd_type(cmd, g_op_tab, out, j))
+			return (0);
+		j++;
 	}
+	ft_printf("we go out here"); //delete
+	return (1);
 }
 
-
-//--------------------//
-
+// ==========================================================================//
 
 int		check_file_type(char *str)
 {

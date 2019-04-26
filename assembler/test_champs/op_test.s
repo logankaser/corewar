@@ -3,8 +3,9 @@
 .comment "op testing file"
 
 #comment
-label: #comment
-live: live %1
+
+live:	live %1
+		zjmp r2
 		ld: ld 1 , r2
 		ld :live,r1
 		fork %1
