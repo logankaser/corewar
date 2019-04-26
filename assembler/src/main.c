@@ -6,7 +6,7 @@
 /*   By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 18:28:10 by lkaser            #+#    #+#             */
-/*   Updated: 2019/04/26 15:48:17 by tcherret         ###   ########.fr       */
+/*   Updated: 2019/04/26 16:10:29 by jbeall           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,7 +217,6 @@ char *parse_cmd(char *line, t_asm *out)
 		++new->num_args;
 	}
 	valid_cmd(new, g_op_tab, out);
-	//update mem_ptr
 	out->mem_ptr += calc_cmd_size(new); //move into validation?
 	ft_uvector_push(&(out->cmd_vec), new);
 	return (line);
@@ -286,6 +285,7 @@ int main(int argc, char **argv)
 		perror("error");
 		return(0);
 	}
+	check_file_type(argv[1]);
 	parse(fd, &out);
 	asm_print_data(&out);
 	return (0);

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   asm_parse_body_check.c                             :+:      :+:    :+:   */
+/*   asm_cmd_check.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcherret <tcherret@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/25 12:45:56 by tcherret          #+#    #+#             */
-/*   Updated: 2019/04/26 15:50:49 by tcherret         ###   ########.fr       */
+/*   Updated: 2019/04/26 16:08:45 by jbeall           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int		valid_arg_type(t_asm_cmd *cmd, t_op *g_op_tab, t_asm *out, int j)
 	t_asm_arg *arg;
 
 	arg = (t_asm_arg*)ft_uvector_get(&cmd->args, j);
-	if (g_op_tab[cmd->op_code - 1]->encoded == 1)
+	if (g_op_tab[cmd->op_code - 1].encoded == 1)
 		cmd->encode = 1;
 	if (arg->type & g_op_tab[cmd->op_code - 1].args[j])
 	{
@@ -78,15 +78,11 @@ int		valid_cmd(t_asm_cmd *cmd, t_op *g_op_tab, t_asm *out)
 
 // ==========================================================================//
 
-int		check_file_type(char *str)
+void	check_file_type(char *str)
 {
 	int size;
 
 	size = ft_strlen(str);
 	if (str[size - 1] != 's' || str[size - 2] != '.')
-	{
 		asm_error("file error", "file must be '.s'", 0);
-		return (0);
-	}
-	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 14:15:34 by jbeall            #+#    #+#             */
-/*   Updated: 2019/04/26 15:50:10 by tcherret         ###   ########.fr       */
+/*   Updated: 2019/04/26 16:08:55 by jbeall           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ int		valid_cmd(t_asm_cmd *cmd, t_op *g_op_tab, t_asm *out);
 ** error
 */
 void asm_error(char *er_name, char *er_type, int line);
+void	check_file_type(char *str);
 
 /*
 ** print
