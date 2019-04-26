@@ -6,7 +6,7 @@
 /*   By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 18:28:10 by lkaser            #+#    #+#             */
-/*   Updated: 2019/04/25 17:39:33 by jbeall           ###   ########.fr       */
+/*   Updated: 2019/04/25 22:11:09 by jbeall           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,11 @@ int validate_label(char *label, int len, t_asm *out)
 {
 	char *name;
 	t_label *new;
-	int i;
 
-	i = 0;
 	name = ft_strnew(len);
 	ft_strncpy(name, label, len);;
+	if (!len)
+		asm_error("syntax error", "invalid label", out->line);
 	if (ft_map_get(LABEL_MAP(out), name))
 		asm_error("error", "label already exists", out->line);
 	new = ft_memalloc(sizeof(t_label));
@@ -76,30 +76,41 @@ int validate_label(char *label, int len, t_asm *out)
 	return (ft_strlen(name) + 1);
 }
 
-void parse_cmd(char *line, int len, t_asm *out)
+// void parse_arg(char *line, t_asm *out)
+// {
+
+// }
+
+char *parse_cmd(char *line, t_asm *out)
 {
 	char *cmd_name;
 	t_asm_cmd *new;
-	int args_parsed;
+	int len;
 
-	args_parsed = 0;
+	len = 0;
+	while (line[len] && ft_strchr(LABEL_CHARS, line[len]))
+		len++;
 	cmd_name = ft_strnew(len);
 	ft_strncpy(cmd_name, line, len);
 	new = ft_memalloc(sizeof(t_asm_cmd));
 	new->name = cmd_name;
 	new->mem_addr = out->mem_ptr;
 	line += len;
-	while (*line && *line != '#' && args_parsed < 4)
+	while (*line && *line != COMMENT_CHAR && new->num_args < 4)
 	{
-
+		line = skip_space(line);
+		if (new->num_args && *line != SEPARATOR_CHAR)
+			asm_error("syntax error", "no separator char", out->line);
+		line = skip_space(line);
+		// line = parse_arg(line, out);
+		++new->num_args;
 	}
-
 	//update mem_ptr
+	return (line);
 }
 
 void parse_line(char *line, t_asm *out)
 {
-	char *token;
 	int has_label;
 	int has_cmd;
 	int i;
@@ -107,21 +118,17 @@ void parse_line(char *line, t_asm *out)
 	i = 0;
 	has_label = 0;
 	has_cmd = 0;
-	while  (!has_cmd && line[i])
-	{
-		line = skip_space(line);
-		while (line[i] && ft_strchr(LABEL_CHARS, line[i]))
-			++i;
-		if (line[i] == ':' && !has_label && !has_cmd)
-			line = validate_label(line, i, out);
-		else if (line[i] && !has_cmd && line[i] != '#')
-			line = parse_cmd(line, i, );
-		line = skip_space(line);
-		if (*line && *line != '#')
-			//error
-	}
-	//has at least a command or label, etc... test
-
+	line = skip_space(line);
+	while (line[i] && ft_strchr(LABEL_CHARS, line[i]))
+		++i;
+	if (line[i] == LABEL_CHAR)
+		line += validate_label(line, i, out);
+	line = skip_space(line);
+	if (*line && *line != COMMENT_CHAR)
+		line  = parse_cmd(line, out);
+	line = skip_space(line);
+	if (*line && *line != COMMENT_CHAR)
+		asm_error("syntax error", "invalid command block", out->line);
 }
 
 void parse_body(int fd, t_asm *out)
@@ -131,7 +138,7 @@ void parse_body(int fd, t_asm *out)
 	while (asm_readline(out, fd, &buf))
 	{
 		parse_line(buf, out);
-		ft_strdel(buf);
+		ft_strdel(&buf);
 	}
 }
 
@@ -144,6 +151,7 @@ void parse(int fd, t_asm *out)
 	ft_uvector_init(&(out->cmd_vec), sizeof(t_asm_cmd));
 	parse_header(fd, out);
 	out->header->magic = reverse_endian(COREWAR_EXEC_MAGIC);
+	parse_body(fd, out);
 	//write size to header
 	write(1, out->header, sizeof(t_header));
 }
