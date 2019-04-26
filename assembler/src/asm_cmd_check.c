@@ -6,7 +6,7 @@
 /*   By: tcherret <tcherret@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/25 12:45:56 by tcherret          #+#    #+#             */
-/*   Updated: 2019/04/25 17:31:32 by tcherret         ###   ########.fr       */
+/*   Updated: 2019/04/26 13:42:22 by tcherret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,38 +26,27 @@ uint32_t		valid_cmd_name(t_asm_cmd *cmd, t_op g_op_tab, t_asm *out)
 		}
 		i++;
 	}
-	cmd->op_code = 0;
-	asm_error("error", "command name already used", out->line);
+	asm_error("syntax error", "command is not valid", out->line);
 	return (0);
 }
 
 int		valid_cmd_nb_args(t_asm_cmd *cmd, t_op g_op_tab, t_asm *out)
 {
 	if (cmd->num_args != g_op_tab[cmd->op_code - 1].num_param)
-	{
-		asm_error("error", "number of parameters not valid", out->line);
-		return (0)i;
-	}
+		asm_error("arg error", "number of parameters not valid", out->line);
 	return (1);
 }
 
-int		valid_cmd_type(t_asm_cmd *cmd, t_op g_op_tab, t_asm *out) // not sure at all how to access to the data
+int		valid_cmd_type(t_asm_cmd *cmd, t_op g_op_tab, t_asm *out, int j) // not sure at all how to access to the data
 {
 	if (cmd->args.type.data[j] & g_op_tab[cmd->op_code - 1].args[j])
 	{
 		if (cmd->arg.data[j] == 2)
 			if (g_op_tab[cmd->op_code - 1].halfwidth == 1 && cmd->arg.bite_size == 4) // to verify
-			{
-				asm_error("error", "size of a direct not valid", out->line);
-				return (0);
-			}
-		j++;
+				cmd->arg.bite_size = 2;
 	}
 	else
-	{
-		asm_error("error", "type of paramaters not good", out->line);
-		return (0);
-	}
+		asm_error("arg error", "type of a parameter not good", out->line);
 	return (1);
 }
 
@@ -69,7 +58,7 @@ int		valid_cmd_arg(t_asm_cmd *cmd, t_op g_op_tab, t_asm *out)
 
 	if (!valid_cmd_name(cmd, g_op_tab, out))
 		return (0);
-	if (!valid_cmd_nb_args(cmd, g_op_tab, out)) //after,  we define opcode bef
+	if (!valid_cmd_nb_args(cmd, g_op_tab, out))
 		return (0);
 	else
 	{
@@ -77,10 +66,27 @@ int		valid_cmd_arg(t_asm_cmd *cmd, t_op g_op_tab, t_asm *out)
 		k = g_op_tab[cmd->op_code - 1].num_param;
 		while (j < k)
 		{
-			if (!valid_cmd_type(cmd, g_op_tab, out))
+			if (!valid_cmd_type(cmd, g_op_tab, out, j))
 				return (0);
 			j++;
 		}
 		return (1);
 	}
+}
+
+
+//--------------------//
+
+
+int		check_file_type(char *str)
+{
+	int size;
+
+	size = ft_strlen(str);
+	if (str[size - 1] != 's' || str[size - 2] != '.')
+	{
+		asm_error("file error", "file must be '.s'", 0);
+		return (0);
+	}
+	return (1);
 }

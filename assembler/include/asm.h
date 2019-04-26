@@ -6,7 +6,7 @@
 /*   By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 14:15:34 by jbeall            #+#    #+#             */
-/*   Updated: 2019/04/26 10:19:53 by jbeall           ###   ########.fr       */
+/*   Updated: 2019/04/26 13:45:55 by tcherret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,17 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <errno.h>
+
+# define COLOR_RESET	"\033[0m"
+# define BOLD			"\033[1m"
+# define BLACK_TEXT		"\033[30;1m"
+# define RED_TEXT		"\033[31;1m"
+# define GREEN_TEXT		"\033[32;1m"
+# define YELLOW_TEXT	"\033[33;1m"
+# define BLUE_TEXT		"\033[34;1m"
+# define MAGENTA_TEXT	"\033[35;1m"
+# define CYAN_TEXT		"\033[36;1m"
+# define WHITE_TEXT		"\033[37;1m"
 
 #define CAPTURE_BUFF COMMENT_LENGTH
 #define LABEL_MAP(x) &(x->label_map)
@@ -73,6 +84,15 @@ int contains_non_comment(char *st);
 int valid_header_block(t_uvector *block, t_asm *out);
 char *capture_to_space(char *in);
 char *capture_to_quote(char *in);
+
+/*
+** parse_command
+*/
+
+uint32_t	valid_cmd_name(t_asm_cmd *cmd, t_op g_op_tab, t_asm *out);
+int		valid_cmd_nb_args(t_asm_cmd *cmd, t_op g_op_tab, t_asm *out);
+int		valid_cmd_type(t_asm_cmd *cmd, t_op g_op_tab, t_asm *out, int j);
+int		valid_cmd_arg(t_asm_cmd *cmd, t_op g_op_tab, t_asm *out);
 
 /*
 ** error

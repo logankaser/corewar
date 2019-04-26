@@ -6,7 +6,7 @@
 /*   By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 18:28:10 by lkaser            #+#    #+#             */
-/*   Updated: 2019/04/26 10:20:11 by jbeall           ###   ########.fr       */
+/*   Updated: 2019/04/26 13:38:24 by tcherret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void asm_error(char *er_name, char *er_type, int line)
 {
-	ft_printf("%s: %s [line %d]\n", er_name, er_type, line);
+	ft_printf(RED_TEXT"%s: %s [line %d]\n"COLOR_RESET, er_name, er_type, line);
 	exit(0);
 }
 
@@ -105,6 +105,9 @@ char *parse_cmd(char *line, t_asm *out)
 		// line = parse_arg(line, out);
 		++new->num_args;
 	}
+
+	//verif command here !
+	
 	//update mem_ptr
 	return (line);
 }
@@ -151,7 +154,7 @@ void parse(int fd, t_asm *out)
 	ft_uvector_init(&(out->cmd_vec), sizeof(t_asm_cmd));
 	parse_header(fd, out);
 	out->header->magic = reverse_endian(COREWAR_EXEC_MAGIC);
-	parse_body(fd, out);
+	//parse_body(fd, out);
 	//write size to header
 	write(1, out->header, sizeof(t_header));
 }
@@ -163,7 +166,7 @@ int main(int argc, char **argv)
 
 	if (argc != 2)
 	{
-		ft_printf("Usage: asm <sourcefile.s>\n");
+		ft_printf(RED_TEXT"Usage: asm <sourcefile.s>\n"COLOR_RESET);
 		return (0);
 	}
 	ft_bzero(&out, sizeof(out));
