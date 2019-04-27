@@ -6,7 +6,7 @@
 /*   By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 18:28:10 by lkaser            #+#    #+#             */
-/*   Updated: 2019/04/26 17:30:13 by tcherret         ###   ########.fr       */
+/*   Updated: 2019/04/26 20:34:36 by tcherret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int validate_label(char *label, int len, t_asm *out)
 	t_label *new;
 
 	name = ft_strnew(len);
-	ft_strncpy(name, label, len);;
+	ft_strncpy(name, label, len);
 	if (!len)
 		asm_error("syntax error", "invalid label", out->line);
 	if (ft_map_get(LABEL_MAP(out), name))
@@ -175,11 +175,11 @@ int calc_cmd_size(t_asm_cmd *cmd)
 {
 	int size;
 	t_asm_arg *arg;
-	int i;
+	unsigned i;
 
 	size = 1;
 	i = 0;
-	if (cmd->encode)
+	if (cmd->has_encode)
 		size += 1;
 	while (i < cmd->num_args)
 	{
@@ -188,6 +188,33 @@ int calc_cmd_size(t_asm_cmd *cmd)
 		i++;
 	}
 	return (size);
+}
+
+uint8_t encode_byte(t_asm_cmd *cmd)
+{
+	unsigned i;
+	unsigned shift;
+	t_asm_arg *arg;
+	uint8_t encode;
+	uint8_t type_encode;
+
+	i = 0;
+	encode = 0;
+	shift = 6;
+	while (i < cmd->num_args)
+	{
+		arg = ft_uvector_get(&cmd->args, i);
+		if (arg->type == T_DIR)
+			type_encode = DIR_CODE;
+		if (arg->type == T_IND)
+			type_encode = IND_CODE;
+		else
+			type_encode = REG_CODE;
+		encode += type_encode << shift;
+		shift -= 2;
+		i++;
+	}
+	return (encode);
 }
 
 char *parse_cmd(char *line, t_asm *out)
@@ -217,8 +244,8 @@ char *parse_cmd(char *line, t_asm *out)
 		++new->num_args;
 	}
 	valid_cmd(new, g_op_tab, out);
-	//update mem_ptr
-	out->mem_ptr += calc_cmd_size(new); //move into validation?
+	new->encode = new->has_encode ? encode_byte(new) : 0;
+	out->mem_ptr += calc_cmd_size(new);
 	ft_uvector_push(&(out->cmd_vec), new);
 	return (line);
 }
@@ -245,6 +272,34 @@ void parse_line(char *line, t_asm *out)
 		asm_error("syntax error", "invalid command block", out->line);
 }
 
+void deref_labels(t_asm *out)
+{
+	t_asm_cmd *cmd;
+	t_asm_arg *arg;
+	t_label *lab;
+	unsigned i;
+	unsigned j;
+
+	i = 0;
+	while (i < out->cmd_vec.length)
+	{
+		j = 0;
+		cmd = ft_uvector_get(&out->cmd_vec, i);
+		while (j < cmd->num_args)
+		{
+			arg = ft_uvector_get(&cmd->args, j);
+			if (arg->use_label)
+			{
+				if(!(lab = ft_map_get(&out->label_map, arg->label_name)))
+					asm_error("error", "label not found", out->line);
+				arg->val = lab->mem_addr - cmd->mem_addr;
+			}
+			j++;
+		}
+		i++;
+	}
+}
+
 void parse_body(int fd, t_asm *out)
 {
 	char *buf;
@@ -253,6 +308,70 @@ void parse_body(int fd, t_asm *out)
 	{
 		parse_line(buf, out);
 		ft_strdel(&buf);
+	}
+	deref_labels(out);
+}
+
+uint16_t reverse_endian_two(uint16_t val)
+{
+	uint16_t ret;
+
+	ret = 0;
+	ret = (val & 0xFF) << 8;
+	ret += (val & (0xFF << 8)) >> 8;
+	return (ret);
+}
+
+unsigned write_arg_data(t_asm *out, t_asm_arg *arg, unsigned ptr)
+{
+	uint8_t one;
+	uint16_t two;
+	uint32_t four;
+
+	if (arg->byte_size == 2)
+	{
+		two = reverse_endian_two((uint16_t)(arg->val));
+		ft_memcpy(out->program + ptr, &two, 2);
+		return (2);
+	}
+	else if (arg->byte_size == 4)
+	{
+		four = reverse_endian((uint32_t)(arg->val));
+		ft_memcpy(out->program + ptr, &four, 4);
+		return (4);
+	}
+	else
+	{
+		one = (uint8_t)arg->val;
+		out->program[ptr] = one;
+		return (1);
+	}
+}
+
+void write_cmd_data(t_asm *out)
+{
+	t_asm_cmd *cmd;
+	t_asm_arg *arg;
+	unsigned ptr;
+	unsigned i;
+	unsigned j;
+
+	i = 0;
+	while (i < out->cmd_vec.length)
+	{
+		j = 0;
+		cmd = ft_uvector_get(&out->cmd_vec, i);
+		ptr = cmd->mem_addr;
+		out->program[ptr++] = (uint8_t)cmd->op_code;
+		if (cmd->has_encode)
+			out->program[ptr++] = cmd->encode;
+		while (j < cmd->num_args)
+		{
+			arg = ft_uvector_get(&cmd->args, j);
+			ptr += write_arg_data(out, arg, ptr);
+			j++;
+		}
+		i++;
 	}
 }
 
@@ -266,8 +385,8 @@ void parse(int fd, t_asm *out)
 	parse_header(fd, out);
 	out->header->magic = reverse_endian(COREWAR_EXEC_MAGIC);
 	parse_body(fd, out);
-	//write size to header
-	write(1, out->header, sizeof(t_header));
+	out->header->prog_size = out->mem_ptr;
+	write_cmd_data(out);
 }
 
 int main(int argc, char **argv)
@@ -286,8 +405,10 @@ int main(int argc, char **argv)
 		perror("error");
 		return(0);
 	}
+	check_file_type(argv[1]);
 	parse(fd, &out);
 	//asm_print_data(&out);
 	create_file(&out, argv[1]);
+	write(1, out.program, out.header->prog_size);
 	return (0);
 }

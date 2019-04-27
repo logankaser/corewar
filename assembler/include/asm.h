@@ -6,7 +6,7 @@
 /*   By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 14:15:34 by jbeall            #+#    #+#             */
-/*   Updated: 2019/04/26 17:52:30 by tcherret         ###   ########.fr       */
+/*   Updated: 2019/04/26 20:37:15 by tcherret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,12 @@ typedef struct s_asm_arg
 
 typedef struct s_asm_cmd
 {
-	int op_code;
+	uint8_t op_code;
 	char *name;
-	int encode;
+	uint8_t encode;
+	uint8_t has_encode;
 	int mem_addr;
-	int num_args;
+	unsigned num_args;
 	t_uvector args;
 }				t_asm_cmd;
 
@@ -102,6 +103,7 @@ int		valid_cmd(t_asm_cmd *cmd, t_op *g_op_tab, t_asm *out);
 ** error
 */
 void asm_error(char *er_name, char *er_type, int line);
+void	check_file_type(char *str);
 
 /*
 ** print
