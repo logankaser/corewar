@@ -14,7 +14,8 @@ NAME = corewar
 LIST = main \
 instruction_dispatch \
 option_parse \
-virtual_machine
+virtual_machine \
+load_warrior
 
 OBJ_DIR = obj
 VPATH = src
