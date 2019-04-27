@@ -6,13 +6,13 @@
 #    By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/13 10:03:24 by logan             #+#    #+#              #
-#    Updated: 2019/04/26 14:30:10 by tcherret         ###   ########.fr        #
+#    Updated: 2019/04/26 17:33:03 by tcherret         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = asm
 
-LIST = main asm_parse_helper asm_parse_header op asm_print asm_cmd_check
+LIST = main asm_parse_helper asm_parse_header op asm_print asm_cmd_check create_cor
 
 OBJ_DIR = obj
 VPATH = src

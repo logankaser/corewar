@@ -6,7 +6,7 @@
 /*   By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 14:15:34 by jbeall            #+#    #+#             */
-/*   Updated: 2019/04/26 15:50:10 by tcherret         ###   ########.fr       */
+/*   Updated: 2019/04/26 17:52:30 by tcherret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,5 +109,7 @@ void asm_error(char *er_name, char *er_type, int line);
 void asm_print_arg(t_asm_arg *arg);
 void asm_print_cmd(t_asm_cmd *cmd);
 void asm_print_data(t_asm *data);
+int		create_file(t_asm *out, char *str);
+char	*get_name(char *str);
 
 #endif

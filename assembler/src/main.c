@@ -6,7 +6,7 @@
 /*   By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 18:28:10 by lkaser            #+#    #+#             */
-/*   Updated: 2019/04/26 15:48:17 by tcherret         ###   ########.fr       */
+/*   Updated: 2019/04/26 17:30:13 by tcherret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -287,6 +287,7 @@ int main(int argc, char **argv)
 		return(0);
 	}
 	parse(fd, &out);
-	asm_print_data(&out);
+	//asm_print_data(&out);
+	create_file(&out, argv[1]);
 	return (0);
 }
