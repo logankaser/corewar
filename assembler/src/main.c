@@ -6,7 +6,7 @@
 /*   By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 18:28:10 by lkaser            #+#    #+#             */
-/*   Updated: 2019/04/26 20:18:54 by jbeall           ###   ########.fr       */
+/*   Updated: 2019/04/26 20:23:59 by jbeall           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -312,19 +312,6 @@ void parse_body(int fd, t_asm *out)
 	deref_labels(out);
 }
 
-/*
-** Init vectors and launch parse operators
-*/
-void parse(int fd, t_asm *out)
-{
-	ft_map_init(&(out->label_map), 0, 17);
-	ft_uvector_init(&(out->cmd_vec), sizeof(t_asm_cmd));
-	parse_header(fd, out);
-	out->header->magic = reverse_endian(COREWAR_EXEC_MAGIC);
-	parse_body(fd, out);
-	out->header->prog_size = out->mem_ptr;
-}
-
 uint16_t reverse_endian_two(uint16_t val)
 {
 	uint16_t ret;
@@ -388,6 +375,20 @@ void write_cmd_data(t_asm *out)
 	}
 }
 
+/*
+** Init vectors and launch parse operators
+*/
+void parse(int fd, t_asm *out)
+{
+	ft_map_init(&(out->label_map), 0, 17);
+	ft_uvector_init(&(out->cmd_vec), sizeof(t_asm_cmd));
+	parse_header(fd, out);
+	out->header->magic = reverse_endian(COREWAR_EXEC_MAGIC);
+	parse_body(fd, out);
+	out->header->prog_size = out->mem_ptr;
+	write_cmd_data(out);
+}
+
 int main(int argc, char **argv)
 {
 	int fd;
@@ -406,6 +407,7 @@ int main(int argc, char **argv)
 	}
 	check_file_type(argv[1]);
 	parse(fd, &out);
-	asm_print_data(&out);
+	//asm_print_data(&out);
+	write(1, out.program, out.header->prog_size);
 	return (0);
 }
