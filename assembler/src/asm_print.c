@@ -6,7 +6,7 @@
 /*   By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/26 12:44:05 by jbeall            #+#    #+#             */
-/*   Updated: 2019/04/26 16:55:07 by jbeall           ###   ########.fr       */
+/*   Updated: 2019/04/26 20:07:07 by jbeall           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,27 @@ void asm_print_arg(t_asm_arg *arg)
 		ft_printf(" val[%d] \n", arg->val);
 }
 
+void asm_print_encode(uint8_t encode)
+{
+	uint8_t mask;
+
+	mask = 1 << 7;
+	while (mask)
+	{
+		ft_printf("%d", mask & encode ? 1 : 0);
+		mask >>= 1;
+	}
+}
+
 void asm_print_cmd(t_asm_cmd *cmd)
 {
 	unsigned i;
 
 	i = 0;
-	ft_printf("op: [%d] name: [%s] memaddr: [%d] numargs: [%d]\n", cmd->op_code,
-		cmd->name, cmd->mem_addr, cmd->num_args);
+	ft_printf("op: [%d] name: [%s] memaddr: [%d] ", cmd->op_code, cmd->name, cmd->mem_addr);
+	ft_printf("encode [");
+	cmd->has_encode ? asm_print_encode(cmd->encode) : ft_printf("-");
+	ft_printf("] numargs: [%d]\n", cmd->num_args);
 	while (i < cmd->num_args)
 	{
 		ft_printf("arg %d ", i);

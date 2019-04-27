@@ -6,7 +6,7 @@
 /*   By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/25 12:45:56 by tcherret          #+#    #+#             */
-/*   Updated: 2019/04/26 16:08:45 by jbeall           ###   ########.fr       */
+/*   Updated: 2019/04/26 19:40:56 by jbeall           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int		valid_arg_type(t_asm_cmd *cmd, t_op *g_op_tab, t_asm *out, int j)
 
 	arg = (t_asm_arg*)ft_uvector_get(&cmd->args, j);
 	if (g_op_tab[cmd->op_code - 1].encoded == 1)
-		cmd->encode = 1;
+		cmd->has_encode = 1;
 	if (arg->type & g_op_tab[cmd->op_code - 1].args[j])
 	{
 		if (arg->type == T_DIR)
