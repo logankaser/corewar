@@ -6,7 +6,7 @@
 /*   By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 14:15:34 by jbeall            #+#    #+#             */
-/*   Updated: 2019/04/26 16:08:55 by jbeall           ###   ########.fr       */
+/*   Updated: 2019/04/26 16:53:12 by jbeall           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ typedef struct s_asm_cmd
 	char *name;
 	int encode;
 	int mem_addr;
-	int num_args;
+	unsigned num_args;
 	t_uvector args;
 }				t_asm_cmd;
 

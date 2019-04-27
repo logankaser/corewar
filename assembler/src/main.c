@@ -6,7 +6,7 @@
 /*   By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 18:28:10 by lkaser            #+#    #+#             */
-/*   Updated: 2019/04/26 16:12:11 by jbeall           ###   ########.fr       */
+/*   Updated: 2019/04/26 17:27:04 by jbeall           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,7 +175,7 @@ int calc_cmd_size(t_asm_cmd *cmd)
 {
 	int size;
 	t_asm_arg *arg;
-	int i;
+	unsigned i;
 
 	size = 1;
 	i = 0;
@@ -244,6 +244,34 @@ void parse_line(char *line, t_asm *out)
 		asm_error("syntax error", "invalid command block", out->line);
 }
 
+void deref_labels(t_asm *out)
+{
+	t_asm_cmd *cmd;
+	t_asm_arg *arg;
+	t_label *lab;
+	unsigned i;
+	unsigned j;
+
+	i = 0;
+	while (i < out->cmd_vec.length)
+	{
+		j = 0;
+		cmd = ft_uvector_get(&out->cmd_vec, i);
+		while (j < cmd->num_args)
+		{
+			arg = ft_uvector_get(&cmd->args, j);
+			if (arg->use_label)
+			{
+				if(!(lab = ft_map_get(&out->label_map, arg->label_name)))
+					asm_error("error", "label not found", out->line);
+				arg->val = lab->mem_addr - cmd->mem_addr;
+			}
+			j++;
+		}
+		i++;
+	}
+}
+
 void parse_body(int fd, t_asm *out)
 {
 	char *buf;
@@ -253,6 +281,7 @@ void parse_body(int fd, t_asm *out)
 		parse_line(buf, out);
 		ft_strdel(&buf);
 	}
+	deref_labels(out);
 }
 
 /*
@@ -265,8 +294,8 @@ void parse(int fd, t_asm *out)
 	parse_header(fd, out);
 	out->header->magic = reverse_endian(COREWAR_EXEC_MAGIC);
 	parse_body(fd, out);
+	out->header->prog_size = out->mem_ptr;
 	//write size to header
-	write(1, out->header, sizeof(t_header));
 }
 
 int main(int argc, char **argv)

@@ -6,7 +6,7 @@
 /*   By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/26 12:44:05 by jbeall            #+#    #+#             */
-/*   Updated: 2019/04/26 15:20:57 by tcherret         ###   ########.fr       */
+/*   Updated: 2019/04/26 16:55:07 by jbeall           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void asm_print_arg(t_asm_arg *arg)
 
 void asm_print_cmd(t_asm_cmd *cmd)
 {
-	int i;
+	unsigned i;
 
 	i = 0;
 	ft_printf("op: [%d] name: [%s] memaddr: [%d] numargs: [%d]\n", cmd->op_code,
@@ -37,6 +37,28 @@ void asm_print_cmd(t_asm_cmd *cmd)
 	}
 }
 
+void asm_print_labels(t_asm* data)
+{
+	unsigned i;
+	t_label *lab;
+	t_bucket *current;
+
+	i = 0;
+	ft_printf("==LABELS==\n");
+	while (i < data->label_map.capacity)
+	{
+		current = data->label_map.data[i];
+		while(current)
+		{
+			lab = current->value;
+			ft_printf("id[%d] name[%s] memaddr[%u]\n", lab->label_id, lab->label_name, lab->mem_addr);
+			current = current->next;
+		}
+		i++;
+	}
+	ft_printf("\n");
+}
+
 void asm_print_data(t_asm *data)
 {
 	unsigned i;
@@ -44,7 +66,9 @@ void asm_print_data(t_asm *data)
 	i = 0;
 	ft_printf("\n==DATA==\n");
 	ft_printf("num_labels [%d]\n", data->num_label);
-	ft_printf("num_cmd [%d]\n", data->cmd_vec.length);
+	ft_printf("num_cmd [%d]\n\n", data->cmd_vec.length);
+	asm_print_labels(data);
+	ft_printf("==CMD==\n");
 	while (i < data->cmd_vec.length)
 	{
 		asm_print_cmd((t_asm_cmd*)ft_uvector_get(&data->cmd_vec, i));
