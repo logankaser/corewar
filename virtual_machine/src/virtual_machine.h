@@ -6,7 +6,7 @@
 /*   By: lkaser <lkaser@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/23 17:19:25 by lkaser            #+#    #+#             */
-/*   Updated: 2019/04/27 18:39:37 by tcherret         ###   ########.fr       */
+/*   Updated: 2019/04/28 13:15:47 by tcherret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct	s_player {
 	uint8_t		prog[CHAMP_MAX_SIZE];
 	unsigned	number;
 	int			last_live_cycle;
+	bool		alive;
 }				t_player;
 
 /*

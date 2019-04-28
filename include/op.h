@@ -6,7 +6,7 @@
 /*   By: lkaser <lkaser@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/23 16:42:00 by lkaser            #+#    #+#             */
-/*   Updated: 2019/04/27 19:02:10 by tcherret         ###   ########.fr       */
+/*   Updated: 2019/04/28 12:20:56 by tcherret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,10 +74,6 @@ typedef struct	s_header
 	unsigned	prog_size;
 	char		comment[COMMENT_LENGTH + 1];
 }				t_header;
-
-/*
-** Op Table of questionable usefulness.
-*/
 
 typedef struct	s_op
 {
