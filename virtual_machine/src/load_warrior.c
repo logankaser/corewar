@@ -23,11 +23,19 @@ static bool		read_file(const char *filepath, t_uvector *buf)
 	return (true);
 }
 
-static unsigned	load_warrior_header(t_uvector file, t_player *player)
+static bool	load_warrior_header(t_uvector file, t_player *player)
 {
-	(void)file;
-	(void)player;
-	return 10 + PROG_NAME_LENGTH + COMMENT_LENGTH;
+	if (file.length - HEADER_SIZE > CHAMP_MAX_SIZE)
+	{
+		ft_fprintf(stderr, "error: program is too large\n");
+		return (false);
+	}
+	if (player->header.prog_size != file.length - HEADER_SIZE)
+	{
+		ft_fprintf(stderr, "error: file size has been corrupted\n");
+		return (false);
+	}
+	return (true);
 }
 
 static void		load_warrior_file(t_vm *vm, char *fp, t_player *player)
@@ -35,7 +43,6 @@ static void		load_warrior_file(t_vm *vm, char *fp, t_player *player)
 	unsigned	magic_number;
 	t_uvector	file;
 	char		*error;
-	unsigned	prog_offset;
 
 	error = NULL;
 	if (!read_file(fp, &file))
@@ -48,11 +55,9 @@ static void		load_warrior_file(t_vm *vm, char *fp, t_player *player)
 		ft_fprintf(stderr, error, fp);
 		exit_usage(vm);
 	}
-	prog_offset = load_warrior_header(file, player);
-	player->header.prog_name[PROG_NAME_LENGTH] = '\0';
-	player->header.comment[COMMENT_LENGTH] = '\0';
+	if (!load_warrior_header(file, player))
+		exit_usage(vm);
 	ft_printf("SIZE: %u\n", player->header.prog_size);
-	ft_memcpy(player->prog, file.data + prog_offset, file.length - prog_offset);
 }
 
 void			load_warrior(t_vm *vm, char *fp, unsigned n)

@@ -6,7 +6,7 @@
 /*   By: lkaser <lkaser@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/23 17:19:25 by lkaser            #+#    #+#             */
-/*   Updated: 2019/04/23 17:19:26 by lkaser           ###   ########.fr       */
+/*   Updated: 2019/04/27 18:39:37 by tcherret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ typedef struct	s_process {
 
 typedef struct	s_player {
 	t_header	header;
+	uint8_t		prog[CHAMP_MAX_SIZE];
 	unsigned	number;
 	int			last_live_cycle;
-	uint8_t		prog[CHAMP_MAX_SIZE];
 }				t_player;
 
 /*
