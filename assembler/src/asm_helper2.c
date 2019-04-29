@@ -6,26 +6,26 @@
 /*   By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/28 20:45:31 by jbeall            #+#    #+#             */
-/*   Updated: 2019/04/28 20:54:49 by jbeall           ###   ########.fr       */
+/*   Updated: 2019/04/28 21:16:20 by jbeall           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
 
-void	asm_error(char *er_name, char *er_type, int line)
+void		asm_error(char *er_name, char *er_type, int line)
 {
 	ft_printf(RED_TEXT"%s: %s [line %d]\n"COLOR_RESET, er_name, er_type, line);
 	exit(0);
 }
 
-void	ft_uvector_reset(t_uvector *vector, int size)
+void		ft_uvector_reset(t_uvector *vector, int size)
 {
 	free(vector->data);
 	ft_uvector_init(vector, size);
 	vector->data[0] = '\0';
 }
 
-void	asm_readline_str(t_asm *out, int fd, char **buf, t_uvector *in)
+void		asm_readline_str(t_asm *out, int fd, char **buf, t_uvector *in)
 {
 	while (asm_readline(out, fd, buf))
 	{
@@ -39,7 +39,7 @@ void	asm_readline_str(t_asm *out, int fd, char **buf, t_uvector *in)
 	}
 }
 
-char	*ft_strndup(char *str, int len)
+char		*ft_strndup(char *str, int len)
 {
 	char *new;
 
@@ -48,7 +48,7 @@ char	*ft_strndup(char *str, int len)
 	return (new);
 }
 
-uint16_t reverse_endian_two(uint16_t val)
+uint16_t	reverse_endian_two(uint16_t val)
 {
 	uint16_t ret;
 

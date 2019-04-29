@@ -6,7 +6,7 @@
 /*   By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 18:28:10 by lkaser            #+#    #+#             */
-/*   Updated: 2019/04/28 21:05:31 by jbeall           ###   ########.fr       */
+/*   Updated: 2019/04/28 21:18:37 by jbeall           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int		parse_header(int fd, t_asm *out)
 	}
 	return (0);
 }
+
 void	parse_line(char *line, t_asm *out)
 {
 	int has_label;
@@ -92,22 +93,27 @@ void	parse(int fd, t_asm *out)
 int		main(int argc, char **argv)
 {
 	int		fd;
+	int		debug;
 	t_asm	out;
 
-	if (argc != 2)
+	debug = 0;
+	if (argc == 3 && ft_strcmp(argv[1], "-d") == 0)
+		debug = 1;
+	if ((argc < 2 && argc > 3) || (argc == 3 && ft_strcmp(argv[1], "-d") != 0))
 	{
-		ft_printf(RED_TEXT"Usage: asm <sourcefile.s>\n"COLOR_RESET);
+		ft_printf(RED_TEXT"Usage: asm -d <sourcefile.s>\n"COLOR_RESET);
 		return (0);
 	}
 	ft_bzero(&out, sizeof(out));
-	if ((fd = open(argv[1], O_RDONLY)) < 0)
+	if ((fd = open(argv[argc - 1], O_RDONLY)) < 0)
 	{
 		perror("error");
 		return (0);
 	}
-	check_file_type(argv[1]);
+	check_file_type(argv[argc - 1]);
 	parse(fd, &out);
-	//asm_print_data(&out);
-	create_file(&out, argv[1]);
+	if (debug == 1)
+		asm_print_data(&out);
+	create_file(&out, argv[argc - 1]);
 	return (0);
 }

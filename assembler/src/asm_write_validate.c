@@ -6,13 +6,13 @@
 /*   By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/28 21:00:54 by jbeall            #+#    #+#             */
-/*   Updated: 2019/04/28 21:04:50 by jbeall           ###   ########.fr       */
+/*   Updated: 2019/04/28 21:16:44 by jbeall           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
 
-int		validate_label(char *label, int len, t_asm *out)
+int			validate_label(char *label, int len, t_asm *out)
 {
 	char	*name;
 	t_label	*new;
