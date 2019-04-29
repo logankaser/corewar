@@ -6,7 +6,7 @@
 /*   By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 18:28:10 by lkaser            #+#    #+#             */
-/*   Updated: 2019/04/27 21:35:21 by tcherret         ###   ########.fr       */
+/*   Updated: 2019/04/28 17:12:59 by tcherret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -392,8 +392,10 @@ void parse(int fd, t_asm *out)
 int main(int argc, char **argv)
 {
 	int fd;
+	int debug;
 	t_asm out;
 
+	debug = 0;
 	if (argc != 2)
 	{
 		ft_printf(RED_TEXT"Usage: asm <sourcefile.s>\n"COLOR_RESET);
