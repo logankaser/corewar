@@ -6,7 +6,7 @@
 /*   By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/25 12:45:56 by tcherret          #+#    #+#             */
-/*   Updated: 2019/04/26 19:40:56 by jbeall           ###   ########.fr       */
+/*   Updated: 2019/04/26 20:33:52 by tcherret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,15 +74,4 @@ int		valid_cmd(t_asm_cmd *cmd, t_op *g_op_tab, t_asm *out)
 		j++;
 	}
 	return (1);
-}
-
-// ==========================================================================//
-
-void	check_file_type(char *str)
-{
-	int size;
-
-	size = ft_strlen(str);
-	if (str[size - 1] != 's' || str[size - 2] != '.')
-		asm_error("file error", "file must be '.s'", 0);
 }

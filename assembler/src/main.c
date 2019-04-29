@@ -6,7 +6,7 @@
 /*   By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 18:28:10 by lkaser            #+#    #+#             */
-/*   Updated: 2019/04/28 16:28:12 by jbeall           ###   ########.fr       */
+/*   Updated: 2019/04/28 17:09:35 by jbeall           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -420,8 +420,8 @@ int main(int argc, char **argv)
 	}
 	check_file_type(argv[1]);
 	parse(fd, &out);
-	// asm_print_data(&out);
-	write(1, out.header, sizeof(t_header));
-	write(1, out.program, reverse_endian(out.header->prog_size));
+	//asm_print_data(&out);
+	create_file(&out, argv[1]);
+	write(1, out.program, out.header->prog_size);
 	return (0);
 }
