@@ -16,41 +16,36 @@
 
 static void	annouce_player(t_player *player)
 {
-	ft_printf("Loaded warrrior: \"%s\"\n\tdesc: \"%s\"\n\tsize: %u\n"
+	ft_printf("Loaded warrrior: \"%s\":\n\tdesc: \"%s\"\n\tsize: %u\n"
 		, player->header.prog_name, player->header.comment,
 		player->header.prog_size);
 }
 
-/*
-** FIXME: Players ned to be in the right order.
-*/
-
 static void	start_players(t_vm *vm)
 {
-	unsigned	i;
-	uint8_t		*player_start;
+	int			i;
 	t_player	*player;
-	t_process	*inital_process;
+	t_process	*proc;
 
 	ft_vector_init(&vm->processes);
-	i = 0;
-	while (i < vm->player_count)
+	i = MAX_PLAYERS;
+	while (--i >= 0)
 	{
 		player = vm->players[i];
 		if (!player)
 			continue;
 		annouce_player(player);
-		player_start = vm->arena +
+		proc = ft_memalloc(sizeof(t_process));
+		proc->pc =
 			(sizeof(vm->arena) / vm->player_count) * (player->number - 1);
-		ft_memcpy(player_start, player->prog, player->header.prog_size);
-		inital_process = ft_memalloc(sizeof(t_process));
-		inital_process->executing = *player_start;
-		inital_process->player_id = player->number; 
-		if (inital_process->executing >= 0 && inital_process->executing < 16)
-			inital_process->cycles_left =
-				g_op_tab[inital_process->executing - 1].cycles - 1;
-		ft_vector_push(&vm->processes, inital_process);
-		++i;
+		ft_memcpy(vm->arena + proc->pc,
+			player->prog, player->header.prog_size);
+		proc->executing = ARENA(vm, proc->pc);
+		proc->player = player;
+		proc->registers[0] = i + 1;
+		if (proc->executing >= 0 && proc->executing < 16)
+			proc->cycles_left = g_op_tab[proc->executing - 1].cycles - 1;
+		ft_vector_push(&vm->processes, proc);
 	}
 }
 

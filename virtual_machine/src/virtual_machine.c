@@ -31,10 +31,16 @@ void	vm_del(t_vm *vm)
 
 void	vm_run(t_vm *vm)
 {
-	while (true)
+	// while (true)
+	// {
+	// 	vm->cycle += 1;
+	// 	if (vm->cycle >= vm->dump_cycle)
+	// 		break ;
+	// }
+	for (unsigned i = 0; i < vm->player_count; ++i)
 	{
-		vm->cycle += 1;
-		if (vm->cycle >= vm->dump_cycle)
-			break ;
+		ft_printf("Player %s:\n\tfirst op: 0x%02hhx\n",
+			PROC(vm, i)->player->header.prog_name,
+			ARENA(vm, PROC(vm, i)->pc));
 	}
 }

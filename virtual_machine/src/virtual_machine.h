@@ -16,21 +16,6 @@
 # include "libft.h"
 
 /*
-** Process specific memory.
-*/
-
-typedef struct	s_process {
-	unsigned	player_id;
-	bool		carry;
-	uint8_t		registers[REG_NUMBER][REG_SIZE];
-	unsigned	pc;
-	uint8_t		executing;
-	uint8_t		cycles_left;
-}				t_process;
-
-void			process_fork(t_process *p);
-
-/*
 ** Player.
 */
 
@@ -39,8 +24,22 @@ typedef struct	s_player {
 	uint8_t		prog[CHAMP_MAX_SIZE];
 	unsigned	number;
 	int			last_live_cycle;
-	bool		alive;
 }				t_player;
+
+/*
+** Process specific memory.
+*/
+
+typedef struct	s_process {
+	t_player	*player;
+	bool		carry;
+	uint32_t	registers[REG_NUMBER];
+	unsigned	pc;
+	uint8_t		executing;
+	uint8_t		cycles_left;
+}				t_process;
+
+void			process_fork(t_process *p);
 
 /*
 ** Virtual machine state.
@@ -56,11 +55,14 @@ typedef struct	s_vm {
 	uint8_t		arena[MEM_SIZE];
 }				t_vm;
 
+#define ARENA(vm, i) vm->arena[(unsigned)(i) % MEM_SIZE]
+#define PROC(vm, i) ((t_process*)vm->processes.data[i])
+
 void			vm_init(t_vm *vm);
 void			vm_run(t_vm *vm);
 void			vm_del(t_vm *vm);
 void			parse_options(int argc, char **argv, t_vm *vm);
 void			exit_usage(t_vm *vm);
-void			load_warrior(t_vm *vm, char *fp, unsigned n);
+void			load_player(t_vm *vm, char *fp, unsigned n);
 
 #endif

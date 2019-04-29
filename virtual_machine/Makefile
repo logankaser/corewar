@@ -15,7 +15,7 @@ LIST = main \
 instruction_dispatch \
 option_parse \
 virtual_machine \
-load_warrior
+load_player
 
 OBJ_DIR = obj
 VPATH = src

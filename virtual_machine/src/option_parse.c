@@ -75,7 +75,7 @@ void				parse_options(int argc, char **argv, t_vm *vm)
 					"corewar: -n must be followed by warrior filepath\n");
 				exit_usage(vm);
 			}
-			load_warrior(vm, argv[i], ft_atoi(argv[i - 1]));
+			load_player(vm, argv[i], ft_atoi(argv[i - 1]));
 		}
 		else if (!ft_strncmp(argv[i], "-", 1))
 		{
@@ -83,7 +83,7 @@ void				parse_options(int argc, char **argv, t_vm *vm)
 			exit_usage(vm);
 		}
 		else
-			load_warrior(vm, argv[i], find_empty_slot(vm));
+			load_player(vm, argv[i], find_empty_slot(vm));
 		++i;
 	}
 	if (vm->player_count == 0)
