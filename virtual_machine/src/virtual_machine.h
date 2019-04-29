@@ -6,7 +6,7 @@
 /*   By: lkaser <lkaser@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/23 17:19:25 by lkaser            #+#    #+#             */
-/*   Updated: 2019/04/23 17:19:26 by lkaser           ###   ########.fr       */
+/*   Updated: 2019/04/28 13:15:47 by tcherret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,10 @@ void			process_fork(t_process *p);
 
 typedef struct	s_player {
 	t_header	header;
+	uint8_t		prog[CHAMP_MAX_SIZE];
 	unsigned	number;
 	int			last_live_cycle;
-	uint8_t		prog[CHAMP_MAX_SIZE];
+	bool		alive;
 }				t_player;
 
 /*
