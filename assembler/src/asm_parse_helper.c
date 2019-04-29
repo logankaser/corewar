@@ -6,13 +6,13 @@
 /*   By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/25 10:43:58 by jbeall            #+#    #+#             */
-/*   Updated: 2019/04/26 13:59:15 by tcherret         ###   ########.fr       */
+/*   Updated: 2019/04/28 16:01:48 by jbeall           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
 
-int	ft_isspace(int c)
+int			ft_isspace(int c)
 {
 	if (c == '\t' || c == '\n' || c == '\v' || c == '\f' || c == '\r'
 		|| c == ' ')
@@ -21,21 +21,21 @@ int	ft_isspace(int c)
 		return (0);
 }
 
-char *skip_space(char *in)
+char		*skip_space(char *in)
 {
 	while (ft_isspace(*in))
 		in++;
 	return (in);
 }
 
-char *skip_comment(char *in)
+char		*skip_comment(char *in)
 {
 	while (*in != '\n')
 		in++;
-	return in++;
+	return (in++);
 }
 
-uint32_t reverse_endian(uint32_t in)
+uint32_t	reverse_endian(uint32_t in)
 {
 	unsigned out;
 
@@ -46,9 +46,11 @@ uint32_t reverse_endian(uint32_t in)
 	return (out);
 }
 
-int asm_readline(t_asm *out, int fd, char **buf)
+int			asm_readline(t_asm *out, int fd, char **buf)
 {
-	int ret = get_next_line(fd, buf);
+	int ret;
+
+	ret = get_next_line(fd, buf);
 	if (ret)
 		out->line += 1;
 	return (ret);

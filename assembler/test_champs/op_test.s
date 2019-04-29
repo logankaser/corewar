@@ -1,11 +1,6 @@
-  .name "op_test"
-
-.comment "op testing file"
-
+.name "op_test"
+.comment "op testing
+file" #comment
 #comment
 
-label: #comment
-live: live %01
-		ld: ld 01, r2
-		ld :live,r1
-		fork %1
+live %400000000000 ;stuff
