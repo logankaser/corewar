@@ -6,14 +6,14 @@
 /*   By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/25 12:45:56 by tcherret          #+#    #+#             */
-/*   Updated: 2019/04/26 20:33:52 by tcherret         ###   ########.fr       */
+/*   Updated: 2019/04/28 17:26:14 by jbeall           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
 #include <stdio.h>
 
-uint32_t		valid_cmd_name(t_asm_cmd *cmd, t_op *g_op_tab, t_asm *out)
+uint32_t	valid_cmd_name(t_asm_cmd *cmd, t_op *g_op_tab, t_asm *out)
 {
 	int i;
 
@@ -31,14 +31,14 @@ uint32_t		valid_cmd_name(t_asm_cmd *cmd, t_op *g_op_tab, t_asm *out)
 	return (0);
 }
 
-int		valid_cmd_nb_args(t_asm_cmd *cmd, t_op *g_op_tab, t_asm *out)
+int			valid_cmd_nb_args(t_asm_cmd *cmd, t_op *g_op_tab, t_asm *out)
 {
 	if (cmd->num_args != g_op_tab[cmd->op_code - 1].num_param)
 		asm_error("arg error", "number of parameters not valid", out->line);
 	return (1);
 }
 
-int		valid_arg_type(t_asm_cmd *cmd, t_op *g_op_tab, t_asm *out, int j)
+int			valid_arg_type(t_asm_cmd *cmd, t_op *g_op_tab, t_asm *out, int j)
 {
 	t_asm_arg *arg;
 
@@ -48,7 +48,8 @@ int		valid_arg_type(t_asm_cmd *cmd, t_op *g_op_tab, t_asm *out, int j)
 	if (arg->type & g_op_tab[cmd->op_code - 1].args[j])
 	{
 		if (arg->type == T_DIR)
-			if (g_op_tab[cmd->op_code - 1].halfwidth == 1 && arg->byte_size == 4)
+			if (g_op_tab[cmd->op_code - 1].halfwidth == 1
+				&& arg->byte_size == 4)
 				arg->byte_size = 2;
 	}
 	else
@@ -56,7 +57,7 @@ int		valid_arg_type(t_asm_cmd *cmd, t_op *g_op_tab, t_asm *out, int j)
 	return (1);
 }
 
-int		valid_cmd(t_asm_cmd *cmd, t_op *g_op_tab, t_asm *out)
+int			valid_cmd(t_asm_cmd *cmd, t_op *g_op_tab, t_asm *out)
 {
 	int k;
 	int j;

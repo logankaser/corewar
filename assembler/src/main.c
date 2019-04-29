@@ -6,7 +6,7 @@
 /*   By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 18:28:10 by lkaser            #+#    #+#             */
-/*   Updated: 2019/04/28 17:09:35 by jbeall           ###   ########.fr       */
+/*   Updated: 2019/04/28 17:27:20 by jbeall           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,23 @@ char *parse_arg_lab(char *line)
 	return (tmp);
 }
 
+char *parse_arg_set_label(t_asm_arg *new, char *line)
+{
+	new->use_label = 1;
+	new->label_name = parse_arg_lab(++line);
+	while (*line && ft_strchr(LABEL_CHARS, *line))
+		line++;
+	return (line);
+}
+
+char *parse_arg_set_direct(t_asm_arg *new, char *line)
+{
+	line++;
+	new->type = T_DIR;
+	new->byte_size = 4;
+	return (line);
+}
+
 char *parse_arg_val(char *line, t_asm_arg *new)
 {
 	int		i;
@@ -134,23 +151,14 @@ char *parse_arg_val(char *line, t_asm_arg *new)
 
 	i = 0;
 	if (*line == DIRECT_CHAR)
-	{
-		line++;
-		new->type = T_DIR;
-		new->byte_size = 4;
-	}
+		line = parse_arg_set_direct(new, line);
 	else
 	{
 		new->type = T_IND;
 		new->byte_size = 2;
 	}
 	if (*line == LABEL_CHAR)
-	{
-		new->use_label = 1;
-		new->label_name = parse_arg_lab(++line);
-		while (*line && ft_strchr(LABEL_CHARS, *line))
-			line++;
-	}
+		line = parse_arg_set_label(new, line);
 	else
 	{
 		if (line[i] == '-')
@@ -226,6 +234,23 @@ uint8_t encode_byte(t_asm_cmd *cmd)
 	return (encode);
 }
 
+char *parse_cmd_inner(char *line, t_asm *out, t_asm_cmd *new)
+{
+	while (*line && new->num_args < 4)
+	{
+		line = skip_space(line);
+		if (*line == COMMENT_CHAR || *line == ';')
+			break ;
+		if (new->num_args && *line++ != SEPARATOR_CHAR)
+			asm_error("syntax error", "no separator char", out->line);
+		line = skip_space(line);
+		line = parse_arg(line, out, new);
+		line = skip_space(line);
+		++new->num_args;
+	}
+	return (line);
+}
+
 char *parse_cmd(char *line, t_asm *out)
 {
 	char		*cmd_name;
@@ -241,18 +266,7 @@ char *parse_cmd(char *line, t_asm *out)
 	new->mem_addr = out->mem_ptr;
 	ft_uvector_init(&(new->args), sizeof(t_asm_arg));
 	line += len;
-	while (*line && new->num_args < 4)
-	{
-		line = skip_space(line);
-		if (*line == COMMENT_CHAR || *line == ';')
-			break ;
-		if (new->num_args && *line++ != SEPARATOR_CHAR)
-			asm_error("syntax error", "no separator char", out->line);
-		line = skip_space(line);
-		line = parse_arg(line, out, new);
-		line = skip_space(line);
-		++new->num_args;
-	}
+	line = parse_cmd_inner(line, out, new);
 	valid_cmd(new, g_op_tab, out);
 	new->encode = new->has_encode ? encode_byte(new) : 0;
 	out->mem_ptr += calc_cmd_size(new);
@@ -422,6 +436,5 @@ int main(int argc, char **argv)
 	parse(fd, &out);
 	//asm_print_data(&out);
 	create_file(&out, argv[1]);
-	write(1, out.program, out.header->prog_size);
 	return (0);
 }
