@@ -6,7 +6,7 @@
 /*   By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 18:28:10 by lkaser            #+#    #+#             */
-/*   Updated: 2019/04/28 17:12:59 by tcherret         ###   ########.fr       */
+/*   Updated: 2019/04/28 17:39:22 by tcherret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -396,21 +396,24 @@ int main(int argc, char **argv)
 	t_asm out;
 
 	debug = 0;
-	if (argc != 2)
+	if (argc == 3 && ft_strcmp(argv[1], "-d") == 0)
+		debug = 1;
+	if ((argc < 2 && argc > 3) || (argc == 3 && ft_strcmp(argv[1], "-d") != 0))
 	{
-		ft_printf(RED_TEXT"Usage: asm <sourcefile.s>\n"COLOR_RESET);
+		ft_printf(RED_TEXT"Usage: asm -d <sourcefile.s>\n"COLOR_RESET);
 		return (0);
 	}
 	ft_bzero(&out, sizeof(out));
-	if ((fd = open(argv[1], O_RDONLY)) < 0)
+	if ((fd = open(argv[argc - 1], O_RDONLY)) < 0)
 	{
 		perror("error");
 		return(0);
 	}
-	check_file_type(argv[1]);
+	check_file_type(argv[argc - 1]);
 	parse(fd, &out);
-	//asm_print_data(&out);
-	create_file(&out, argv[1]);
+	if (debug == 1)
+		asm_print_data(&out);
+	create_file(&out, argv[argc - 1]);
 	write(1, out.program, out.header->prog_size);
 	return (0);
 }
