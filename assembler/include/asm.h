@@ -6,7 +6,7 @@
 /*   By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 14:15:34 by jbeall            #+#    #+#             */
-/*   Updated: 2019/04/28 17:09:10 by jbeall           ###   ########.fr       */
+/*   Updated: 2019/04/28 21:04:00 by jbeall           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,11 @@ char *skip_space(char *in);
 char *skip_comment(char *in);
 unsigned reverse_endian(unsigned in);
 int asm_readline(t_asm *out, int fd, char **buf);
+void asm_error(char *er_name, char *er_type, int line);
+void ft_uvector_reset(t_uvector *vector, int size);
+void asm_readline_str(t_asm *out, int fd, char **buf, t_uvector *in);
+char *ft_strndup(char *str, int len);
+uint16_t reverse_endian_two(uint16_t val);
 
 /*
 ** parse_header
@@ -93,17 +98,38 @@ char *capture_to_quote(char *in);
 /*
 ** parse_command
 */
-
 uint32_t	valid_cmd_name(t_asm_cmd *cmd, t_op *g_op_tab, t_asm *out);
 int		valid_cmd_nb_args(t_asm_cmd *cmd, t_op *g_op_tab, t_asm *out);
 int		valid_arg_type(t_asm_cmd *cmd, t_op *g_op_tab, t_asm *out, int j);
 int		valid_cmd(t_asm_cmd *cmd, t_op *g_op_tab, t_asm *out);
+char *parse_cmd_inner(char *line, t_asm *out, t_asm_cmd *new);
+char *parse_cmd(char *line, t_asm *out);
+int calc_cmd_size(t_asm_cmd *cmd);
+uint8_t encode_byte(t_asm_cmd *cmd);
+void deref_labels(t_asm *out);
+
+/*
+** parse_arg
+*/
+char *parse_arg_lab(char *line);
+char *parse_arg_set_label(t_asm_arg *new, char *line);
+char *parse_arg_set_direct(t_asm_arg *new, char *line);
+char *parse_arg_val(char *line, t_asm_arg *new);
+char *parse_arg(char *line, t_asm *out, t_asm_cmd *cmd);
 
 /*
 ** error
 */
 void asm_error(char *er_name, char *er_type, int line);
 void	check_file_type(char *str);
+
+/*
+** write_validate
+*/
+int validate_label(char *label, int len, t_asm *out);
+char *parse_arg_reg(char *line, t_asm *out, t_asm_arg *new);
+unsigned write_arg_data(t_asm *out, t_asm_arg *arg, unsigned ptr);
+void write_cmd_data(t_asm *out);
 
 /*
 ** print

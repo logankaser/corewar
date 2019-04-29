@@ -6,13 +6,13 @@
 /*   By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/28 20:48:34 by jbeall            #+#    #+#             */
-/*   Updated: 2019/04/28 20:49:08 by jbeall           ###   ########.fr       */
+/*   Updated: 2019/04/28 20:53:04 by jbeall           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
 
-char *parse_arg_lab(char *line)
+char	*parse_arg_lab(char *line)
 {
 	int		i;
 	char	*tmp;
@@ -24,7 +24,7 @@ char *parse_arg_lab(char *line)
 	return (tmp);
 }
 
-char *parse_arg_set_label(t_asm_arg *new, char *line)
+char	*parse_arg_set_label(t_asm_arg *new, char *line)
 {
 	new->use_label = 1;
 	new->label_name = parse_arg_lab(++line);
@@ -33,7 +33,7 @@ char *parse_arg_set_label(t_asm_arg *new, char *line)
 	return (line);
 }
 
-char *parse_arg_set_direct(t_asm_arg *new, char *line)
+char	*parse_arg_set_direct(t_asm_arg *new, char *line)
 {
 	line++;
 	new->type = T_DIR;
@@ -41,7 +41,7 @@ char *parse_arg_set_direct(t_asm_arg *new, char *line)
 	return (line);
 }
 
-char *parse_arg_val(char *line, t_asm_arg *new)
+char	*parse_arg_val(char *line, t_asm_arg *new)
 {
 	int		i;
 	char	*tmp;
@@ -69,7 +69,7 @@ char *parse_arg_val(char *line, t_asm_arg *new)
 	return (line + i);
 }
 
-char *parse_arg(char *line, t_asm *out, t_asm_cmd *cmd)
+char	*parse_arg(char *line, t_asm *out, t_asm_cmd *cmd)
 {
 	t_asm_arg *new;
 
