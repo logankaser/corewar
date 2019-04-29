@@ -22,11 +22,13 @@
 typedef struct	s_process {
 	unsigned	player_id;
 	bool		carry;
-	uint32_t	registers[REG_NUMBER];
+	uint8_t		registers[REG_NUMBER][REG_SIZE];
 	unsigned	pc;
 	uint8_t		executing;
 	uint8_t		cycles_left;
 }				t_process;
+
+void			process_fork(t_process *p);
 
 /*
 ** Player.

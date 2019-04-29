@@ -16,7 +16,7 @@
 
 static void	annouce_player(t_player *player)
 {
-	ft_printf("Loaded warrrior: \"%s\"\n\tdesc: \"%s\"\n\tsize: %u"
+	ft_printf("Loaded warrrior: \"%s\"\n\tdesc: \"%s\"\n\tsize: %u\n"
 		, player->header.prog_name, player->header.comment,
 		player->header.prog_size);
 }
@@ -37,6 +37,8 @@ static void	start_players(t_vm *vm)
 	while (i < vm->player_count)
 	{
 		player = vm->players[i];
+		if (!player)
+			continue;
 		annouce_player(player);
 		player_start = vm->arena +
 			(sizeof(vm->arena) / vm->player_count) * (player->number - 1);
@@ -46,7 +48,7 @@ static void	start_players(t_vm *vm)
 		inital_process->player_id = player->number; 
 		if (inital_process->executing >= 0 && inital_process->executing < 16)
 			inital_process->cycles_left =
-				g_op_tab[inital_process->executing].cycles - 1;
+				g_op_tab[inital_process->executing - 1].cycles - 1;
 		ft_vector_push(&vm->processes, inital_process);
 		++i;
 	}
