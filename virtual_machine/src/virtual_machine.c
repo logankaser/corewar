@@ -6,7 +6,7 @@
 /*   By: lkaser <lkaser@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/26 14:03:28 by lkaser            #+#    #+#             */
-/*   Updated: 2019/04/26 14:03:29 by lkaser           ###   ########.fr       */
+/*   Updated: 2019/04/27 18:48:41 by tcherret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,11 @@ void	vm_run(t_vm *vm)
 		vm->cycle += 1;
 		if (vm->cycle >= vm->dump_cycle)
 			break ;
+		for (unsigned i = 0; i < vm->processes.length; ++i)
+		{
+			ft_printf("Player %s:\n\tcurrent op: 0x%02hhx\n",
+				PROC(vm, i)->player->header.prog_name,
+				ARENA(vm, PROC(vm, i)->pc));
+		}
 	}
 }

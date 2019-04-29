@@ -6,7 +6,7 @@
 /*   By: lkaser <lkaser@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/23 17:19:25 by lkaser            #+#    #+#             */
-/*   Updated: 2019/04/23 17:19:26 by lkaser           ###   ########.fr       */
+/*   Updated: 2019/04/28 13:15:47 by tcherret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,31 +16,30 @@
 # include "libft.h"
 
 /*
+** Player.
+*/
+
+typedef struct	s_player {
+	t_header	header;
+	uint8_t		prog[CHAMP_MAX_SIZE];
+	unsigned	number;
+	int			last_live_cycle;
+}				t_player;
+
+/*
 ** Process specific memory.
 */
 
 typedef struct	s_process {
-	unsigned	id;
+	t_player	*player;
 	bool		carry;
-	uint8_t		registers[REG_NUMBER][REG_SIZE];
+	uint32_t	registers[REG_NUMBER];
 	unsigned	pc;
 	uint8_t		executing;
 	uint8_t		cycles_left;
 }				t_process;
 
-/*
-** Player.
-*/
-
-typedef struct	s_player {
-	unsigned	number;
-	int			last_live_cycle;
-	char		*name;
-	char		*comment;
-	uint8_t		*source;
-	unsigned	source_size;
-	t_vector	processes;
-}				t_player;
+void			process_fork(t_process *p);
 
 /*
 ** Virtual machine state.
@@ -52,12 +51,18 @@ typedef struct	s_vm {
 	unsigned	cycles_to_die;
 	t_player	*players[MAX_PLAYERS];
 	unsigned	player_count;
+	t_vector	processes;
 	uint8_t		arena[MEM_SIZE];
 }				t_vm;
+
+#define ARENA(vm, i) vm->arena[(unsigned)(i) % MEM_SIZE]
+#define PROC(vm, i) ((t_process*)vm->processes.data[i])
 
 void			vm_init(t_vm *vm);
 void			vm_run(t_vm *vm);
 void			vm_del(t_vm *vm);
 void			parse_options(int argc, char **argv, t_vm *vm);
+void			exit_usage(t_vm *vm);
+void			load_player(t_vm *vm, char *fp, unsigned n);
 
 #endif

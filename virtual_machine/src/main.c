@@ -14,33 +14,42 @@
 #include "virtual_machine.h"
 #include "instruction_dispatch.h"
 
-void	start_players(t_vm *vm)
+static void	annouce_player(t_player *player)
 {
-	unsigned	i;
-	uint8_t		*player_start;
-	t_player	*player;
-	t_process	*inital_process;
+	ft_printf("Loaded warrrior: \"%s\":\n\tdesc: \"%s\"\n\tsize: %u\n"
+		, player->header.prog_name, player->header.comment,
+		player->header.prog_size);
+}
 
-	i = 0;
-	while (i < vm->player_count)
+static void	start_players(t_vm *vm)
+{
+	int			i;
+	t_player	*player;
+	t_process	*proc;
+
+	ft_vector_init(&vm->processes);
+	i = MAX_PLAYERS;
+	while (--i >= 0)
 	{
 		player = vm->players[i];
-		player_start = vm->arena +
+		if (!player)
+			continue;
+		annouce_player(player);
+		proc = ft_memalloc(sizeof(t_process));
+		proc->pc =
 			(sizeof(vm->arena) / vm->player_count) * (player->number - 1);
-		ft_memcpy(player_start, player->source, player->source_size);
-		ft_vector_init(&player->processes);
-		inital_process = malloc(sizeof(t_process));
-		ft_bzero(inital_process, sizeof(t_process));
-		inital_process->executing = *player_start;
-		if (inital_process->executing >= 0 && inital_process->executing < 16)
-			inital_process->cycles_left =
-				g_op_tab[inital_process->executing].cycles;
-		ft_vector_push(&player->processes, inital_process);
-		++i;
+		ft_memcpy(vm->arena + proc->pc,
+			player->prog, player->header.prog_size);
+		proc->executing = ARENA(vm, proc->pc);
+		proc->player = player;
+		proc->registers[0] = i + 1;
+		if (proc->executing >= 0 && proc->executing < 16)
+			proc->cycles_left = g_op_tab[proc->executing - 1].cycles - 1;
+		ft_vector_push(&vm->processes, proc);
 	}
 }
 
-int		main(int argc, char **argv)
+int			main(int argc, char **argv)
 {
 	t_vm vm;
 
