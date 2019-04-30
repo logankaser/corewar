@@ -6,35 +6,18 @@
 /*   By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 18:28:10 by lkaser            #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2019/04/25 22:19:12 by jbeall           ###   ########.fr       */
-=======
-/*   Updated: 2019/04/25 14:31:50 by jbeall           ###   ########.fr       */
->>>>>>> d63eafbe29a298e81ad28cff8791652640504f65
+/*   Updated: 2019/04/28 21:18:37 by jbeall           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
 
-void asm_error(char *er_name, char *er_type, int line)
+int		parse_header(int fd, t_asm *out)
 {
-	ft_printf("%s: %s [line %d]\n", er_name, er_type, line);
-	exit(0);
-}
-
-void ft_uvector_reset(t_uvector *vector, int size)
-{
-	free(vector->data);
-	ft_uvector_init(vector, size);
-	vector->data[0] = '\0';
-}
-
-int parse_header(int fd, t_asm *out)
-{
-	int name_flag;
-	int comment_flag;
-	char *buf;
-	t_uvector in;
+	int			name_flag;
+	int			comment_flag;
+	char		*buf;
+	t_uvector	in;
 
 	name_flag = 0;
 	comment_flag = 0;
@@ -43,17 +26,12 @@ int parse_header(int fd, t_asm *out)
 	in.data[0] = '\0';
 	while (!(name_flag && comment_flag))
 	{
-		while (asm_readline(out, fd, &buf))
-		{
-			ft_string_append(&in, buf);
-			ft_strdel(&buf);
-			if (valid_header_block(&in, out))
-				break;
-			ft_string_append(&in, "\n");
-		}
-		if(!name_flag && (name_flag = capture_header_field((char*)in.data, out, NAME_CMD_STRING, PROG_NAME_LENGTH)))
+		asm_readline_str(out, fd, &buf, &in);
+		if (!name_flag && (name_flag = capture_header_field((char*)in.data, out,
+			NAME_CMD_STRING, PROG_NAME_LENGTH)))
 			ft_uvector_reset(&in, 1);
-		else if (!comment_flag && (comment_flag = capture_header_field((char*)in.data, out, COMMENT_CMD_STRING, COMMENT_LENGTH)))
+		else if (!comment_flag && (comment_flag = capture_header_field((char*)
+			in.data, out, COMMENT_CMD_STRING, COMMENT_LENGTH)))
 			ft_uvector_reset(&in, 1);
 		else
 			asm_error("error", "incomplete header", out->line);
@@ -61,60 +39,7 @@ int parse_header(int fd, t_asm *out)
 	return (0);
 }
 
-<<<<<<< HEAD
-int validate_label(char *label, int len, t_asm *out)
-{
-	char *name;
-	t_label *new;
-
-	name = ft_strnew(len);
-	ft_strncpy(name, label, len);;
-	if (!len)
-		asm_error("syntax error", "invalid label", out->line);
-	if (ft_map_get(LABEL_MAP(out), name))
-		asm_error("error", "label already exists", out->line);
-	new = ft_memalloc(sizeof(t_label));
-	new->label_name = name;
-	new->label_id = ++out->num_label;
-	new->mem_addr = out->mem_ptr;
-	ft_map_set(LABEL_MAP(out), name, new);
-	return (ft_strlen(name) + 1);
-}
-
-// void parse_arg(char *line, t_asm *out)
-// {
-
-// }
-
-char *parse_cmd(char *line, t_asm *out)
-{
-	char *cmd_name;
-	t_asm_cmd *new;
-	int len;
-
-	len = 0;
-	while (line[len] && ft_strchr(LABEL_CHARS, line[len]))
-		len++;
-	cmd_name = ft_strnew(len);
-	ft_strncpy(cmd_name, line, len);
-	new = ft_memalloc(sizeof(t_asm_cmd));
-	new->name = cmd_name;
-	new->mem_addr = out->mem_ptr;
-	line += len;
-	while (*line && *line != COMMENT_CHAR && new->num_args < 4)
-	{
-		line = skip_space(line);
-		if (new->num_args && *line != SEPARATOR_CHAR)
-			asm_error("syntax error", "no separator char", out->line);
-		line = skip_space(line);
-		// line = parse_arg(line, out);
-		++new->num_args;
-	}
-	//update mem_ptr
-	return (line);
-}
-
-void parse_line(char *line, t_asm *out)
+void	parse_line(char *line, t_asm *out)
 {
 	int has_label;
 	int has_cmd;
@@ -129,80 +54,66 @@ void parse_line(char *line, t_asm *out)
 	if (line[i] == LABEL_CHAR)
 		line += validate_label(line, i, out);
 	line = skip_space(line);
-	if (*line && *line != COMMENT_CHAR)
-		line  = parse_cmd(line, out);
+	if (*line && *line != COMMENT_CHAR && *line != ';')
+		line = parse_cmd(line, out);
 	line = skip_space(line);
-	if (*line && *line != COMMENT_CHAR)
+	if (*line && *line != COMMENT_CHAR && *line != ';')
 		asm_error("syntax error", "invalid command block", out->line);
-=======
-void parse_line(char *line, t_asm *out)
-{
-	char *token;
-	int i;
-
-	i = 0;
-	line = skip_space(line);
-	while (line[i] && ft_strchr(LABEL_CHARS, line[i]))
-	{
-
-	}
-
-
->>>>>>> d63eafbe29a298e81ad28cff8791652640504f65
 }
 
-void parse_body(int fd, t_asm *out)
+void	parse_body(int fd, t_asm *out)
 {
 	char *buf;
 
 	while (asm_readline(out, fd, &buf))
 	{
-<<<<<<< HEAD
 		parse_line(buf, out);
 		ft_strdel(&buf);
-=======
-
->>>>>>> d63eafbe29a298e81ad28cff8791652640504f65
 	}
+	deref_labels(out);
 }
 
 /*
 ** Init vectors and launch parse operators
 */
-void parse(int fd, t_asm *out)
+
+void	parse(int fd, t_asm *out)
 {
-<<<<<<< HEAD
 	ft_map_init(&(out->label_map), 0, 17);
 	ft_uvector_init(&(out->cmd_vec), sizeof(t_asm_cmd));
 	parse_header(fd, out);
 	out->header->magic = reverse_endian(COREWAR_EXEC_MAGIC);
 	parse_body(fd, out);
-=======
-	ft_uvector_init(out->label_vec, sizeof(t_label));
-	ft_uvector_init(out->cmd_vec, sizeof(t_asm_cmd));
-	parse_header(fd, out);
-	out->header->magic = reverse_endian(COREWAR_EXEC_MAGIC);
->>>>>>> d63eafbe29a298e81ad28cff8791652640504f65
-	//write size to header
-	write(1, out->header, sizeof(t_header));
+	out->header->prog_size = reverse_endian(out->mem_ptr);
+	if (reverse_endian(out->header->prog_size) > CHAMP_MAX_SIZE)
+		asm_error("error", "champion exceeds max size", 0);
+	write_cmd_data(out);
 }
 
-int main(int argc, char **argv)
+int		main(int argc, char **argv)
 {
-	int fd;
-	t_asm out;
+	int		fd;
+	int		debug;
+	t_asm	out;
 
-	if (argc != 2)
+	debug = 0;
+	if (argc == 3 && ft_strcmp(argv[1], "-d") == 0)
+		debug = 1;
+	if ((argc < 2 && argc > 3) || (argc == 3 && ft_strcmp(argv[1], "-d") != 0))
 	{
-		ft_printf("Usage: asm <sourcefile.s>\n");
+		ft_printf(RED_TEXT"Usage: asm -d <sourcefile.s>\n"COLOR_RESET);
 		return (0);
 	}
 	ft_bzero(&out, sizeof(out));
-	if ((fd = open(argv[1], O_RDONLY)) < 0)
+	if ((fd = open(argv[argc - 1], O_RDONLY)) < 0)
 	{
 		perror("error");
-		return(0);
+		return (0);
 	}
+	check_file_type(argv[argc - 1]);
 	parse(fd, &out);
+	if (debug == 1)
+		asm_print_data(&out);
+	create_file(&out, argv[argc - 1]);
 	return (0);
 }
