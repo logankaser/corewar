@@ -1,21 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   instruction_dispatch.h                             :+:      :+:    :+:   */
+/*   live.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkaser <lkaser@student.42.us.org>          +#+  +:+       +#+        */
+/*   By: tcherret <tcherret@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/26 14:05:43 by lkaser            #+#    #+#             */
-/*   Updated: 2019/04/26 14:05:45 by lkaser           ###   ########.fr       */
+/*   Created: 2019/04/28 12:14:44 by tcherret          #+#    #+#             */
+/*   Updated: 2019/04/28 12:40:23 by tcherret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef INSTRUCTION_DISPATCH_H
-# define INSTRUCTION_DISPATCH_H
-# include "virtual_machine.h"
+#include "virtual_machine.h"
 
-typedef void			t_instruction(uint8_t *arena, t_process *p);
+int		live(t_vm *vm, t_process *process)
+{
 
-extern t_instruction	*g_instruction_dispatch[16];
-
-#endif
+}
