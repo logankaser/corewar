@@ -47,13 +47,3 @@ char		*ft_strndup(char *str, int len)
 	ft_strlcat(new, str, len + 1);
 	return (new);
 }
-
-uint16_t	reverse_endian_two(uint16_t val)
-{
-	uint16_t ret;
-
-	ret = 0;
-	ret = (val & 0xFF) << 8;
-	ret += (val & (0xFF << 8)) >> 8;
-	return (ret);
-}

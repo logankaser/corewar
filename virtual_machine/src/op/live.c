@@ -14,5 +14,4 @@
 
 int		live(t_vm *vm, t_process *process)
 {
-
 }

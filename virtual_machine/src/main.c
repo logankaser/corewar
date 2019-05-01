@@ -42,9 +42,8 @@ static void	start_players(t_vm *vm)
 			player->prog, player->header.prog_size);
 		proc->executing = ARENA(vm, proc->pc);
 		proc->player = player;
-		proc->registers[0] = i + 1;
-		if (proc->executing >= 0 && proc->executing < 16)
-			proc->cycles_left = g_op_tab[proc->executing - 1].cycles - 1;
+		proc->registers[0] = 0 - (i + 1);
+		proc->execute_cycle = vm->cycle + 1;
 		ft_vector_push(&vm->processes, proc);
 	}
 }

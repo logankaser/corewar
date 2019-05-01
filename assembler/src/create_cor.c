@@ -47,7 +47,7 @@ int		create_file(t_asm *out, char *str)
 	if ((fd = open(name, O_WRONLY | O_CREAT, 0644)) < 0)
 		asm_error("file error", "impossible to create the .cor file", 0);
 	write(fd, out->header, sizeof(t_header));
-	write(fd, out->program, reverse_endian(out->header->prog_size));
+	write(fd, out->program, ft_byteswap4(out->header->prog_size));
 	close(fd);
 	ft_printf(GREEN_TEXT "Writing .cor file to /%s!\n" COLOR_RESET, name);
 	free(name);
