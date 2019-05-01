@@ -60,13 +60,13 @@ unsigned	write_arg_data(t_asm *out, t_asm_arg *arg, unsigned ptr)
 
 	if (arg->byte_size == 2)
 	{
-		two = reverse_endian_two((uint16_t)(arg->val));
+		two = ft_byteswap2((uint16_t)(arg->val));
 		ft_memcpy(out->program + ptr, &two, 2);
 		return (2);
 	}
 	else if (arg->byte_size == 4)
 	{
-		four = reverse_endian((uint32_t)(arg->val));
+		four = ft_byteswap4((uint32_t)(arg->val));
 		ft_memcpy(out->program + ptr, &four, 4);
 		return (4);
 	}

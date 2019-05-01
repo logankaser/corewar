@@ -78,8 +78,8 @@ typedef struct	s_header
 typedef struct	s_op
 {
 	const char	*name;
-	uint8_t		num_param;
-	t_arg_type	args[MAX_ARGS_NUMBER];
+	uint8_t		param_num;
+	t_arg_type	param_types[MAX_ARGS_NUMBER];
 	uint8_t		opcode;
 	uint32_t	cycles;
 	const char	*description;

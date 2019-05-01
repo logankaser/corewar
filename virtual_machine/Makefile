@@ -6,7 +6,7 @@
 #    By: logan  <logan@42.us.org>                   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/13 10:03:24 by logan             #+#    #+#              #
-#    Updated: 2019/04/23 14:42:53 by lkaser           ###   ########.fr        #
+#    Updated: 2019/04/30 15:38:39 by lkaser           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,8 @@ LIST = main \
 instruction_dispatch \
 option_parse \
 virtual_machine \
-load_player
+load_player \
+op_tab
 
 OBJ_DIR = obj
 VPATH = src
@@ -23,7 +24,7 @@ VPATH = src
 OBJ = $(addsuffix .o, $(addprefix $(OBJ_DIR)/, $(LIST)))
 DEP = $(OBJ:%.o=%.d)
 
-INCLUDES = -I ../libft/include -I src -I ../include
+INCLUDES = -I ../libft/include -I src -I ../include -I include
 
 MAKEOPTS=-j4
 

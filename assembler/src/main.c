@@ -82,10 +82,10 @@ void	parse(int fd, t_asm *out)
 	ft_map_init(&(out->label_map), 0, 17);
 	ft_uvector_init(&(out->cmd_vec), sizeof(t_asm_cmd));
 	parse_header(fd, out);
-	out->header->magic = reverse_endian(COREWAR_EXEC_MAGIC);
+	out->header->magic = ft_byteswap4(COREWAR_EXEC_MAGIC);
 	parse_body(fd, out);
-	out->header->prog_size = reverse_endian(out->mem_ptr);
-	if (reverse_endian(out->header->prog_size) > CHAMP_MAX_SIZE)
+	out->header->prog_size = ft_byteswap4(out->mem_ptr);
+	if (ft_byteswap4(out->header->prog_size) > CHAMP_MAX_SIZE)
 		asm_error("error", "champion exceeds max size", 0);
 	write_cmd_data(out);
 }

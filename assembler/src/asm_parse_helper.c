@@ -35,17 +35,6 @@ char		*skip_comment(char *in)
 	return (in++);
 }
 
-uint32_t	reverse_endian(uint32_t in)
-{
-	unsigned out;
-
-	out = in >> 3 * 8;
-	out += (in & (0xff << 2 * 8)) >> 1 * 8;
-	out += (in & (0xff << 1 * 8)) << 1 * 8;
-	out += (in & (0xff << 0 * 8)) << 3 * 8;
-	return (out);
-}
-
 int			asm_readline(t_asm *out, int fd, char **buf)
 {
 	int ret;

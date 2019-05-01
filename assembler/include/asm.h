@@ -78,13 +78,11 @@ typedef struct s_asm_cmd
 int	ft_isspace(int c);
 char *skip_space(char *in);
 char *skip_comment(char *in);
-unsigned reverse_endian(unsigned in);
 int asm_readline(t_asm *out, int fd, char **buf);
 void asm_error(char *er_name, char *er_type, int line);
 void ft_uvector_reset(t_uvector *vector, int size);
 void asm_readline_str(t_asm *out, int fd, char **buf, t_uvector *in);
 char *ft_strndup(char *str, int len);
-uint16_t reverse_endian_two(uint16_t val);
 
 /*
 ** parse_header

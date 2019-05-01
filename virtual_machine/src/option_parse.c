@@ -72,7 +72,7 @@ void				parse_options(int argc, char **argv, t_vm *vm)
 			if (i >= argc)
 			{
 				ft_fprintf(stderr,
-					"corewar: -n must be followed by warrior filepath\n");
+					"corewar: -n must be followed by player filepath\n");
 				exit_usage(vm);
 			}
 			load_player(vm, argv[i], ft_atoi(argv[i - 1]));
