@@ -6,8 +6,18 @@
 /*   By: ztisnes <ztisnes@student.42.us.org>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 18:36:47 by ztisnes           #+#    #+#             */
-/*   Updated: 2019/05/01 18:41:44 by ztisnes          ###   ########.fr       */
+/*   Updated: 2019/05/01 18:56:25 by ztisnes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "virtual_machine.h"
+
+bool	fork(t_vm *vm, t_process *p)
+{
+
+}
+
+bool	lfork(t_vm *vm, t_process *p)
+{
+    
+}
