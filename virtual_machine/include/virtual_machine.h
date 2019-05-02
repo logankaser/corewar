@@ -6,7 +6,7 @@
 /*   By: lkaser <lkaser@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/23 17:19:25 by lkaser            #+#    #+#             */
-/*   Updated: 2019/04/28 13:15:47 by tcherret         ###   ########.fr       */
+/*   Updated: 2019/05/01 17:04:31 by ztisnes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,16 @@ typedef struct	s_player {
 ** Process specific memory.
 */
 
-typedef struct	s_process {
-	t_player	*player;
-	unsigned	pc;
-	unsigned	last_live_cycle;
-	int32_t		registers[REG_NUMBER];
-	uint32_t	execute_cycle;
-	uint8_t		executing;
-	bool		carry;
-}				t_process;
+typedef struct		s_process {
+	t_player		*player;
+	unsigned		pc;
+	unsigned		last_live_cycle;
+	int32_t			registers[REG_NUMBER];
+	uint32_t		execute_cycle;
+	unsigned char	type_proc[3];
+	uint8_t			executing;
+	bool			carry;
+}					t_process;
 
 void			process_fork(t_process *p);
 
