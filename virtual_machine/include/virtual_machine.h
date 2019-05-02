@@ -6,7 +6,7 @@
 /*   By: lkaser <lkaser@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/23 17:19:25 by lkaser            #+#    #+#             */
-/*   Updated: 2019/05/01 18:55:04 by ztisnes          ###   ########.fr       */
+/*   Updated: 2019/05/01 19:24:23 by ztisnes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ typedef struct	s_player {
 ** Process specific memory.
 */
 
+# define PRO_V(x) p->val_pro[x] - 1
+
 typedef struct		s_process {
 	t_player		*player;
 	unsigned		pc;
@@ -38,6 +40,7 @@ typedef struct		s_process {
 	int32_t			registers[REG_NUMBER];
 	uint32_t		execute_cycle;
 	unsigned char	type_proc[3];
+	int				val_pro[3];
 	uint8_t			executing;
 	bool			carry;
 }					t_process;
