@@ -87,6 +87,6 @@ typedef struct	s_op
 	bool		halfwidth;
 }				t_op;
 
-t_op			g_op_tab[17];
+extern t_op			const g_op_tab[17];
 
 #endif

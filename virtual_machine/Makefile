@@ -16,7 +16,8 @@ instruction_dispatch \
 option_parse \
 virtual_machine \
 load_player \
-op_tab
+op_tab \
+decode
 
 OBJ_DIR = obj
 VPATH = src

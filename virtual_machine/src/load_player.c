@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   load_player.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lkaser <lkaser@student.42.us.org>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/05/01 16:43:12 by lkaser            #+#    #+#             */
+/*   Updated: 2019/05/01 16:43:13 by lkaser           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <fcntl.h>
 #include "virtual_machine.h"
 
@@ -35,10 +47,12 @@ static bool		copy_player(t_uvector file, t_player *player, char *fp)
 	player->header.prog_size = ft_byteswap4(player->header.prog_size);
 	if (player->header.prog_size != file.length - HEADER_SIZE)
 	{
-		ft_fprintf(stderr, "corewar: file size has been corrupted in \"%s\"\n", fp);
+		ft_fprintf(stderr,
+			"corewar: file size has been corrupted in \"%s\"\n", fp);
 		return (false);
 	}
-	ft_memcpy(player->prog, file.data + sizeof(t_header), player->header.prog_size);
+	ft_memcpy(player->prog,
+		file.data + sizeof(t_header), player->header.prog_size);
 	player->header.prog_name[PROG_NAME_LENGTH] = '\0';
 	player->header.comment[COMMENT_LENGTH] = '\0';
 	return (true);
