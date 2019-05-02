@@ -6,7 +6,7 @@
 /*   By: ztisnes <ztisnes@student.42.us.org>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/30 17:02:59 by ztisnes           #+#    #+#             */
-/*   Updated: 2019/04/30 17:39:41 by ztisnes          ###   ########.fr       */
+/*   Updated: 2019/05/01 18:47:10 by ztisnes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ bool    and(t_vm *vm, t_process *p)
     p->carry = 1;
     return (p->carry);
 }
+
 bool    or(t_vm *vm, t_process *p)
 {
     int i;
@@ -56,6 +57,7 @@ bool    or(t_vm *vm, t_process *p)
     p->carry = 1;
     return (p->carry);
 }
+
 bool    xor(t_vm *vm, t_process *p)
 {
     int i;
