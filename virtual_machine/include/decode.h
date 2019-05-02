@@ -28,9 +28,24 @@
 # define DIR 0b10
 # define IND 0b11
 
-typedef int32_t	t_params[3];
+/*
+** total_width is the total width of the instruction,
+** including opcode, encoding byte (if it has one), and paramaters.
+*/
+
+typedef struct	s_instruction_meta
+{
+	uint8_t		types[4];
+	uint8_t		offsets[4];
+	uint8_t		direct_width;
+	uint8_t		total_width;
+}				t_instruction_meta;
+
 bool			validate_types(uint8_t opi, uint8_t enc);
-unsigned		encoded_size(uint8_t opi, uint8_t enc);
-void			load_params(t_params params, uint8_t *arena, unsigned pc);
+int32_t			arena_load(
+	uint8_t *arena, unsigned from, unsigned size);
+int32_t			param_load(
+	t_instruction_meta *im, uint8_t *arena, unsigned pc, unsigned n);
+void			decode(t_instruction_meta *im, uint8_t opi, uint8_t enc);
 
 #endif

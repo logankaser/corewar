@@ -12,10 +12,14 @@
 
 #ifndef INSTRUCTION_DISPATCH_H
 # define INSTRUCTION_DISPATCH_H
+# include "decode.h"
 # include "virtual_machine.h"
 
-typedef bool			t_instruction(uint8_t *arena, t_process *p);
+typedef void			t_instruction(
+	t_vm *vm, t_process *p, t_instruction_meta *im);
 
-extern t_instruction	*g_instruction_dispatch[16];
+void					live(t_vm *vm, t_process *p, t_instruction_meta *im);
+
+extern t_instruction	*const g_instruction_dispatch[16];
 
 #endif

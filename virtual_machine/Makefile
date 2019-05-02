@@ -17,10 +17,11 @@ option_parse \
 virtual_machine \
 load_player \
 op_tab \
-decode
+decode \
+live
 
 OBJ_DIR = obj
-VPATH = src
+VPATH = src:src/op
 
 OBJ = $(addsuffix .o, $(addprefix $(OBJ_DIR)/, $(LIST)))
 DEP = $(OBJ:%.o=%.d)

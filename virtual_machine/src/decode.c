@@ -48,36 +48,7 @@ bool					validate_types(uint8_t opi, uint8_t enc)
 	return (g_op_tab[opi].param_num == valid_count);
 }
 
-/*
-** Get size of params including the type encoding byte if present for that op,
-** respecting halfwidth (direct 2 bytes) and only counting up to
-** param_num parameters.
-*/
-
-static unsigned const	g_dir_size[2] = {
-	4,
-	2
-};
-
-unsigned				encoded_size(uint8_t opi, uint8_t enc)
-{
-	unsigned	size[4];
-
-	opi -= 1;
-	size[0] = 0;
-	size[REG] = 1;
-	size[DIR] = g_dir_size[g_op_tab[opi].halfwidth];
-	size[IND] = 2;
-	if (!g_op_tab[opi].encoded)
-		return (1 + size[DIR]);
-	if (g_op_tab[opi].param_num == 1)
-		return (2 + size[P1(enc)]);
-	else if (g_op_tab[opi].param_num == 2)
-		return (2 + size[P1(enc)] + size[P2(enc)]);
-	return (2 + size[P1(enc)] + size[P2(enc)] + size[P3(enc)]);
-}
-
-static int32_t			load(uint8_t *arena, unsigned from, unsigned size)
+inline int32_t			arena_load(uint8_t *arena, unsigned from, unsigned size)
 {
 	int32_t	out;
 
@@ -97,40 +68,45 @@ static int32_t			load(uint8_t *arena, unsigned from, unsigned size)
 	return (out);
 }
 
-/*
-** Returns the parameter specified,
-** indirects return the value the indirect points at for convience 
-*/
-
-void				load_params(t_params params, uint8_t *arena, unsigned pc)
+inline int32_t			param_load(t_instruction_meta *im, uint8_t *arena, unsigned pc, unsigned n)
 {
-	uint8_t 	opi;
-	uint8_t 	enc;
+	if (im->types[n] == REG)
+		return (arena_load(arena, pc + im->offsets[n], 1));
+	else if (im->types[n] == DIR)
+		return (arena_load(arena, pc + im->offsets[n], im->direct_width));
+	return (arena_load(arena, pc + im->offsets[n], 2));
+}
+
+static unsigned const	g_dir_size[2] = {
+	4,
+	2
+};
+
+void					decode(t_instruction_meta *im, uint8_t opi, uint8_t enc)
+{
 	unsigned	i;
 	unsigned	offset;
 	unsigned	size[4];
 
-	opi = arena[pc % MEM_SIZE] - 1;
-	if (g_op_tab[opi].encoded)
+	im->direct_width = g_dir_size[g_op_tab[opi].halfwidth];
+	size[0] = 0;
+	size[REG] = 1;
+	size[DIR] = im->direct_width;
+	size[IND] = 2;
+	if (!g_op_tab[opi].encoded)
 	{
-		enc = arena[(pc + 1) % MEM_SIZE];
-		size[0] = 0;
-		size[REG] = 1;
-		size[DIR] = g_dir_size[g_op_tab[opi].halfwidth];
-		size[IND] = 2;
-		i = 0;
-		offset = 2;
-		while(++i <= g_op_tab[opi].param_num)
-		{
-			params[i - 1] = load(arena, pc + offset, size[PX(enc, i)]);
-			if (PX(enc, i) == IND)
-			{
-				ft_printf("%u\n");
-				unsigned index = (pc + params[i - 1]) % MEM_SIZE;
-				params[i - 1] = load(arena, pc + params[i - 1], size[DIR]);
-			}
-			offset += size[PX(enc, i)];
-		}
+		im->offsets[0] = 1;
+		im->types[0] = DIR;
+		im->total_width = 1 + size[DIR];
+		return;
 	}
-	params[0] = (int16_t)load(arena, pc + 1, 2);
+	i = 0;
+	offset = 2;
+	while(++i <= g_op_tab[opi].param_num)
+	{
+		im->offsets[i - 1] = offset;
+		im->types[i - 1] = PX(enc, i);
+		offset += size[im->types[i - 1]];
+	}
+	im->total_width = offset;
 }

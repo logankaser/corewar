@@ -13,7 +13,6 @@
 #include <limits.h>
 #include "virtual_machine.h"
 #include "instruction_dispatch.h"
-#include "decode.h"
 
 void					vm_init(t_vm *vm)
 {
@@ -66,20 +65,21 @@ void					vm_run(t_vm *vm)
 			uint8_t enc = ARENA(vm, PROC(vm, i)->pc + 1);
 			if (op > 0 && op < 17 && validate_types(op, enc))
 			{
-				t_params p;
+				t_instruction_meta im;
 
-				ft_bzero(p, sizeof(p));
-				load_params(p, vm->arena, PROC(vm, i)->pc);
+				ft_bzero(&im, sizeof(im));
+				decode(&im, op - 1, enc);
 				ft_printf("Player %u:%s, op: %s, param_size: %u, p1: %i, p2: %i, p3: %i\n",
 					PROC(vm, i)->player->number,
 					PROC(vm, i)->player->header.prog_name,
 					g_op_tab[op - 1].name,
-					encoded_size(op, enc),
-					p[0],
-					p[1],
-					p[2]
+					im.total_width,
+					param_load(&im, vm->arena, PROC(vm, i)->pc, 0),
+					param_load(&im, vm->arena, PROC(vm, i)->pc, 1),
+					param_load(&im, vm->arena, PROC(vm, i)->pc, 2)
 				);
-				PROC(vm, i)->pc += encoded_size(op, enc);
+				g_instruction_dispatch[op - 1](vm, PROC(vm, i), &im);
+				PROC(vm, i)->pc += im.total_width;
 			}
 			else
 				PROC(vm, i)->pc += 1;
