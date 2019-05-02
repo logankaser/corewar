@@ -1,6 +1,7 @@
 asm
 corewar
 DS*
+.DS*
 .nfs*
 ._*
 *.cor
