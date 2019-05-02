@@ -12,6 +12,7 @@
 
 #include "instruction_dispatch.h"
 
+
 void	no_op(t_vm *vm, t_process *p, t_instruction_meta *im)
 {
 	(void)vm;
