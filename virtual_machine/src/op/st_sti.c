@@ -6,8 +6,18 @@
 /*   By: ztisnes <ztisnes@student.42.us.org>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 18:38:35 by ztisnes           #+#    #+#             */
-/*   Updated: 2019/05/01 18:41:46 by ztisnes          ###   ########.fr       */
+/*   Updated: 2019/05/01 18:57:04 by ztisnes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "virtual_machine.h"
+
+bool	st(t_vm *vm, t_process *p)
+{
+    
+}
+
+bool	sti(t_vm *vm, t_process *p)
+{
+
+}
