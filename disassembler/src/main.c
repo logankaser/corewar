@@ -6,7 +6,7 @@
 /*   By: tcherret <tcherret@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/30 16:32:37 by tcherret          #+#    #+#             */
-/*   Updated: 2019/05/02 20:48:19 by tcherret         ###   ########.fr       */
+/*   Updated: 2019/05/02 20:51:45 by tcherret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,6 @@ unsigned		write_program_op(uint8_t op, t_op *g_op_tab,
 {
 	if (op > 0 && op < 17)
 	{
-		ft_printf("%s  ", g_op_tab[op - 1].name);
 		ft_putstr_fd(g_op_tab[op - 1].name, file_data->fdc);
 		write(file_data->fdc, "  ", 2);
 	}
@@ -124,7 +123,6 @@ unsigned		write_param(unsigned type, uint8_t op, t_op *g_op_tab,
 	if (type == REG_CODE)
 	{
 		ft_memcpy(&param, file_data->program + file_data->index, 1);
-		ft_printf("r%d ", param);
 		write(file_data->fdc, "r", 1);
 		ft_putnbr_fd(param, file_data->fdc);
 		write(file_data->fdc, " ", 1);
@@ -134,7 +132,6 @@ unsigned		write_param(unsigned type, uint8_t op, t_op *g_op_tab,
 	{
 		ft_memcpy(&param, file_data->program + file_data->index, 2);
 		param = ft_byteswap2(param);
-		ft_printf(":%d ", param);
 		write(file_data->fdc, ":", 1);
 		ft_putnbr_fd(param, file_data->fdc);
 		write(file_data->fdc, " ", 1);
@@ -144,7 +141,6 @@ unsigned		write_param(unsigned type, uint8_t op, t_op *g_op_tab,
 	{
 		ft_memcpy(&param, file_data->program + file_data->index, 4);
 		param = ft_byteswap4(param);
-		ft_printf("%%%d ", param);
 		write(file_data->fdc, "%", 1);
 		ft_putnbr_fd(param, file_data->fdc);
 		write(file_data->fdc, " ", 1);
@@ -154,7 +150,6 @@ unsigned		write_param(unsigned type, uint8_t op, t_op *g_op_tab,
 	{
 		ft_memcpy(&param, file_data->program + file_data->index, 2);
 		param = ft_byteswap2(param);
-		ft_printf("%%%d ", param);
 		write(file_data->fdc, "%", 1);
 		ft_putnbr_fd(param, file_data->fdc);
 		write(file_data->fdc, " ", 1);
@@ -173,7 +168,6 @@ unsigned		write_live_zjmp_fork(uint8_t op, t_disasm *file_data)
 	{
 		ft_memcpy(&param1, file_data->program + file_data->index, 4);
 		param1 = ft_byteswap4(param1);
-		ft_printf("%%%d ", param1);
 		write(file_data->fdc, "%", 1);
 		ft_putnbr_fd(param1, file_data->fdc);
 		write(file_data->fdc, " ", 1);
@@ -183,7 +177,6 @@ unsigned		write_live_zjmp_fork(uint8_t op, t_disasm *file_data)
 	{
 		ft_memcpy(&param, file_data->program + file_data->index, 2);
 		param = ft_byteswap2(param);
-		ft_printf("%%%d ", param);
 		write(file_data->fdc, "%", 1);
 		ft_putnbr_fd(param, file_data->fdc);
 		write(file_data->fdc, " ", 1);
@@ -215,7 +208,6 @@ unsigned		write_program(t_disasm *file_data, t_op *g_op_tab)
 	}
 	else
 		file_data->index += write_live_zjmp_fork(op, file_data);
-	ft_printf("\n");
 	write(file_data->fdc, "\n", 1);
 	return (0);
 }
