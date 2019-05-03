@@ -6,7 +6,7 @@
 /*   By: tcherret <tcherret@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/30 16:32:37 by tcherret          #+#    #+#             */
-/*   Updated: 2019/05/02 17:14:11 by tcherret         ###   ########.fr       */
+/*   Updated: 2019/05/02 20:48:19 by tcherret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ unsigned		write_program_op(uint8_t op, t_op *g_op_tab,
 unsigned		write_param(unsigned type, uint8_t op, t_op *g_op_tab,
 		t_disasm *file_data)
 {
-	uint32_t	param;
+	int64_t	param;
 
 	param = 0;
 	if (type == REG_CODE)
@@ -165,16 +165,17 @@ unsigned		write_param(unsigned type, uint8_t op, t_op *g_op_tab,
 
 unsigned		write_live_zjmp_fork(uint8_t op, t_disasm *file_data)
 {
-	uint32_t	param;
+	int16_t	param;
+	int32_t	param1;
 
 	param = 0;
 	if (op == 1)
 	{
-		ft_memcpy(&param, file_data->program + file_data->index, 4);
-		param = ft_byteswap4(param);
-		ft_printf("%%%d ", param);
+		ft_memcpy(&param1, file_data->program + file_data->index, 4);
+		param1 = ft_byteswap4(param1);
+		ft_printf("%%%d ", param1);
 		write(file_data->fdc, "%", 1);
-		ft_putnbr_fd(param, file_data->fdc);
+		ft_putnbr_fd(param1, file_data->fdc);
 		write(file_data->fdc, " ", 1);
 		return (4);
 	}
@@ -254,7 +255,6 @@ int				main(int ac, char **av)
 		write_header(file_data);
 		while (file_data.index < file_data.header.prog_size)
 			file_data.index += write_program(&file_data, g_op_tab);
-		ft_printf("\nTotal size read is: %d\n", file_data.index);
 		close(file_data.fdc);
 		ft_printf(GREEN_TEXT"\nWriting the output at /%s!\n"COLOR_RESET, name);
 		free(name);
