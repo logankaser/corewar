@@ -6,7 +6,7 @@
 /*   By: tcherret <tcherret@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/30 17:27:12 by tcherret          #+#    #+#             */
-/*   Updated: 2019/05/02 09:54:43 by tcherret         ###   ########.fr       */
+/*   Updated: 2019/05/03 13:44:24 by tcherret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,16 @@ typedef struct s_disasm
 	unsigned	index;
 	int			fdc;
 }				t_disasm;
+
+void			write_header(t_disasm *file_data);
+unsigned		write_program_op(uint8_t op, t_op *g_op_tab, 
+		t_disasm *file_data);
+unsigned		write_live_zjmp_fork(uint8_t op, t_disasm *file_data);
+unsigned		write_program(t_disasm *file_data, t_op *g_op_tab);
+unsigned		write_param(unsigned type, uint8_t op, t_op *g_op_tab,
+		t_disasm *file_data);
+bool			validate_types(uint8_t *arena, unsigned pc);
+bool			read_file(const char *filepath, t_uvector *buf);
+
 
 #endif
