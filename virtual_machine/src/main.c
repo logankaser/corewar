@@ -16,9 +16,26 @@
 
 static void	annouce_player(t_player *player)
 {
-	ft_printf("Loaded warrrior: \"%s\":\n\tdesc: \"%s\"\n\tsize: %u\n"
-		, player->header.prog_name, player->header.comment,
+	ft_printf("Loaded warrrior: \"%s\":\n\tid: 0x%02x\n\tsize: %u\n"
+		, player->header.prog_name, player->id,
 		player->header.prog_size);
+}
+
+t_process *process_spawn(t_vm *vm, t_process *parent, unsigned pc)
+{
+	t_process *new_process;
+
+	new_process = ft_memalloc(sizeof(t_process));
+	if (parent)
+	{
+		ft_memcpy(new_process, parent, sizeof(t_process));
+	}
+	new_process->pc = pc;
+	new_process->executing = NONE;
+	new_process->execute_cycle = vm->cycle + 1;
+	new_process->next = vm->processes;
+	vm->processes = new_process;
+	return (new_process);
 }
 
 static void	start_players(t_vm *vm)
@@ -27,24 +44,19 @@ static void	start_players(t_vm *vm)
 	t_player	*player;
 	t_process	*proc;
 
-	ft_vector_init(&vm->processes);
-	i = MAX_PLAYERS;
-	while (--i >= 0)
+	i = -1;
+	while (++i < MAX_PLAYERS)
 	{
 		player = vm->players[i];
 		if (!player)
 			continue;
+		proc = process_spawn(vm, NULL, 
+			(MEM_SIZE / vm->player_count) * i);
+		player->id = -player->id;
 		annouce_player(player);
-		proc = ft_memalloc(sizeof(t_process));
-		proc->pc =
-			(sizeof(vm->arena) / vm->player_count) * (player->number - 1);
 		ft_memcpy(vm->arena + proc->pc,
 			player->prog, player->header.prog_size);
-		proc->executing = ARENA(vm, proc->pc);
-		proc->player = player;
 		proc->registers[0] = 0 - (i + 1);
-		proc->execute_cycle = vm->cycle + 1;
-		ft_vector_push(&vm->processes, proc);
 	}
 }
 

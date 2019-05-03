@@ -19,6 +19,7 @@ void					vm_init(t_vm *vm)
 	ft_bzero(vm, sizeof(t_vm));
 	vm->cycles_to_die = CYCLE_TO_DIE;
 	vm->dump_cycle = UINT_MAX;
+	vm->cycle = 0;
 }
 
 void					vm_del(t_vm *vm)
@@ -32,58 +33,59 @@ void					vm_del(t_vm *vm)
 
 void					vm_run(t_vm *vm)
 {
-	unsigned i;
+	t_process	*proc;
+	t_instruction_meta im;
 
 	while (true)
 	{
 		vm->cycle += 1;
 		if (vm->cycle >= vm->dump_cycle)
 			break ;
-		i = 0;
-		while(i < vm->processes.length)
+		proc = vm->processes;
+		while(proc)
 		{
-			/*
-			if (PROC(vm, i)->execute_cycle != vm->cycle)
+			if (vm->cycle < proc->execute_cycle)
+			{
+				ft_printf("proc: %p waiting: %u cycles..\n", proc, proc->execute_cycle - vm->cycle);
+				proc = proc->next;
 				continue ;
-			if (PROC(vm, i)->execute_cycle == vm->cycle)
-			{
-				unsigned offset = g_instruction_dispatch[PROC(vm, i)->executing - 1](vm->arena, PROC(vm, i));
-				PROC(vm, i)->pc += offset;
-				PROC(vm, i)->executing = ARENA(vm, PROC(vm, i)->pc);
-				if (PROC(vm, i)->executing < 1 || PROC(vm, i)->executing > 16)
-					PROC(vm, i)->executing = 0;
-				else
-					PROC(vm, i)->cycles_left = g_op_tab[PROC(vm, i)->executing - 1].cycles;
 			}
-			else
+			if (proc->executing != NONE)
 			{
-				PROC(vm, i)->pc += 1;
-				PROC(vm, i)->executing = ARENA(vm, PROC(vm, i)->pc);
-			}
-			*/
-			uint8_t op = ARENA(vm, PROC(vm, i)->pc);
-			uint8_t enc = ARENA(vm, PROC(vm, i)->pc + 1);
-			if (op > 0 && op < 17 && validate_types(op, enc))
-			{
-				t_instruction_meta im;
-
+				uint8_t opi = proc->executing - 1;
+				uint8_t enc = ARENA(vm, proc->pc + 1);
 				ft_bzero(&im, sizeof(im));
-				decode(&im, op - 1, enc);
-				ft_printf("Player %u:%s, op: %s, param_size: %u, p1: %i, p2: %i, p3: %i\n",
-					PROC(vm, i)->player->number,
-					PROC(vm, i)->player->header.prog_name,
-					g_op_tab[op - 1].name,
+				decode(&im, opi, enc);
+				proc->step = im.total_width;
+				ft_printf("Executing proc: %p, op: %s, param_size: %u, p1: %i, p2: %i, p3: %i\n",
+					proc,
+					g_op_tab[opi].name,
 					im.total_width,
-					param_load(&im, vm->arena, PROC(vm, i)->pc, 0),
-					param_load(&im, vm->arena, PROC(vm, i)->pc, 1),
-					param_load(&im, vm->arena, PROC(vm, i)->pc, 2)
+					param_load(&im, vm->arena, proc->pc, 0),
+					param_load(&im, vm->arena, proc->pc, 1),
+					param_load(&im, vm->arena, proc->pc, 2)
 				);
-				g_instruction_dispatch[op - 1](vm, PROC(vm, i), &im);
-				PROC(vm, i)->pc += im.total_width;
+				if (validate_types(opi, enc))
+					g_instruction_dispatch[opi](vm, proc, &im);
+				proc->pc += proc->step;
+				proc->executing = NONE;
 			}
 			else
-				PROC(vm, i)->pc += 1;
-			++i;
+			{
+				uint8_t op = ARENA(vm, proc->pc);
+				if (op > 0 && op < 17)
+				{
+					ft_printf("Loading valid opcode..\n");
+					proc->executing = op;
+					proc->execute_cycle = vm->cycle + (g_op_tab[op - 1].cycles - 1);
+				}
+				else
+				{
+					proc->pc += 1;
+					proc->execute_cycle = vm->cycle + 1;
+				}
+			}
+			proc = proc->next;
 		}
 	}
 }

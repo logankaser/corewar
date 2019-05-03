@@ -35,7 +35,6 @@ bool					validate_types(uint8_t opi, uint8_t enc)
 {
 	unsigned valid_count;
 
-	opi -= 1;
 	if (!g_op_tab[opi].encoded)
 		return (true);
 	valid_count = 0;
