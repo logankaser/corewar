@@ -6,7 +6,7 @@
 /*   By: lkaser <lkaser@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/23 17:19:25 by lkaser            #+#    #+#             */
-/*   Updated: 2019/05/01 19:24:23 by ztisnes          ###   ########.fr       */
+/*   Updated: 2019/05/03 14:13:42 by tcherret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,15 +72,12 @@ void			parse_options(int argc, char **argv, t_vm *vm);
 void			exit_usage(t_vm *vm);
 void			load_player(t_vm *vm, char *fp, unsigned n);
 
-/*
-** Instruction functions
-*/
 
-int		live(t_vm *vm, t_process *process);
-bool	ld(t_vm *vm, t_process *p);
+void		live(t_vm *vm, t_process *process);
+void	ld(t_vm *vm, t_process *p);
 bool	st(t_vm *vm, t_process *p);
-bool	add(t_vm *vm, t_process *p);
-bool	sub(t_vm *vm, t_process *p);
+void	add(t_vm *vm, t_process *p);
+void	sub(t_vm *vm, t_process *p);
 bool	and(t_vm *vm, t_process *p);
 bool	or(t_vm *vm, t_process *p);
 bool	xor(t_vm *vm, t_process *p);
