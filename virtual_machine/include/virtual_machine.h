@@ -57,6 +57,7 @@ typedef struct	s_vm {
 	uint8_t		arena[MEM_SIZE];
 }				t_vm;
 
+# define VALID_REG(x) (x > 0 && x <= REG_NUMBER)
 # define ARENA(vm, i) vm->arena[(unsigned)(i) % MEM_SIZE]
 # define PROC(vm, i) ((t_process*)vm->processes.data[i])
 
