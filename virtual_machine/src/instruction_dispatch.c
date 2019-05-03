@@ -12,15 +12,16 @@
 
 #include "instruction_dispatch.h"
 
-bool			no_op(uint8_t *a, t_process *p)
+
+void	no_op(t_vm *vm, t_process *p, t_instruction_meta *im)
 {
-	(void)a;
+	(void)vm;
 	(void)p;
-	return (false);
+	(void)im;
 }
 
-t_instruction	*g_instruction_dispatch[16] = {
-	no_op,
+t_instruction	*const g_instruction_dispatch[16] = {
+	live,
 	no_op,
 	no_op,
 	no_op,

@@ -14,6 +14,7 @@
 # define VIRTUAL_MACHINE_H
 # include "op.h"
 # include "libft.h"
+# include "decode.h"
 
 /*
 ** Player.
@@ -56,19 +57,7 @@ typedef struct	s_vm {
 	uint8_t		arena[MEM_SIZE];
 }				t_vm;
 
-# define P1(byte) ((byte & 0b11000000) >> 6)
-# define P2(byte) ((byte & 0b00110000) >> 4)
-# define P3(byte) ((byte & 0b00001100) >> 2)
-
-/*
-** Get parameter type of parameter x, parameters are 1 indexed.
-*/
-# define PX(byte, X) ((byte & (192 >> ((X - 1) * 2))) >> (8 - (X * 2)))
-
-# define REG 0b01
-# define DIR 0b10
-# define IND 0b11
-
+# define VALID_REG(x) (x > 0 && x <= REG_NUMBER)
 # define ARENA(vm, i) vm->arena[(unsigned)(i) % MEM_SIZE]
 # define PROC(vm, i) ((t_process*)vm->processes.data[i])
 

@@ -2,5 +2,4 @@
 
 .comment "dead alive"
 
-ld %0, r1
-
+live %1
