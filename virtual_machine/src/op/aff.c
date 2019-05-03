@@ -6,7 +6,7 @@
 /*   By: ztisnes <ztisnes@student.42.us.org>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 17:46:04 by ztisnes           #+#    #+#             */
-/*   Updated: 2019/05/03 14:12:35 by tcherret         ###   ########.fr       */
+/*   Updated: 2019/05/03 15:21:01 by ztisnes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,10 @@
 
 void	aff(t_vm *vm, t_process *p, t_instruction_meta *im)
 {
-	unsigned char ascii;
+	int 			p1;
+	char 			ascii;
 
-	ascii = param_load(im, vm->arenam, p->pc, 0) % 256; // do we need to do more check on the ascii?
-	if (ft_isascii(ascii))
-		ft_printf("%c\n", ascii);
+	p1 = param_load(im, vm->arena, p->pc, 0);
+	ascii = p->registers[p1 - 1] % 256;
+	write(1, &ascii, 1);
 }

@@ -6,77 +6,48 @@
 /*   By: ztisnes <ztisnes@student.42.us.org>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/30 17:02:59 by ztisnes           #+#    #+#             */
-/*   Updated: 2019/05/01 19:25:09 by ztisnes          ###   ########.fr       */
+/*   Updated: 2019/05/03 15:07:35 by ztisnes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "virtual_machine.h"
+#include "instruction_dispatch.h"
 
-bool    and(t_vm *vm, t_process *p)
+void    and(t_vm *vm, t_process *p, t_instruction_meta *im)
 {
-    int i;
-    int vals[3];
+    int		p1;
+	int		p2;
+	int		p3;
 
-    i = 0;
-    while (i < 2)
-    {
-        if (p->type_proc[i] == IND_CODE)
-            //FIXME: Add the value for IND_CODE after Logn
-        else if (p->type_proc[i] == DIR_CODE)
-            //FIXME: Add the value for DIR_CODE after Logn
-        else if (p->type_proc[i] == REG_CODE)
-            //FIXME: Add the value for REG_CODE after Logn
-    }
-    vals[2] = vals[1] & vals[2];
-    p->registers[PRO_V(2)] = vals[2];
-    if (p->registers[PRO_V(2)])
-        p->carry = 0;
-    p->carry = 1;
-    return (p->carry);
+	p1 = param_load(im, vm->arena, p->pc, 0);
+	p2 = param_load(im, vm->arena, p->pc, 1);
+	p3 = param_load(im, vm->arena, p->pc, 2);
+	p->registers[p3 - 1] = (p->registers[p1 - 1] & p->registers[p2 - 1]);
+    p->carry = p->registers[p3] ? 0 : 1;
+    ft_printf("Good?");
 }
 
-bool    or(t_vm *vm, t_process *p)
+void    or(t_vm *vm, t_process *p, t_instruction_meta *im)
 {
-    int i;
-    int vals[3];
+    int		p1;
+    int		p2;
+    int		p3;
 
-    i = 0;
-    while (i < 2)
-    {
-        if (p->type_proc[i] == IND_CODE)
-            //FIXME: Add the value for IND_CODE after Logn
-        else if (p->type_proc[i] == DIR_CODE)
-            //FIXME: Add the value for DIR_CODE after Logn
-        else if (p->type_proc[i] == REG_CODE)
-            //FIXME: Add the value for REG_CODE after Logn
-    }
-    vals[2] = vals[1] | vals[2];
-    p->registers[PRO_V(2)] = vals[2];
-    if (p->registers[PRO_V(2)])
-        p->carry = 0;
-    p->carry = 1;
-    return (p->carry);
+    p1 = param_load(im, vm->arena, p->pc, 0);
+    p2 = param_load(im, vm->arena, p->pc, 1);
+    p3 = param_load(im, vm->arena, p->pc, 2);
+    p->registers[p3 - 1] = (p->registers[p1 - 1] | p->registers[p2 - 1]);
+    p->carry = p->registers[p3] ? 0 : 1;
 }
 
-bool    xor(t_vm *vm, t_process *p)
+void    xor(t_vm *vm, t_process *p, t_instruction_meta *im)
 {
-    int i;
-    int vals[3];
+    int		p1;
+	int		p2;
+	int		p3;
 
-    i = 0;
-    while (i < 2)
-    {
-        if (p->type_proc[i] == IND_CODE)
-            //FIXME: Add the value for IND_CODE after Logn
-        else if (p->type_proc[i] == DIR_CODE)
-            //FIXME: Add the value for DIR_CODE after Logn
-        else if (p->type_proc[i] == REG_CODE)
-            //FIXME: Add the value for REG_CODE after Logn
-    }
-    vals[2] = vals[1] ^ vals[2];
-    p->registers[PRO_V(2)] = vals[2];
-    if (p->registers[PRO_V(2)])
-        p->carry = 0;
-    p->carry = 1;
-    return (p->carry);
+	p1 = param_load(im, vm->arena, p->pc, 0);
+	p2 = param_load(im, vm->arena, p->pc, 1);
+	p3 = param_load(im, vm->arena, p->pc, 2);
+	p->registers[p3 - 1] = (p->registers[p1 - 1] ^ p->registers[p2 - 1]);
+    p->carry = p->registers[p3] ? 0 : 1;
 }
