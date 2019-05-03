@@ -1,22 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   aff.c                                              :+:      :+:    :+:   */
+/*   ld_lld_ldi_lldi.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ztisnes <ztisnes@student.42.us.org>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/01 17:46:04 by ztisnes           #+#    #+#             */
-/*   Updated: 2019/05/03 14:12:35 by tcherret         ###   ########.fr       */
+/*   Created: 2019/05/01 18:36:24 by ztisnes           #+#    #+#             */
+/*   Updated: 2019/05/01 18:56:14 by ztisnes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "virtual_machine.h"
 
-void	aff(t_vm *vm, t_process *p, t_instruction_meta *im)
+bool	ld(t_vm *vm, t_process *p)
 {
-	unsigned char ascii;
+    
+}
 
-	ascii = param_load(im, vm->arenam, p->pc, 0) % 256; // do we need to do more check on the ascii?
-	if (ft_isascii(ascii))
-		ft_printf("%c\n", ascii);
+bool	ldi(t_vm *vm, t_process *p)
+{
+
+}
+
+bool	lld(t_vm *vm, t_process *p)
+{
+
+}
+
+bool	lldi(t_vm *vm, t_process *p)
+{
+
 }
