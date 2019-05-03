@@ -6,7 +6,7 @@
 /*   By: lkaser <lkaser@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/23 17:19:25 by lkaser            #+#    #+#             */
-/*   Updated: 2019/05/03 14:13:42 by tcherret         ###   ########.fr       */
+/*   Updated: 2019/05/03 14:58:18 by ztisnes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@ typedef struct	s_player {
 ** Process specific memory.
 */
 
-# define PRO_V(x) p->val_pro[x] - 1
-
 typedef struct		s_process {
 	t_player		*player;
 	unsigned		pc;
@@ -40,7 +38,6 @@ typedef struct		s_process {
 	int32_t			registers[REG_NUMBER];
 	uint32_t		execute_cycle;
 	unsigned char	type_proc[3];
-	int				val_pro[3];
 	uint8_t			executing;
 	bool			carry;
 }					t_process;
@@ -71,23 +68,5 @@ void			vm_del(t_vm *vm);
 void			parse_options(int argc, char **argv, t_vm *vm);
 void			exit_usage(t_vm *vm);
 void			load_player(t_vm *vm, char *fp, unsigned n);
-
-
-void		live(t_vm *vm, t_process *process);
-void	ld(t_vm *vm, t_process *p);
-bool	st(t_vm *vm, t_process *p);
-void	add(t_vm *vm, t_process *p);
-void	sub(t_vm *vm, t_process *p);
-bool	and(t_vm *vm, t_process *p);
-bool	or(t_vm *vm, t_process *p);
-bool	xor(t_vm *vm, t_process *p);
-bool	zjmp(t_vm *vm, t_process *p);
-bool	ldi(t_vm *vm, t_process *p);
-bool	sti(t_vm *vm, t_process *p);
-bool	fork(t_vm *vm, t_process *p);
-bool	lld(t_vm *vm, t_process *p);
-bool	lldi(t_vm *vm, t_process *p);
-bool	lfork(t_vm *vm, t_process *p);
-void	aff(t_vm *vm, t_process *p);
 
 #endif
