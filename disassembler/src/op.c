@@ -6,11 +6,11 @@
 /*   By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/25 17:51:19 by jbeall            #+#    #+#             */
-/*   Updated: 2019/05/01 16:56:31 by tcherret         ###   ########.fr       */
+/*   Updated: 2019/05/01 16:57:09 by tcherret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "asm.h"
+#include "disasm.h"
 #include "op.h"
 
 t_op	g_op_tab[17] =
