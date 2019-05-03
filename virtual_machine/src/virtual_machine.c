@@ -19,16 +19,24 @@ void					vm_init(t_vm *vm)
 	ft_bzero(vm, sizeof(t_vm));
 	vm->cycles_to_die = CYCLE_TO_DIE;
 	vm->dump_cycle = UINT_MAX;
-	vm->cycle = 0;
 }
 
 void					vm_del(t_vm *vm)
 {
 	unsigned i;
+	t_process *proc;
+	t_process *tmp;
 
 	i = 0;
 	while (i < vm->player_count)
 		free(vm->players[i++]);
+	proc = vm->processes;
+	while (proc)
+	{
+		tmp = proc;
+		proc = proc->next;
+		free(tmp);
+	}
 }
 
 void					vm_run(t_vm *vm)
