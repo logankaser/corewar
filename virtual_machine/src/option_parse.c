@@ -21,22 +21,26 @@ void				exit_usage(t_vm *vm)
 	ft_exit(g_usage, 1);
 }
 
-static unsigned		find_empty_slot(t_vm *vm)
+static int32_t		find_free_id(t_vm *vm)
 {
 	unsigned	i;
+	int32_t		id;
 
+	if (vm->player_count == 0)
+		return (1);
+	id = vm->players[vm->player_count - 1]->id + 1;
 	i = 0;
-	while (i < MAX_PLAYERS)
+	while (i < vm->player_count)
 	{
-		if (!vm->players[i])
-			break ;
+		if (vm->players[i]->id == id)
+		{
+			i = 0;
+			id += 1;
+			continue ;
+		}
 		++i;
 	}
-	if (i != MAX_PLAYERS)
-		return (i + 1);
-	vm_del(vm);
-	ft_exit("corewar: too many players, no empty slots", 1);
-	return (0);
+	return (id);
 }
 
 void				parse_options(int argc, char **argv, t_vm *vm)
@@ -62,10 +66,9 @@ void				parse_options(int argc, char **argv, t_vm *vm)
 		else if (!ft_strcmp(argv[i], "-n"))
 		{
 			i += 1;
-			if (i >= argc || !ft_isdigit(argv[i][0])
-				|| ft_atoi(argv[i]) >= MAX_PLAYERS)
+			if (i >= argc)
 			{
-				ft_fprintf(stderr, "corewar: -n requires a valid number\n");
+				ft_fprintf(stderr, "corewar: -n requires a number\n");
 				exit_usage(vm);
 			}
 			i += 1;
@@ -83,7 +86,7 @@ void				parse_options(int argc, char **argv, t_vm *vm)
 			exit_usage(vm);
 		}
 		else
-			load_player(vm, argv[i], find_empty_slot(vm));
+			load_player(vm, argv[i], find_free_id(vm));
 		++i;
 	}
 	if (vm->player_count == 0)

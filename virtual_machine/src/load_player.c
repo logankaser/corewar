@@ -81,18 +81,18 @@ static void		load_player_file(t_vm *vm, char *fp, t_player *player)
 		exit_usage(vm);
 }
 
-void			load_player(t_vm *vm, char *fp, unsigned n)
+void			load_player(t_vm *vm, char *fp, int32_t id)
 {
 	t_player *player;
 
-	if (vm->players[n - 1])
+	if (vm->player_count >= MAX_PLAYERS)
 	{
-		ft_fprintf(stderr, "corewar: player %u already assigned\n", n);
+		ft_fprintf(stderr, "corewar: too many players, no empty slots\n");
 		exit_usage(vm);
 	}
-	vm->players[n - 1] = ft_memalloc(sizeof(t_player));
-	player = vm->players[n - 1];
-	player->number = n;
+	vm->players[vm->player_count] = ft_memalloc(sizeof(t_player));
+	player = vm->players[vm->player_count];
+	player->id = id;
 	player->last_live_cycle = 0;
 	load_player_file(vm, fp, player);
 	vm->player_count += 1;
