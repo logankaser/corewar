@@ -6,7 +6,7 @@
 /*   By: tcherret <tcherret@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/30 16:32:37 by tcherret          #+#    #+#             */
-/*   Updated: 2019/05/02 20:51:45 by tcherret         ###   ########.fr       */
+/*   Updated: 2019/05/02 21:30:20 by tcherret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -248,7 +248,7 @@ int				main(int ac, char **av)
 		while (file_data.index < file_data.header.prog_size)
 			file_data.index += write_program(&file_data, g_op_tab);
 		close(file_data.fdc);
-		ft_printf(GREEN_TEXT"\nWriting the output at /%s!\n"COLOR_RESET, name);
+		ft_printf(GREEN_TEXT"Writing the output at /%s!\n"COLOR_RESET, name);
 		free(name);
 	}
 	return (0);
