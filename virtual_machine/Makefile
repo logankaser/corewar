@@ -6,7 +6,7 @@
 #    By: logan <logan@student.42.us.org>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/13 10:03:24 by logan             #+#    #+#              #
-#    Updated: 2019/05/03 15:08:18 by ztisnes          ###   ########.fr        #
+#    Updated: 2019/05/03 15:59:43 by tcherret         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,7 @@ sub_add \
 and_or_xor \
 ld_st_lld \
 aff \
+zjmp \
 
 OBJ_DIR = obj
 VPATH = src:src/op
