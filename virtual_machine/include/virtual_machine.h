@@ -6,7 +6,7 @@
 /*   By: lkaser <lkaser@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/23 17:19:25 by lkaser            #+#    #+#             */
-/*   Updated: 2019/05/01 19:24:23 by ztisnes          ###   ########.fr       */
+/*   Updated: 2019/05/02 19:49:45 by tcherret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,26 +71,5 @@ void			vm_del(t_vm *vm);
 void			parse_options(int argc, char **argv, t_vm *vm);
 void			exit_usage(t_vm *vm);
 void			load_player(t_vm *vm, char *fp, unsigned n);
-
-/*
-** Instruction functions
-*/
-
-int		live(t_vm *vm, t_process *process);
-bool	ld(t_vm *vm, t_process *p);
-bool	st(t_vm *vm, t_process *p);
-bool	add(t_vm *vm, t_process *p);
-bool	sub(t_vm *vm, t_process *p);
-bool	and(t_vm *vm, t_process *p);
-bool	or(t_vm *vm, t_process *p);
-bool	xor(t_vm *vm, t_process *p);
-bool	zjmp(t_vm *vm, t_process *p);
-bool	ldi(t_vm *vm, t_process *p);
-bool	sti(t_vm *vm, t_process *p);
-bool	fork(t_vm *vm, t_process *p);
-bool	lld(t_vm *vm, t_process *p);
-bool	lldi(t_vm *vm, t_process *p);
-bool	lfork(t_vm *vm, t_process *p);
-void	aff(t_vm *vm, t_process *p);
 
 #endif

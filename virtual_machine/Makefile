@@ -6,7 +6,7 @@
 #    By: logan  <logan@42.us.org>                   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/13 10:03:24 by logan             #+#    #+#              #
-#    Updated: 2019/04/30 15:38:39 by lkaser           ###   ########.fr        #
+#    Updated: 2019/05/02 20:12:33 by tcherret         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,10 @@ virtual_machine \
 load_player \
 op_tab \
 decode \
-live
+live \
+sub_add \
+ld_st_lld \
+aff \
 
 OBJ_DIR = obj
 VPATH = src:src/op
