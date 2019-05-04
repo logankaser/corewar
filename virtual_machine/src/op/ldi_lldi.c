@@ -1,34 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   live.c                                             :+:      :+:    :+:   */
+/*   ldi_lldi.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tcherret <tcherret@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/28 12:14:44 by tcherret          #+#    #+#             */
-/*   Updated: 2019/05/04 16:30:49 by lkaser           ###   ########.fr       */
+/*   Updated: 2019/05/04 16:30:43 by lkaser           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "instruction_dispatch.h"
 
-void	live(t_vm *vm, t_process *p, t_decode *d)
+void	ldi(t_vm *vm, t_process *p, t_decode *d)
 {
-	int32_t		player_id;
-	unsigned	i;
+	int32_t	offset;
+	int32_t	value;
 
-	p->last_live_cycle = vm->cycle;
-	player_id = param_read(d, vm->arena, p, 0);
-	i = 0;
-	while (i < vm->player_count)
-	{
-		if (vm->players[i]->id == player_id)
-		{
-			ft_printf("A process shows that player %i (%s) is alive\n",
-				-player_id, vm->players[i]->header.prog_name);
-			vm->players[i]->last_live_cycle = vm->cycle;
-			break ;
-		}
-		i += 1;
-	}
+	offset = param_read(d, vm->arena, p, 0) + param_read(d, vm->arena, p, 1);
+	value = arena_load(vm->arena, p->pc + (offset % IDX_MOD), d->direct_width);
+	p->registers[d->values[2]] = value;
+	p->carry = !value;
+}
+
+void	lldi(t_vm *vm, t_process *p, t_decode *d)
+{
+	int32_t	offset;
+	int32_t	value;
+
+	offset = param_read(d, vm->arena, p, 0) + param_read(d, vm->arena, p, 1);
+	value = arena_load(vm->arena, p->pc + offset, d->direct_width);
+	p->registers[d->values[2]] = value;
+	p->carry = !value;
 }

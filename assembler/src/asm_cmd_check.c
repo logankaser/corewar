@@ -10,10 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "asm.h"
 #include <stdio.h>
+#include "asm.h"
+#include "op.h"
 
-uint32_t	valid_cmd_name(t_asm_cmd *cmd, t_op *g_op_tab, t_asm *out)
+uint32_t	valid_cmd_name(t_asm_cmd *cmd, t_asm *out)
 {
 	int i;
 
@@ -31,14 +32,14 @@ uint32_t	valid_cmd_name(t_asm_cmd *cmd, t_op *g_op_tab, t_asm *out)
 	return (0);
 }
 
-int			valid_cmd_nb_args(t_asm_cmd *cmd, t_op *g_op_tab, t_asm *out)
+int			valid_cmd_nb_args(t_asm_cmd *cmd, t_asm *out)
 {
 	if (cmd->num_args != g_op_tab[cmd->op_code - 1].param_num)
 		asm_error("arg error", "number of parameters not valid", out->line);
 	return (1);
 }
 
-int			valid_arg_type(t_asm_cmd *cmd, t_op *g_op_tab, t_asm *out, int j)
+int			valid_arg_type(t_asm_cmd *cmd, t_asm *out, int j)
 {
 	t_asm_arg *arg;
 
@@ -57,20 +58,20 @@ int			valid_arg_type(t_asm_cmd *cmd, t_op *g_op_tab, t_asm *out, int j)
 	return (1);
 }
 
-int			valid_cmd(t_asm_cmd *cmd, t_op *g_op_tab, t_asm *out)
+int			valid_cmd(t_asm_cmd *cmd, t_asm *out)
 {
 	int k;
 	int j;
 
-	if (!valid_cmd_name(cmd, g_op_tab, out))
+	if (!valid_cmd_name(cmd, out))
 		return (0);
-	if (!valid_cmd_nb_args(cmd, g_op_tab, out))
+	if (!valid_cmd_nb_args(cmd, out))
 		return (0);
 	j = 0;
 	k = g_op_tab[cmd->op_code - 1].param_num;
 	while (j < k)
 	{
-		if (!valid_arg_type(cmd, g_op_tab, out, j))
+		if (!valid_arg_type(cmd, out, j))
 			return (0);
 		j++;
 	}

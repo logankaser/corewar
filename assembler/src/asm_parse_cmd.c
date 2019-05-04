@@ -45,7 +45,7 @@ char	*parse_cmd(char *line, t_asm *out)
 	ft_uvector_init(&(new->args), sizeof(t_asm_arg));
 	line += len;
 	line = parse_cmd_inner(line, out, new);
-	valid_cmd(new, g_op_tab, out);
+	valid_cmd(new, out);
 	new->encode = new->has_encode ? encode_byte(new) : 0;
 	out->mem_ptr += calc_cmd_size(new);
 	ft_uvector_push(&(out->cmd_vec), new);

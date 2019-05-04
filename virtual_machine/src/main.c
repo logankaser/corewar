@@ -37,10 +37,10 @@ static void	start_players(t_vm *vm)
 		proc = process_spawn(vm, NULL, 
 			(MEM_SIZE / vm->player_count) * i);
 		player->id = -player->id;
+		proc->registers[0] = player->id;
 		annouce_player(player);
 		ft_memcpy(vm->arena + proc->pc,
 			player->prog, player->header.prog_size);
-		proc->registers[0] = 0 - (i + 1);
 	}
 }
 
