@@ -6,7 +6,7 @@
 /*   By: lkaser <lkaser@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/26 14:05:43 by lkaser            #+#    #+#             */
-/*   Updated: 2019/05/03 15:46:43 by tcherret         ###   ########.fr       */
+/*   Updated: 2019/05/04 13:44:35 by tcherret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void					xor(t_vm *vm, t_process *p, t_instruction_meta *im);
 void					zjmp(t_vm *vm, t_process *p, t_instruction_meta *im);
 bool					ldi(t_vm *vm, t_process *p, t_instruction_meta *im);
 bool					sti(t_vm *vm, t_process *p, t_instruction_meta *im);
-void					fork(t_vm *vm, t_process *p, t_instruction_meta *im);
+//void					fork(t_vm *vm, t_process *p, t_instruction_meta *im);
 bool					lld(t_vm *vm, t_process *p, t_instruction_meta *im);
 bool					lldi(t_vm *vm, t_process *p, t_instruction_meta *im);
 bool					lfork(t_vm *vm, t_process *p, t_instruction_meta *im);
