@@ -14,6 +14,8 @@
 # define DECODE_H
 # include <stdint.h>
 # include <stdbool.h>
+# include "op.h"
+# include "virtual_machine.h"
 
 # define P1(byte) ((byte & 0b11000000) >> 6)
 # define P2(byte) ((byte & 0b00110000) >> 4)
@@ -22,7 +24,7 @@
 /*
 ** Get parameter type of parameter x, parameters are 1 indexed.
 */
-# define PX(byte, X) ((byte & (192 >> ((X - 1) * 2))) >> (8 - (X * 2)))
+# define PX(byte, X) ((byte & (192 >> (((X) - 1) * 2))) >> (8 - ((X) * 2)))
 
 # define REG 0b01
 # define DIR 0b10
@@ -33,19 +35,21 @@
 ** including opcode, encoding byte (if it has one), and paramaters.
 */
 
-typedef struct	s_instruction_meta
+typedef struct	s_decode
 {
-	uint8_t		types[4];
+	int32_t		values[4];
 	uint8_t		offsets[4];
-	uint8_t		direct_width;
-	uint8_t		total_width;
-}				t_instruction_meta;
+	uint8_t		types[4];
+}				t_decode;
 
-bool			validate_types(uint8_t opi, uint8_t enc);
 int32_t			arena_load(
 	uint8_t *arena, unsigned from, unsigned size);
-int32_t			param_load(
-	t_instruction_meta *im, uint8_t *arena, unsigned pc, unsigned n);
-void			decode(t_instruction_meta *im, uint8_t opi, uint8_t enc);
+unsigned		decode(t_decode *d, const t_op *op, uint8_t enc);
+
+struct s_process;
+typedef struct s_process t_process;
+
+bool			load_params(t_decode *d,
+	const t_op *op, uint8_t *arena, t_process *p);
 
 #endif

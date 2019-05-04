@@ -1,24 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   instruction_dispatch.h                             :+:      :+:    :+:   */
+/*   process.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lkaser <lkaser@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/26 14:05:43 by lkaser            #+#    #+#             */
-/*   Updated: 2019/04/26 14:05:45 by lkaser           ###   ########.fr       */
+/*   Created: 2019/05/03 18:34:18 by lkaser            #+#    #+#             */
+/*   Updated: 2019/05/03 18:34:20 by lkaser           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef INSTRUCTION_DISPATCH_H
-# define INSTRUCTION_DISPATCH_H
-# include "decode.h"
+#ifndef PROCESS_H
+# define PROCESS_H
 # include "virtual_machine.h"
 
-typedef void			t_instruction(t_vm *vm, t_process *p, t_decode *d);
-
-void					live(t_vm *vm, t_process *p, t_decode *d);
-
-extern t_instruction	*const g_instruction_dispatch[16];
+t_process *process_spawn(t_vm *vm, t_process *parent, unsigned pc);
 
 #endif

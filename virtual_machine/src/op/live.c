@@ -10,16 +10,17 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "virtual_machine.h"
+#include "instruction_dispatch.h"
 
-void	live(t_vm *vm, t_process *p, t_instruction_meta *im)
+void	live(t_vm *vm, t_process *p, t_decode *d)
 {
 	int32_t		player_id;
 	unsigned	i;
 
 	p->last_live_cycle = vm->cycle;
-	player_id = param_load(im, vm->arena, p->pc, 0);
+	player_id = d->values[0];
 	i = 0;
+	ft_printf("pid: %i\n", d->values[0]);
 	while (i < vm->player_count)
 	{
 		if (vm->players[i]->id == player_id)

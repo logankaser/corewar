@@ -15,38 +15,6 @@
 #include "op.h"
 #include "decode.h"
 
-/*
-** Validate encoding byte types, if any parameters
-** are not valid types in that postion return false
-** extra bits after the valid number of parameters are
-** ignored;
-** This works because param_types[n] is always 0 if n
-** is greater than param_num.
-*/
-
-static uint8_t const	g_type[4] = {
-	0,
-	T_REG,
-	T_DIR,
-	T_IND
-};
-
-bool					validate_types(uint8_t opi, uint8_t enc)
-{
-	unsigned valid_count;
-
-	if (!g_op_tab[opi].encoded)
-		return (true);
-	valid_count = 0;
-	if (g_type[P1(enc)] & g_op_tab[opi].param_types[0])
-		valid_count += 1;
-	if (g_type[P2(enc)] & g_op_tab[opi].param_types[1])
-		valid_count += 1;
-	if (g_type[P3(enc)] & g_op_tab[opi].param_types[2])
-		valid_count += 1;
-	return (g_op_tab[opi].param_num == valid_count);
-}
-
 inline int32_t			arena_load(uint8_t *arena, unsigned from, unsigned size)
 {
 	int32_t	out;
@@ -67,45 +35,73 @@ inline int32_t			arena_load(uint8_t *arena, unsigned from, unsigned size)
 	return (out);
 }
 
-inline int32_t			param_load(t_instruction_meta *im, uint8_t *arena, unsigned pc, unsigned n)
-{
-	if (im->types[n] == REG)
-		return (arena_load(arena, pc + im->offsets[n], 1));
-	else if (im->types[n] == DIR)
-		return (arena_load(arena, pc + im->offsets[n], im->direct_width));
-	return (arena_load(arena, pc + im->offsets[n], 2));
-}
-
 static unsigned const	g_dir_size[2] = {
 	4,
 	2
 };
 
-void					decode(t_instruction_meta *im, uint8_t opi, uint8_t enc)
+unsigned				decode(t_decode *d, const t_op *op, uint8_t enc)
 {
 	unsigned	i;
 	unsigned	offset;
 	unsigned	size[4];
 
-	im->direct_width = g_dir_size[g_op_tab[opi].halfwidth];
 	size[0] = 0;
 	size[REG] = 1;
-	size[DIR] = im->direct_width;
+	size[DIR] = g_dir_size[op->halfwidth];
 	size[IND] = 2;
-	if (!g_op_tab[opi].encoded)
+	if (!op->encoded)
 	{
-		im->offsets[0] = 1;
-		im->types[0] = DIR;
-		im->total_width = 1 + size[DIR];
-		return;
+		d->offsets[0] = 1;
+		d->types[0] = DIR;
+		return 1 + size[DIR];
 	}
 	i = 0;
 	offset = 2;
-	while(++i <= g_op_tab[opi].param_num)
+	while(i < op->param_num)
 	{
-		im->offsets[i - 1] = offset;
-		im->types[i - 1] = PX(enc, i);
-		offset += size[im->types[i - 1]];
+		d->offsets[i] = offset;
+		d->types[i] = PX(enc, i + 1);
+		offset += size[d->types[i]];
+		i += 1;
 	}
-	im->total_width = offset;
+	return offset;
 }
+
+static uint8_t const	g_type[4] = {
+	0,
+	T_REG,
+	T_DIR,
+	T_IND
+};
+
+bool					load_params(t_decode *d, const t_op *op, uint8_t *arena, t_process *p)
+{
+	unsigned i;
+
+	i = 0;
+	while (i < op->param_num)
+	{
+		if (!(g_type[d->types[i]] & op->param_types[i]))
+			return (false);
+		if (d->types[i] == REG)
+		{
+			d->values[i] = arena_load(arena, p->pc + d->offsets[i] , 1);
+			if ((uint8_t)d->values[i] >= REG_NUMBER)
+				return (false);
+			d->values[i] = p->registers[(uint8_t)d->values[i]];
+		}
+		else if (d->types[i] == DIR)	
+			d->values[i] = arena_load(arena, p->pc + d->offsets[i],
+				g_dir_size[op->halfwidth]);
+		else if (d->types[i] == IND)
+		{
+			d->values[i] = arena_load(arena, p->pc + d->offsets[i], 2);
+			d->values[i] = arena_load(arena, p->pc + (d->values[i] % IDX_MOD),
+				g_dir_size[op->halfwidth]);
+		}
+		i += 1;
+	}
+	return (true);
+}
+

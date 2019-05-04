@@ -16,6 +16,7 @@ instruction_dispatch \
 option_parse \
 virtual_machine \
 load_player \
+process \
 op_tab \
 decode \
 live
