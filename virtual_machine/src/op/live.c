@@ -6,12 +6,12 @@
 /*   By: tcherret <tcherret@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/28 12:14:44 by tcherret          #+#    #+#             */
-/*   Updated: 2019/05/04 12:54:40 by tcherret         ###   ########.fr       */
+/*   Updated: 2019/05/04 13:47:53 by tcherret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "virtual_machine.h"
-
+#include "decode.h"
 #include "instruction_dispatch.h"
 
 void	live(t_vm *vm, t_process *p, t_decode *d)

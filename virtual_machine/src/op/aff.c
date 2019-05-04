@@ -6,11 +6,12 @@
 /*   By: ztisnes <ztisnes@student.42.us.org>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 17:46:04 by ztisnes           #+#    #+#             */
-/*   Updated: 2019/05/04 12:50:55 by tcherret         ###   ########.fr       */
+/*   Updated: 2019/05/04 13:47:39 by tcherret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "virtual_machine.h"
+#include "decode.h"
 
 void	aff(t_vm *vm, t_process *p, t_decode *d)
 {

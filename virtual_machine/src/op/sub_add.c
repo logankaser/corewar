@@ -6,13 +6,12 @@
 /*   By: ztisnes <ztisnes@student.42.us.org>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 18:39:38 by ztisnes           #+#    #+#             */
-/*   Updated: 2019/05/04 12:59:08 by tcherret         ###   ########.fr       */
+/*   Updated: 2019/05/04 13:47:58 by tcherret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "virtual_machine.h"
-
-// p3 - 1 or p3 ? How to access to register value ?
+#include "decode.h"
 
 void	add(t_vm *vm, t_process *p, t_decode *d)
 {

@@ -6,11 +6,12 @@
 /*   By: tcherret <tcherret@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/02 19:18:59 by tcherret          #+#    #+#             */
-/*   Updated: 2019/05/04 13:14:38 by tcherret         ###   ########.fr       */
+/*   Updated: 2019/05/04 13:47:49 by tcherret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "virtual_machine.h"
+#include "decode.h"
 
 void	ld(t_vm *vm, t_process *p, t_decode *d)
 {
