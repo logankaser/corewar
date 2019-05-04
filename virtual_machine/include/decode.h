@@ -40,6 +40,7 @@ typedef struct	s_decode
 	int32_t		values[4];
 	uint8_t		offsets[4];
 	uint8_t		types[4];
+	uint8_t		direct_width;
 }				t_decode;
 
 int32_t			arena_load(
@@ -49,7 +50,9 @@ unsigned		decode(t_decode *d, const t_op *op, uint8_t enc);
 struct s_process;
 typedef struct s_process t_process;
 
-bool			load_params(t_decode *d,
-	const t_op *op, uint8_t *arena, t_process *p);
+bool			decode_load(t_decode *d, const t_op *op, uint8_t *arena,
+	t_process *p);
+int32_t			param_read(t_decode *d, uint8_t *arena, t_process *p, 
+	unsigned n);
 
 #endif

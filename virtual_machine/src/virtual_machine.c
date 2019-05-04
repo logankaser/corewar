@@ -64,7 +64,7 @@ void					vm_run(t_vm *vm)
 				uint8_t enc = ARENA(vm, proc->pc + 1);
 				ft_bzero(&d, sizeof(d));
 				proc->step = decode(&d, &g_op_tab[opi], enc);
-				bool loaded = load_params(&d, &g_op_tab[opi], vm->arena, proc);
+				bool loaded = decode_load(&d, &g_op_tab[opi], vm->arena, proc);
 				ft_printf("Executing proc: %p, op: %s, param_size: %u, p1: %i, p2: %i, p3: %i\n",
 					proc,
 					g_op_tab[opi].name,
