@@ -6,23 +6,32 @@
 /*   By: tcherret <tcherret@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/28 12:14:44 by tcherret          #+#    #+#             */
-/*   Updated: 2019/05/04 10:01:57 by tcherret         ###   ########.fr       */
+/*   Updated: 2019/05/04 12:54:40 by tcherret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "virtual_machine.h"
 
-void	live(t_vm *vm, t_process *p, t_instruction_meta *im)
+#include "instruction_dispatch.h"
+
+void	live(t_vm *vm, t_process *p, t_decode *d)
 {
-	int32_t player;
+	int32_t		player_id;
+	unsigned	i;
 
 	p->last_live_cycle = vm->cycle;
-	player = param_load(im, vm->arena, p->pc, 0);
-	if (player > 0 && player <= MAX_PLAYERS && vm->players[player - 1])
+	player_id = param_read(d, vm->arena, p, 0);
+	i = 0;
+	ft_printf("pid: %i\n", d->values[0]);
+	while (i < vm->player_count)
 	{
-		ft_printf("A process shows that player %i (%s) is alive\n",
-			player, vm->players[player - 1]->header.prog_name);
-		vm->players[player - 1]->last_live_cycle = vm->cycle;
+		if (vm->players[i]->id == player_id)
+		{
+			ft_printf("A process shows that player %i (%s) is alive\n",
+				-player_id, vm->players[i]->header.prog_name);
+			vm->players[i]->last_live_cycle = vm->cycle;
+			break ;
+		}
+		i += 1;
 	}
-	p->player->last_live_cycle = vm->cycle;
 }
