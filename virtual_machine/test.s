@@ -2,6 +2,6 @@
 
 .comment "dead alive"
 
-st r1,5
+st r1,6
+
 live %42
-live %-1

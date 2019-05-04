@@ -15,7 +15,7 @@
 #include "op.h"
 #include "decode.h"
 
-inline int32_t			arena_load(uint8_t *arena, unsigned from, unsigned size)
+int32_t				arena_load(uint8_t *arena, unsigned from, unsigned size)
 {
 	int32_t	out;
 
@@ -33,6 +33,26 @@ inline int32_t			arena_load(uint8_t *arena, unsigned from, unsigned size)
 	((uint8_t*)&out)[1] = arena[(from + 2) % MEM_SIZE];
 	((uint8_t*)&out)[0] = arena[(from + 3) % MEM_SIZE];
 	return (out);
+}
+
+void					arena_store(uint8_t *arena, unsigned at, int32_t value, unsigned size)
+{
+	int16_t half;
+
+	assert(size == 2 || size == 4);
+	if (size == 2)
+	{
+		half = value;
+		arena[at % MEM_SIZE] = ((uint8_t*)&half)[1];
+		arena[(at + 1) % MEM_SIZE] = ((uint8_t*)&half)[0];
+	}
+	else
+	{
+		arena[at % MEM_SIZE] = ((uint8_t*)&value)[3];
+		arena[(at + 1) % MEM_SIZE] = ((uint8_t*)&value)[2];
+		arena[(at + 2) % MEM_SIZE] = ((uint8_t*)&value)[1];
+		arena[(at + 3) % MEM_SIZE] = ((uint8_t*)&value)[0];
+	}
 }
 
 static unsigned const	g_dir_size[2] = {
@@ -105,7 +125,7 @@ bool					decode_load(t_decode *d, const t_op *op, uint8_t *arena, t_process *p)
 	return (true);
 }
 
-inline int32_t			param_read(t_decode *d, uint8_t *arena, t_process *p, unsigned n)
+int32_t				param_read(t_decode *d, uint8_t *arena, t_process *p, unsigned n)
 {
 	if (d->types[n] == REG)
 	{

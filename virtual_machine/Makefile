@@ -19,7 +19,9 @@ load_player \
 process \
 op_tab \
 decode \
-live
+live \
+st_sti \
+ldi_lldi
 
 OBJ_DIR = obj
 VPATH = src:src/op

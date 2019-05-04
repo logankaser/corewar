@@ -18,6 +18,11 @@
 typedef void			t_instruction(t_vm *vm, t_process *p, t_decode *d);
 
 void					live(t_vm *vm, t_process *p, t_decode *d);
+void					st(t_vm *vm, t_process *p, t_decode *d);
+void					sti(t_vm *vm, t_process *p, t_decode *d);
+void					ldi(t_vm *vm, t_process *p, t_decode *d);
+void					lldi(t_vm *vm, t_process *p, t_decode *d);
+
 
 extern t_instruction	*const g_instruction_dispatch[16];
 

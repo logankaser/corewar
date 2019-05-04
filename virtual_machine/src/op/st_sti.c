@@ -12,23 +12,34 @@
 
 #include "instruction_dispatch.h"
 
-void	live(t_vm *vm, t_process *p, t_decode *d)
+void	st(t_vm *vm, t_process *p, t_decode *d)
 {
-	int32_t		player_id;
-	unsigned	i;
+	int32_t value;
+	int32_t indirect;
 
-	p->last_live_cycle = vm->cycle;
-	player_id = param_read(d, vm->arena, p, 0);
-	i = 0;
-	while (i < vm->player_count)
+	value = param_read(d, vm->arena, p, 0);
+	if (d->types[1] == REG)
 	{
-		if (vm->players[i]->id == player_id)
-		{
-			ft_printf("A process shows that player %i (%s) is alive\n",
-				-player_id, vm->players[i]->header.prog_name);
-			vm->players[i]->last_live_cycle = vm->cycle;
-			break ;
-		}
-		i += 1;
+		p->registers[d->values[1] - 1] = value; 
 	}
+	else if (d->types[1] == IND)
+	{
+		indirect = d->values[1];
+		arena_store(vm->arena, p->pc + (indirect % IDX_MOD), value, REG_SIZE);
+	}
+}
+
+void	sti(t_vm *vm, t_process *p, t_decode *d)
+{
+	int32_t value;
+	int32_t index;
+
+	value = param_read(d, vm->arena, p, 0);
+	index = 0;
+	if (d->types[1] == IND)
+		index = d->values[1];
+	else
+		index = param_read(d, vm->arena, p, 1);
+	index += param_read(d, vm->arena, p, 2);
+	arena_store(vm->arena, p->pc + index, value, REG_SIZE);
 }

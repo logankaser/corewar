@@ -54,7 +54,7 @@ void					vm_run(t_vm *vm)
 		{
 			if (vm->cycle < proc->execute_cycle)
 			{
-				ft_printf("proc: %p waiting: %u cycles..\n", proc, proc->execute_cycle - vm->cycle);
+				ft_printf("p: %p waiting %u cycles\n", proc, proc->execute_cycle - vm->cycle);
 				proc = proc->next;
 				continue ;
 			}
@@ -65,7 +65,7 @@ void					vm_run(t_vm *vm)
 				ft_bzero(&d, sizeof(d));
 				proc->step = decode(&d, &g_op_tab[opi], enc);
 				bool loaded = decode_load(&d, &g_op_tab[opi], vm->arena, proc);
-				ft_printf("Executing proc: %p, op: %s, param_size: %u, p1: %i, p2: %i, p3: %i\n",
+				ft_printf("p: %p executing op: \"%s\", param_size: %u, p1: %i, p2: %i, p3: %i\n",
 					proc,
 					g_op_tab[opi].name,
 					proc->step,
@@ -83,7 +83,7 @@ void					vm_run(t_vm *vm)
 				uint8_t op = ARENA(vm, proc->pc);
 				if (op > 0 && op < 17)
 				{
-					ft_printf("Loading valid opcode..\n");
+					ft_printf("p: %p loading opcode \"%s\"\n", proc, g_op_tab[op - 1].name);
 					proc->executing = op;
 					proc->execute_cycle = vm->cycle + (g_op_tab[op - 1].cycles - 1);
 				}
