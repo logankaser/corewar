@@ -14,7 +14,6 @@
 # define VIRTUAL_MACHINE_H
 # include "op.h"
 # include "libft.h"
-# include "decode.h"
 
 /*
 ** Player.

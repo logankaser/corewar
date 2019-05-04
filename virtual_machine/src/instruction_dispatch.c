@@ -13,11 +13,11 @@
 #include "instruction_dispatch.h"
 
 
-void	no_op(t_vm *vm, t_process *p, t_instruction_meta *im)
+void	no_op(t_vm *vm, t_process *p, t_decode *d)
 {
 	(void)vm;
 	(void)p;
-	(void)im;
+	(void)d;
 }
 
 t_instruction	*const g_instruction_dispatch[16] = {

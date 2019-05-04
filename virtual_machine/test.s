@@ -4,3 +4,4 @@
 
 st r1,5
 live %42
+live %-1

@@ -42,7 +42,7 @@ void					vm_del(t_vm *vm)
 void					vm_run(t_vm *vm)
 {
 	t_process	*proc;
-	t_instruction_meta im;
+	t_decode	d;
 
 	while (true)
 	{
@@ -62,19 +62,19 @@ void					vm_run(t_vm *vm)
 			{
 				uint8_t opi = proc->executing - 1;
 				uint8_t enc = ARENA(vm, proc->pc + 1);
-				ft_bzero(&im, sizeof(im));
-				decode(&im, opi, enc);
-				proc->step = im.total_width;
+				ft_bzero(&d, sizeof(d));
+				proc->step = decode(&d, &g_op_tab[opi], enc);
+				bool loaded = load_params(&d, &g_op_tab[opi], vm->arena, proc);
 				ft_printf("Executing proc: %p, op: %s, param_size: %u, p1: %i, p2: %i, p3: %i\n",
 					proc,
 					g_op_tab[opi].name,
-					im.total_width,
-					param_load(&im, vm->arena, proc->pc, 0),
-					param_load(&im, vm->arena, proc->pc, 1),
-					param_load(&im, vm->arena, proc->pc, 2)
+					proc->step,
+					d.values[0],
+					d.values[1],
+					d.values[2]
 				);
-				if (validate_types(opi, enc))
-					g_instruction_dispatch[opi](vm, proc, &im);
+				if (loaded)
+					g_instruction_dispatch[opi](vm, proc, &d);
 				proc->pc += proc->step;
 				proc->executing = NONE;
 			}
