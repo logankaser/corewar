@@ -18,7 +18,7 @@ void	live(t_vm *vm, t_process *p, t_decode *d)
 	unsigned	i;
 
 	p->last_live_cycle = vm->cycle;
-	player_id = d->values[0];
+	player_id = param_read(d, vm->arena, p, 0);
 	i = 0;
 	ft_printf("pid: %i\n", d->values[0]);
 	while (i < vm->player_count)

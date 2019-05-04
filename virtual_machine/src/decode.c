@@ -50,6 +50,7 @@ unsigned				decode(t_decode *d, const t_op *op, uint8_t enc)
 	size[REG] = 1;
 	size[DIR] = g_dir_size[op->halfwidth];
 	size[IND] = 2;
+	d->direct_width = size[DIR];
 	if (!op->encoded)
 	{
 		d->offsets[0] = 1;
@@ -75,7 +76,7 @@ static uint8_t const	g_type[4] = {
 	T_IND
 };
 
-bool					load_params(t_decode *d, const t_op *op, uint8_t *arena, t_process *p)
+bool					decode_load(t_decode *d, const t_op *op, uint8_t *arena, t_process *p)
 {
 	unsigned i;
 
@@ -89,19 +90,31 @@ bool					load_params(t_decode *d, const t_op *op, uint8_t *arena, t_process *p)
 			d->values[i] = arena_load(arena, p->pc + d->offsets[i] , 1);
 			if ((uint8_t)d->values[i] >= REG_NUMBER)
 				return (false);
-			d->values[i] = p->registers[(uint8_t)d->values[i]];
 		}
-		else if (d->types[i] == DIR)	
+		else if (d->types[i] == DIR)
+		{
 			d->values[i] = arena_load(arena, p->pc + d->offsets[i],
-				g_dir_size[op->halfwidth]);
+				d->direct_width);
+		}
 		else if (d->types[i] == IND)
 		{
 			d->values[i] = arena_load(arena, p->pc + d->offsets[i], 2);
-			d->values[i] = arena_load(arena, p->pc + (d->values[i] % IDX_MOD),
-				g_dir_size[op->halfwidth]);
 		}
 		i += 1;
 	}
 	return (true);
 }
 
+inline int32_t			param_read(t_decode *d, uint8_t *arena, t_process *p, unsigned n)
+{
+	if (d->types[n] == REG)
+	{
+		return (p->registers[d->values[n] - 1]);
+	}
+	else if (d->types[n] == IND)
+	{
+		return (arena_load(arena, 
+			p->pc + (d->values[n] % IDX_MOD), d->direct_width));
+	}
+	return (d->values[n]);
+}
