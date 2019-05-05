@@ -3,8 +3,10 @@ corewar
 DS*
 .nfs*
 ._*
+._DS*
 *.cor
 *.swp*
+*.dis*
 
 # Prerequisites
 *.d
