@@ -6,7 +6,7 @@
 #    By: logan <logan@student.42.us.org>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/13 10:03:24 by logan             #+#    #+#              #
-#    Updated: 2019/05/04 16:58:58 by ztisnes          ###   ########.fr        #
+#    Updated: 2019/05/05 13:38:56 by ztisnes          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ op_tab \
 decode \
 live \
 st_sti \
-ldi_lldi
+ldi_lldi \
 and_or_xor
 
 OBJ_DIR = obj

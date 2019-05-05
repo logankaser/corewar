@@ -6,7 +6,7 @@ DS*
 ._DS*
 *.cor
 *.swp*
-*.dis*
+*.dis
 
 # Prerequisites
 *.d
