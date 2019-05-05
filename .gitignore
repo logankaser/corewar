@@ -5,6 +5,7 @@ DS*
 ._*
 *.cor
 *.swp*
+*.dis
 
 # Prerequisites
 *.d

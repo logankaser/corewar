@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: logan  <logan@42.us.org>                   +#+  +:+       +#+         #
+#    By: logan <logan@student.42.us.org>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/13 10:03:24 by logan             #+#    #+#              #
-#    Updated: 2019/04/30 15:38:39 by lkaser           ###   ########.fr        #
+#    Updated: 2019/05/05 13:38:56 by ztisnes          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,8 @@ op_tab \
 decode \
 live \
 st_sti \
-ldi_lldi
+ldi_lldi \
+and_or_xor
 
 OBJ_DIR = obj
 VPATH = src:src/op

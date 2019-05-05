@@ -6,7 +6,7 @@
 /*   By: lkaser <lkaser@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/26 14:03:28 by lkaser            #+#    #+#             */
-/*   Updated: 2019/04/27 18:48:41 by tcherret         ###   ########.fr       */
+/*   Updated: 2019/05/05 15:14:10 by ztisnes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,16 +65,20 @@ void					vm_run(t_vm *vm)
 				ft_bzero(&d, sizeof(d));
 				proc->step = decode(&d, &g_op_tab[opi], enc);
 				bool loaded = decode_load(&d, &g_op_tab[opi], vm->arena, proc);
-				ft_printf("p: %p executing op: \"%s\", param_size: %u, p1: %i, p2: %i, p3: %i\n",
-					proc,
-					g_op_tab[opi].name,
-					proc->step,
-					d.values[0],
-					d.values[1],
-					d.values[2]
-				);
 				if (loaded)
+				{
+					ft_printf("p: %p executing op: \"%s\", param_size: %u, p1: %i, p2: %i, p3: %i\n",
+						proc,
+						g_op_tab[opi].name,
+						proc->step,
+						d.values[0],
+						d.values[1],
+						d.values[2]
+					);
 					g_instruction_dispatch[opi](vm, proc, &d);
+				}
+				else
+					ft_printf("p: %p skipping op: \"%s\", bad params\n", proc, g_op_tab[opi].name);
 				proc->pc += proc->step;
 				proc->executing = NONE;
 			}

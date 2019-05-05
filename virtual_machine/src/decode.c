@@ -6,7 +6,7 @@
 /*   By: lkaser <lkaser@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 17:06:34 by lkaser            #+#    #+#             */
-/*   Updated: 2019/05/01 17:06:35 by lkaser           ###   ########.fr       */
+/*   Updated: 2019/05/05 15:15:59 by ztisnes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ bool					decode_load(t_decode *d, const t_op *op, uint8_t *arena, t_process *p)
 		if (d->types[i] == REG)
 		{
 			d->values[i] = arena_load(arena, p->pc + d->offsets[i] , 1);
-			if ((uint8_t)d->values[i] >= REG_NUMBER)
+			if ((uint8_t)d->values[i] > REG_NUMBER)
 				return (false);
 		}
 		else if (d->types[i] == DIR)
@@ -133,7 +133,7 @@ int32_t				param_read(t_decode *d, uint8_t *arena, t_process *p, unsigned n)
 	}
 	else if (d->types[n] == IND)
 	{
-		return (arena_load(arena, 
+		return (arena_load(arena,
 			p->pc + (d->values[n] % IDX_MOD), d->direct_width));
 	}
 	return (d->values[n]);
