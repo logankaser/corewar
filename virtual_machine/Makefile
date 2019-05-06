@@ -6,7 +6,7 @@
 #    By: logan <logan@student.42.us.org>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/13 10:03:24 by logan             #+#    #+#              #
-#    Updated: 2019/05/05 13:38:56 by ztisnes          ###   ########.fr        #
+#    Updated: 2019/05/06 15:42:44 by tcherret         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,11 @@ decode \
 live \
 st_sti \
 ldi_lldi \
-and_or_xor
+and_or_xor \
+aff \
+sub_add \
+zjmp \
+ld_lld \
 
 OBJ_DIR = obj
 VPATH = src:src/op
