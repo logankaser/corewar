@@ -6,7 +6,7 @@
 /*   By: ztisnes <ztisnes@student.42.us.org>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 18:39:38 by ztisnes           #+#    #+#             */
-/*   Updated: 2019/05/04 13:47:58 by tcherret         ###   ########.fr       */
+/*   Updated: 2019/05/06 15:27:42 by tcherret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	add(t_vm *vm, t_process *p, t_decode *d)
 	p->carry = p->registers[p3 - 1] ? 0 : 1;
 }
 
-void	sub(t_vm *vm, t_process *p, t_instruction_meta *im)
+void	sub(t_vm *vm, t_process *p, t_decode *d)
 {
 	int		p1;
 	int		p2;
