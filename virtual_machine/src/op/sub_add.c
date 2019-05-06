@@ -15,9 +15,9 @@
 
 void	add(t_vm *vm, t_process *p, t_decode *d)
 {
-	int		p1;
-	int		p2;
-	int		p3;
+	int32_t		p1;
+	int32_t		p2;
+	int32_t		p3;
 
 	p1 = param_read(d, vm->arena, p, 0);
 	p2 = param_read(d, vm->arena, p, 1);
@@ -28,9 +28,9 @@ void	add(t_vm *vm, t_process *p, t_decode *d)
 
 void	sub(t_vm *vm, t_process *p, t_decode *d)
 {
-	int		p1;
-	int		p2;
-	int		p3;
+	int32_t		p1;
+	int32_t		p2;
+	int32_t		p3;
 
 	p1 = param_read(d, vm->arena, p, 0);
 	p2 = param_read(d, vm->arena, p, 1);
