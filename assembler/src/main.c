@@ -41,13 +41,9 @@ int		parse_header(int fd, t_asm *out)
 
 void	parse_line(char *line, t_asm *out)
 {
-	int has_label;
-	int has_cmd;
 	int i;
 
 	i = 0;
-	has_label = 0;
-	has_cmd = 0;
 	line = skip_space(line);
 	while (line[i] && ft_strchr(LABEL_CHARS, line[i]))
 		++i;

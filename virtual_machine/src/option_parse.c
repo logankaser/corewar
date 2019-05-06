@@ -43,43 +43,51 @@ static int32_t		find_free_id(t_vm *vm)
 	return (id);
 }
 
+static int			parse_option_id(int argc, char **argv, int i, t_vm *vm)
+{
+	i += 1;
+	if (i >= argc)
+	{
+		ft_fprintf(stderr, "corewar: -n requires a number\n");
+		exit_usage(vm);
+	}
+	i += 1;
+	if (i >= argc)
+	{
+		ft_fprintf(stderr,
+			"corewar: -n must be followed by player filepath\n");
+		exit_usage(vm);
+	}
+	load_player(vm, argv[i], ft_atoi(argv[i - 1]));
+	return (i);
+}
+
+static int			parse_option_dump(int argc, char **argv, int i, t_vm *vm)
+{
+	i += 1;
+	if (i >= argc || !ft_isdigit(argv[i][0]))
+	{
+		ft_fprintf(stderr,
+			"corewar: --dump requires a number argument\n");
+		exit_usage(vm);
+	}
+	vm->dump_cycle = ft_atoi(argv[i]);
+	return (i);
+}
+
 void				parse_options(int argc, char **argv, t_vm *vm)
 {
 	int i;
 
 	if (argc == 1)
 		exit_usage(vm);
-	i = 1;
-	while (i < argc)
+	i = 0;
+	while (++i < argc)
 	{
 		if (!ft_strcmp(argv[i], "-dump") || !ft_strcmp(argv[i], "--dump"))
-		{
-			i += 1;
-			if (i >= argc || !ft_isdigit(argv[i][0]))
-			{
-				ft_fprintf(stderr,
-					"corewar: --dump requires a number argument\n");
-				exit_usage(vm);
-			}
-			vm->dump_cycle = ft_atoi(argv[i]);
-		}
+			i = parse_option_dump(argc, argv, i, vm);
 		else if (!ft_strcmp(argv[i], "-n"))
-		{
-			i += 1;
-			if (i >= argc)
-			{
-				ft_fprintf(stderr, "corewar: -n requires a number\n");
-				exit_usage(vm);
-			}
-			i += 1;
-			if (i >= argc)
-			{
-				ft_fprintf(stderr,
-					"corewar: -n must be followed by player filepath\n");
-				exit_usage(vm);
-			}
-			load_player(vm, argv[i], ft_atoi(argv[i - 1]));
-		}
+			i = parse_option_id(argc, argv, i, vm);
 		else if (!ft_strncmp(argv[i], "-", 1))
 		{
 			ft_fprintf(stderr, "corewar: illegal option \"%s\"\n", argv[i]);
@@ -87,7 +95,6 @@ void				parse_options(int argc, char **argv, t_vm *vm)
 		}
 		else
 			load_player(vm, argv[i], find_free_id(vm));
-		++i;
 	}
 	if (vm->player_count == 0)
 	{

@@ -12,8 +12,7 @@
 
 #include "disasm.h"
 
-unsigned		write_dir(unsigned type, uint8_t op, t_op *g_op_tab,
-		t_disasm *file_data)
+unsigned		write_dir(unsigned type, uint8_t op, t_disasm *file_data)
 {
 	int64_t param;
 
@@ -39,8 +38,7 @@ unsigned		write_dir(unsigned type, uint8_t op, t_op *g_op_tab,
 	return (0);
 }
 
-unsigned		write_param(unsigned type, uint8_t op, t_op *g_op_tab,
-		t_disasm *file_data)
+unsigned		write_param(unsigned type, uint8_t op, t_disasm *file_data)
 {
 	int64_t	param;
 
@@ -63,6 +61,6 @@ unsigned		write_param(unsigned type, uint8_t op, t_op *g_op_tab,
 		return (2);
 	}
 	else if (type == DIR_CODE)
-		return (write_dir(type, op, g_op_tab, file_data));
+		return (write_dir(type, op, file_data));
 	return (0);
 }

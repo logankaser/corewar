@@ -26,7 +26,6 @@ void					and(t_vm *vm, t_process *p, t_decode *d);
 void					or(t_vm *vm, t_process *p, t_decode *d);
 void					xor(t_vm *vm, t_process *p, t_decode *d);
 
-
 extern t_instruction	*const g_instruction_dispatch[16];
 
 #endif

@@ -20,7 +20,7 @@ void	st(t_vm *vm, t_process *p, t_decode *d)
 	value = param_read(d, vm->arena, p, 0);
 	if (d->types[1] == REG)
 	{
-		p->registers[d->values[1] - 1] = value; 
+		p->registers[d->values[1] - 1] = value;
 	}
 	else if (d->types[1] == IND)
 	{

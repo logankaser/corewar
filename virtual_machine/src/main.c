@@ -34,7 +34,7 @@ static void	start_players(t_vm *vm)
 		player = vm->players[i];
 		if (!player)
 			continue;
-		proc = process_spawn(vm, NULL, 
+		proc = process_spawn(vm, NULL,
 			(MEM_SIZE / vm->player_count) * i);
 		player->id = -player->id;
 		proc->registers[0] = player->id;

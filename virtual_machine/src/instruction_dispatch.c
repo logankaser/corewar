@@ -12,8 +12,7 @@
 
 #include "instruction_dispatch.h"
 
-
-void	no_op(t_vm *vm, t_process *p, t_decode *d)
+void			no_op(t_vm *vm, t_process *p, t_decode *d)
 {
 	(void)vm;
 	(void)p;

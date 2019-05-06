@@ -24,6 +24,7 @@ void	and(t_vm *vm, t_process *p, t_decode *d)
 	p->registers[p3 - 1] = p1 & p2;
 	p->carry = p->registers[p3 - 1] ? 0 : 1;
 }
+
 void	or(t_vm *vm, t_process *p, t_decode *d)
 {
 	int32_t p1;
@@ -36,6 +37,7 @@ void	or(t_vm *vm, t_process *p, t_decode *d)
 	p->registers[p3 - 1] = p1 | p2;
 	p->carry = p->registers[p3 - 1] ? 0 : 1;
 }
+
 void	xor(t_vm *vm, t_process *p, t_decode *d)
 {
 	int32_t p1;

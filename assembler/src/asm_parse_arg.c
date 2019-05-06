@@ -60,7 +60,7 @@ char	*parse_arg_val(char *line, t_asm_arg *new)
 	{
 		if (line[i] == '-')
 			i++;
-		while (line[i] >= '0' & line[i] <= '9')
+		while (line[i] >= '0' && line[i] <= '9')
 			i++;
 		tmp = ft_strndup(line, i);
 		new->val = ft_atoi(tmp);
