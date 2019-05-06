@@ -15,7 +15,7 @@
 
 void	aff(t_vm *vm, t_process *p, t_decode *d)
 {
-	int 			p1;
+	int32_t			p1;
 	char 			ascii;
 
 	if (!vm->quiet)
