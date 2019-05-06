@@ -51,8 +51,7 @@ unsigned		decode(t_decode *d, const t_op *op, uint8_t enc);
 
 bool			decode_load(t_decode *d, const t_op *op, uint8_t *arena,
 	t_process *p);
-int32_t			param_read(t_decode *d, uint8_t *arena, t_process *p, 
+int32_t			param_read(t_decode *d, uint8_t *arena, t_process *p,
 	unsigned n);
-
 
 #endif

@@ -10,6 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <unistd.h>
+#include <fcntl.h>
 #include "disasm.h"
 
 static uint8_t g_type[4] = {

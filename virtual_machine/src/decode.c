@@ -15,7 +15,8 @@
 #include "op.h"
 #include "decode.h"
 
-int32_t				arena_load(uint8_t *arena, unsigned from, unsigned size)
+int32_t					arena_load(uint8_t *arena, unsigned from,
+	unsigned size)
 {
 	int32_t	out;
 
@@ -35,7 +36,8 @@ int32_t				arena_load(uint8_t *arena, unsigned from, unsigned size)
 	return (out);
 }
 
-void					arena_store(uint8_t *arena, unsigned at, int32_t value, unsigned size)
+void					arena_store(uint8_t *arena, unsigned at, int32_t value,
+	unsigned size)
 {
 	int16_t half;
 
@@ -75,18 +77,18 @@ unsigned				decode(t_decode *d, const t_op *op, uint8_t enc)
 	{
 		d->offsets[0] = 1;
 		d->types[0] = DIR;
-		return 1 + size[DIR];
+		return (1 + size[DIR]);
 	}
 	i = 0;
 	offset = 2;
-	while(i < op->param_num)
+	while (i < op->param_num)
 	{
 		d->offsets[i] = offset;
 		d->types[i] = PX(enc, i + 1);
 		offset += size[d->types[i]];
 		i += 1;
 	}
-	return offset;
+	return (offset);
 }
 
 static uint8_t const	g_type[4] = {
@@ -96,7 +98,8 @@ static uint8_t const	g_type[4] = {
 	T_IND
 };
 
-bool					decode_load(t_decode *d, const t_op *op, uint8_t *arena, t_process *p)
+bool					decode_load(t_decode *d, const t_op *op,
+	uint8_t *arena, t_process *p)
 {
 	unsigned i;
 
@@ -107,7 +110,7 @@ bool					decode_load(t_decode *d, const t_op *op, uint8_t *arena, t_process *p)
 			return (false);
 		if (d->types[i] == REG)
 		{
-			d->values[i] = arena_load(arena, p->pc + d->offsets[i] , 1);
+			d->values[i] = arena_load(arena, p->pc + d->offsets[i], 1);
 			if ((uint8_t)d->values[i] > REG_NUMBER)
 				return (false);
 		}
@@ -125,7 +128,8 @@ bool					decode_load(t_decode *d, const t_op *op, uint8_t *arena, t_process *p)
 	return (true);
 }
 
-int32_t				param_read(t_decode *d, uint8_t *arena, t_process *p, unsigned n)
+int32_t					param_read(t_decode *d, uint8_t *arena, t_process *p,
+	unsigned n)
 {
 	if (d->types[n] == REG)
 	{

@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   process.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lkaser <lkaser@student.42.us.org>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/05/06 11:29:40 by lkaser            #+#    #+#             */
+/*   Updated: 2019/05/06 11:29:42 by lkaser           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "process.h"
 
-t_process *process_spawn(t_vm *vm, t_process *parent, unsigned pc)
+t_process	*process_spawn(t_vm *vm, t_process *parent, unsigned pc)
 {
 	t_process *new_process;
 

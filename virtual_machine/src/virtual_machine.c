@@ -23,9 +23,9 @@ void					vm_init(t_vm *vm)
 
 void					vm_del(t_vm *vm)
 {
-	unsigned i;
-	t_process *proc;
-	t_process *tmp;
+	unsigned	i;
+	t_process	*proc;
+	t_process	*tmp;
 
 	i = 0;
 	while (i < vm->player_count)

@@ -12,7 +12,7 @@
 
 NAME = disasm
 LIST = main \
-	   op \
+	   op_tab \
 	   write_function \
 	   write_param \
 	   helper_function \

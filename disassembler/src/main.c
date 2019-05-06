@@ -10,6 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <unistd.h>
+#include <fcntl.h>
 #include "disasm.h"
 
 int				basic_check(char *file)
@@ -69,7 +71,7 @@ int				main(int ac, char **av)
 			file_data.header.prog_size);
 	write_header(&file_data);
 	while (file_data.index < file_data.header.prog_size)
-		file_data.index += write_program(&file_data, g_op_tab);
+		file_data.index += write_program(&file_data);
 	close(file_data.fdc);
 	return (finish_dis("Writing the output at", &name, 0));
 }

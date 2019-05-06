@@ -13,12 +13,9 @@
 #ifndef DISASM_H
 # define DISASM_H
 
-#include "libft.h"
-#include "op.h"
-#include "../../virtual_machine/include/virtual_machine.h"
-#include <unistd.h>
-#include <fcntl.h>
-#include <errno.h>
+# include <errno.h>
+# include "libft.h"
+# include "op.h"
 
 # define COLOR_RESET	"\033[0m"
 # define BOLD			"\033[1m"
@@ -31,7 +28,15 @@
 # define CYAN_TEXT		"\033[36;1m"
 # define WHITE_TEXT		"\033[37;1m"
 
-typedef struct s_disasm
+# define P1(byte) ((byte & 0b11000000) >> 6)
+# define P2(byte) ((byte & 0b00110000) >> 4)
+# define P3(byte) ((byte & 0b00001100) >> 2)
+
+# define REG 0b01
+# define DIR 0b10
+# define IND 0b11
+
+typedef struct	s_disasm
 {
 	t_header	header;
 	uint8_t		program[CHAMP_MAX_SIZE];
@@ -40,14 +45,11 @@ typedef struct s_disasm
 }				t_disasm;
 
 void			write_header(t_disasm *file_data);
-unsigned		write_program_op(uint8_t op, t_op *g_op_tab, 
-		t_disasm *file_data);
+unsigned		write_program_op(uint8_t op, t_disasm *file_data);
 unsigned		write_live_zjmp_fork(uint8_t op, t_disasm *file_data);
-unsigned		write_program(t_disasm *file_data, t_op *g_op_tab);
-unsigned		write_param(unsigned type, uint8_t op, t_op *g_op_tab,
-		t_disasm *file_data);
+unsigned		write_program(t_disasm *file_data);
+unsigned		write_param(unsigned type, uint8_t op, t_disasm *file_data);
 bool			validate_types(uint8_t *arena, unsigned pc);
 bool			read_file(const char *filepath, t_uvector *buf);
-
 
 #endif

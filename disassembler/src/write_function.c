@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "op.h"
 #include "disasm.h"
 
 void			write_header(t_disasm *file_data)
@@ -24,8 +25,7 @@ void			write_header(t_disasm *file_data)
 	write(file_data->fdc, "\"\n\n", 3);
 }
 
-unsigned		write_program_op(uint8_t op, t_op *g_op_tab,
-		t_disasm *file_data)
+unsigned		write_program_op(uint8_t op, t_disasm *file_data)
 {
 	if (op > 0 && op < 17)
 	{
@@ -69,7 +69,7 @@ unsigned		wrong_cor(void)
 	return (-1);
 }
 
-unsigned		write_program(t_disasm *file_data, t_op *g_op_tab)
+unsigned		write_program(t_disasm *file_data)
 {
 	uint8_t		op;
 	unsigned	enc;
@@ -78,17 +78,17 @@ unsigned		write_program(t_disasm *file_data, t_op *g_op_tab)
 	if (!validate_types(file_data->program, file_data->index))
 		return (wrong_cor());
 	ft_memcpy(&op, file_data->program + file_data->index, 1);
-	file_data->index += write_program_op(op, g_op_tab, file_data);
+	file_data->index += write_program_op(op, file_data);
 	if (g_op_tab[op - 1].encoded == 1)
 	{
 		ft_memcpy(&enc, file_data->program + file_data->index, 1);
 		file_data->index++;
 		if (P1(enc))
-			file_data->index += write_param(P1(enc), op, g_op_tab, file_data);
+			file_data->index += write_param(P1(enc), op, file_data);
 		if (P2(enc))
-			file_data->index += write_param(P2(enc), op, g_op_tab, file_data);
+			file_data->index += write_param(P2(enc), op, file_data);
 		if (P3(enc))
-			file_data->index += write_param(P3(enc), op, g_op_tab, file_data);
+			file_data->index += write_param(P3(enc), op, file_data);
 	}
 	else
 		file_data->index += write_live_zjmp_fork(op, file_data);
