@@ -15,8 +15,8 @@
 
 void	ld(t_vm *vm, t_process *p, t_decode *d)
 {
-	int	p1;
-	int	p2;
+	int32_t	p1;
+	int32_t	p2;
 
 	p1 = param_read(d, vm->arena, p, 0);
 	p2 = d->values[1];
@@ -26,8 +26,8 @@ void	ld(t_vm *vm, t_process *p, t_decode *d)
 
 void	lld(t_vm *vm, t_process *p, t_decode *d)
 {
-	int	p1;
-	int	p2;
+	int32_t	p1;
+	int32_t	p2;
 
 	p1 = d->values[0];
 	p2 = d->values[1];
