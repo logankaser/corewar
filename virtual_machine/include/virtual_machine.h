@@ -23,7 +23,7 @@ typedef struct			s_player {
 	t_header			header;
 	uint8_t				prog[CHAMP_MAX_SIZE];
 	int32_t				id;
-	int					last_live_cycle;
+	unsigned			last_live_cycle;
 }						t_player;
 
 # define NONE 0
@@ -33,17 +33,15 @@ typedef struct			s_player {
 */
 
 typedef struct			s_process {
+	struct s_process	*next;
 	unsigned			pc;
+	unsigned			execute_cycle;
+	unsigned			step;
 	unsigned			last_live_cycle;
 	int32_t				registers[REG_NUMBER];
-	uint32_t			execute_cycle;
-	struct s_process	*next;
-	unsigned			step;
 	uint8_t				executing;
 	bool				carry;
 }						t_process;
-
-void					process_fork(t_process *p);
 
 /*
 ** Virtual machine state.
@@ -52,11 +50,15 @@ void					process_fork(t_process *p);
 typedef struct			s_vm {
 	unsigned			cycle;
 	unsigned			dump_cycle;
-	unsigned			cycles_to_die;
 	t_player			*players[MAX_PLAYERS];
-	unsigned			player_count;
 	t_process			*processes;
+	unsigned			lives;
+	unsigned			checks;
+	unsigned			player_count;
+	unsigned			cycles_to_die;
+	unsigned			check_cycle;
 	uint8_t				arena[MEM_SIZE];
+	bool				quiet;
 }						t_vm;
 
 # define VALID_REG(x) (x > 0 && x <= REG_NUMBER)

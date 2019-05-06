@@ -14,6 +14,7 @@
 # define PROCESS_H
 # include "virtual_machine.h"
 
-t_process *process_spawn(t_vm *vm, t_process *parent, unsigned pc);
+t_process	*process_spawn(t_vm *vm, t_process *parent, unsigned pc);
+void		process_check(t_vm *vm, t_process **p);
 
 #endif

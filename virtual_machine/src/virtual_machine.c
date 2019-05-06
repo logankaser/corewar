@@ -13,6 +13,7 @@
 #include <limits.h>
 #include "virtual_machine.h"
 #include "instruction_dispatch.h"
+#include "process.h"
 
 void					vm_init(t_vm *vm)
 {
@@ -44,7 +45,7 @@ void					vm_run(t_vm *vm)
 	t_process	*proc;
 	t_decode	d;
 
-	while (true)
+	while (vm->processes)
 	{
 		vm->cycle += 1;
 		if (vm->cycle >= vm->dump_cycle)
@@ -54,7 +55,7 @@ void					vm_run(t_vm *vm)
 		{
 			if (vm->cycle < proc->execute_cycle)
 			{
-				ft_printf("p: %p waiting %u cycles\n", proc, proc->execute_cycle - vm->cycle);
+				// ft_printf("p: %p waiting %u cycles\n", proc, proc->execute_cycle - vm->cycle);
 				proc = proc->next;
 				continue ;
 			}
@@ -67,14 +68,14 @@ void					vm_run(t_vm *vm)
 				bool loaded = decode_load(&d, &g_op_tab[opi], vm->arena, proc);
 				if (loaded)
 				{
-					ft_printf("p: %p executing op: \"%s\", param_size: %u, p1: %i, p2: %i, p3: %i\n",
-						proc,
-						g_op_tab[opi].name,
-						proc->step,
-						d.values[0],
-						d.values[1],
-						d.values[2]
-					);
+					// ft_printf("p: %p executing op: \"%s\", param_size: %u, p1: %i, p2: %i, p3: %i\n",
+					// 	proc,
+					// 	g_op_tab[opi].name,
+					// 	proc->step,
+					// 	d.values[0],
+					// 	d.values[1],
+					// 	d.values[2]
+					// );
 					g_instruction_dispatch[opi](vm, proc, &d);
 				}
 				else
@@ -87,7 +88,7 @@ void					vm_run(t_vm *vm)
 				uint8_t op = ARENA(vm, proc->pc);
 				if (op > 0 && op < 17)
 				{
-					ft_printf("p: %p loading opcode \"%s\"\n", proc, g_op_tab[op - 1].name);
+					//ft_printf("p: %p loading op: \"%s\"\n", proc, g_op_tab[op - 1].name);
 					proc->executing = op;
 					proc->execute_cycle = vm->cycle + (g_op_tab[op - 1].cycles - 1);
 				}
@@ -99,5 +100,7 @@ void					vm_run(t_vm *vm)
 			}
 			proc = proc->next;
 		}
+		if (vm->cycle >= vm->check_cycle)
+			process_check(vm, &vm->processes);
 	}
 }
