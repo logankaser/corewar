@@ -88,11 +88,8 @@ void				parse_options(int argc, char **argv, t_vm *vm)
 			i = parse_option_dump(argc, argv, i, vm);
 		else if (!ft_strcmp(argv[i], "-n"))
 			i = parse_option_id(argc, argv, i, vm);
-		else if (!ft_strncmp(argv[i], "-", 1))
-		{
-			ft_fprintf(stderr, "corewar: illegal option \"%s\"\n", argv[i]);
-			exit_usage(vm);
-		}
+		else if (!ft_strncmp(argv[i], "-q", 1))
+			vm->quiet = true;
 		else
 			load_player(vm, argv[i], find_free_id(vm));
 	}
