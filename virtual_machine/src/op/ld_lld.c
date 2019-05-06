@@ -6,7 +6,7 @@
 /*   By: tcherret <tcherret@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/02 19:18:59 by tcherret          #+#    #+#             */
-/*   Updated: 2019/05/04 13:47:49 by tcherret         ###   ########.fr       */
+/*   Updated: 2019/05/06 15:48:44 by tcherret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	lld(t_vm *vm, t_process *p, t_decode *d)
 
 	p1 = d->values[0];
 	p2 = d->values[1];
-	if (d>types[0] == DIR)
+	if (d->types[0] == DIR)
 		p->registers[p2 - 1] = p1;
 	else if (d->types[0] == IND)
 	{
