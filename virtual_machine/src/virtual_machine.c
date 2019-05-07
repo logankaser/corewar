@@ -78,8 +78,8 @@ void					vm_run(t_vm *vm)
 					// );
 					g_instruction_dispatch[opi](vm, proc, &d);
 				}
-				else
-					ft_printf("p: %p skipping op: \"%s\", bad params\n", proc, g_op_tab[opi].name);
+				//else
+				//	ft_printf("p: %p skipping op: \"%s\", bad params\n", proc, g_op_tab[opi].name);
 				proc->pc += proc->step;
 				proc->executing = NONE;
 			}

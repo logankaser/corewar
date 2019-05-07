@@ -79,5 +79,6 @@ int			main(int argc, char **argv)
 	start_players(&vm);
 	vm_run(&vm);
 	annouce_winner(&vm);
+	ft_printf("final cycle: %u\n", vm.cycle);
 	vm_del(&vm);
 }

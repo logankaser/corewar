@@ -35,7 +35,7 @@ void	lld(t_vm *vm, t_process *p, t_decode *d)
 		p->registers[p2 - 1] = p1;
 	else if (d->types[0] == IND)
 	{
-		p1 = arena_load(vm->arena, (p->pc + p1), d->direct_width);
+		p1 = arena_load(vm->arena, p->pc + p1, d->direct_width);
 		p->registers[p2 - 1] = p1;
 	}
 	p->carry = p->registers[p2 - 1] ? 0 : 1;

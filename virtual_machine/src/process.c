@@ -41,9 +41,9 @@ void		process_check(t_vm *vm, t_process **p)
 			free(tmp);
 		}
 		else
-			*p = (*p) ->next;
+			p = &((*p) ->next);
 	}
-	if (vm->lives >= NBR_LIVE || vm->checks >= MAX_CHECKS)
+	if (vm->lives >= NBR_LIVE || ++vm->checks >= MAX_CHECKS)
 	{
 		vm->checks = 0;
 		if (vm->cycles_to_die > CYCLE_DELTA)
