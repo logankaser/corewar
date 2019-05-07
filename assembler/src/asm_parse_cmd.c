@@ -6,7 +6,7 @@
 /*   By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/28 20:53:56 by jbeall            #+#    #+#             */
-/*   Updated: 2019/04/28 20:57:48 by jbeall           ###   ########.fr       */
+/*   Updated: 2019/05/07 12:49:14 by jbeall           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,23 +32,23 @@ char	*parse_cmd_inner(char *line, t_asm *out, t_asm_cmd *new)
 char	*parse_cmd(char *line, t_asm *out)
 {
 	char		*cmd_name;
-	t_asm_cmd	*new;
 	int			len;
+	t_asm_cmd	new;
 
 	len = 0;
 	while (line[len] && ft_strchr(LABEL_CHARS, line[len]))
 		len++;
 	cmd_name = ft_strndup(line, len);
-	new = ft_memalloc(sizeof(t_asm_cmd));
-	new->name = cmd_name;
-	new->mem_addr = out->mem_ptr;
-	ft_uvector_init(&(new->args), sizeof(t_asm_arg));
+	ft_bzero(&new, sizeof(new));
+	new.name = cmd_name;
+	new.mem_addr = out->mem_ptr;
+	ft_uvector_init(&(new.args), sizeof(t_asm_arg));
 	line += len;
-	line = parse_cmd_inner(line, out, new);
-	valid_cmd(new, out);
-	new->encode = new->has_encode ? encode_byte(new) : 0;
-	out->mem_ptr += calc_cmd_size(new);
-	ft_uvector_push(&(out->cmd_vec), new);
+	line = parse_cmd_inner(line, out, &new);
+	valid_cmd(&new, out);
+	new.encode = new.has_encode ? encode_byte(&new) : 0;
+	out->mem_ptr += calc_cmd_size(&new);
+	ft_uvector_push(&(out->cmd_vec), &new);
 	return (line);
 }
 

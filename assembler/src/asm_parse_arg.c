@@ -6,7 +6,7 @@
 /*   By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/28 20:48:34 by jbeall            #+#    #+#             */
-/*   Updated: 2019/04/28 20:53:04 by jbeall           ###   ########.fr       */
+/*   Updated: 2019/05/07 12:52:51 by jbeall           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,16 +71,16 @@ char	*parse_arg_val(char *line, t_asm_arg *new)
 
 char	*parse_arg(char *line, t_asm *out, t_asm_cmd *cmd)
 {
-	t_asm_arg *new;
+	t_asm_arg new;
 
-	new = ft_memalloc(sizeof(t_asm_arg));
+	ft_bzero(&new, sizeof(new));
 	if (*line == 'r')
-		line = parse_arg_reg(++line, out, new);
+		line = parse_arg_reg(++line, out, &new);
 	else if (*line == DIRECT_CHAR || ft_strchr(NUM_CHARS, *line)
 		|| *line == LABEL_CHAR)
-		line = parse_arg_val(line, new);
+		line = parse_arg_val(line, &new);
 	else
 		asm_error("syntax error", "invalid arg", out->line);
-	ft_uvector_push(&(cmd->args), new);
+	ft_uvector_push(&(cmd->args), &new);
 	return (line);
 }

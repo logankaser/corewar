@@ -6,7 +6,7 @@
 /*   By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 14:15:34 by jbeall            #+#    #+#             */
-/*   Updated: 2019/04/28 21:04:00 by jbeall           ###   ########.fr       */
+/*   Updated: 2019/05/07 14:05:17 by jbeall           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ void			asm_error(char *er_name, char *er_type, int line);
 void			ft_uvector_reset(t_uvector *vector, int size);
 void			asm_readline_str(t_asm *out, int fd, char **buf, t_uvector *in);
 char			*ft_strndup(char *str, int len);
+int				end_check(int fd);
 
 /*
 ** parse_header

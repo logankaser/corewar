@@ -6,7 +6,7 @@
 /*   By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 18:28:10 by lkaser            #+#    #+#             */
-/*   Updated: 2019/04/28 21:18:37 by jbeall           ###   ########.fr       */
+/*   Updated: 2019/05/07 14:07:08 by jbeall           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int		parse_header(int fd, t_asm *out)
 		else
 			asm_error("error", "incomplete header", out->line);
 	}
+	free(in.data);
 	return (0);
 }
 
@@ -67,6 +68,8 @@ void	parse_body(int fd, t_asm *out)
 		ft_strdel(&buf);
 	}
 	deref_labels(out);
+	if (!end_check(fd))
+		asm_error("syntax error", "no terminating newline", out->line);
 }
 
 /*
