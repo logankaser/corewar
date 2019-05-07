@@ -15,13 +15,11 @@
 
 void	aff(t_vm *vm, t_process *p, t_decode *d)
 {
-	int32_t			p1;
 	char 			ascii;
 
 	if (!vm->quiet)
 	{
-		p1 = param_read(d, vm->arena, p, 0);
-		ascii = p->registers[p1 - 1] % 256;
+		ascii = param_read(d, vm->arena, p, 0) % 256;
 		write(1, &ascii, 1);
 	}
 }
