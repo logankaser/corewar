@@ -6,7 +6,7 @@
 /*   By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/28 20:45:31 by jbeall            #+#    #+#             */
-/*   Updated: 2019/04/28 21:16:20 by jbeall           ###   ########.fr       */
+/*   Updated: 2019/05/07 14:07:47 by jbeall           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,18 @@ char		*ft_strndup(char *str, int len)
 	new = ft_strnew(len + 1);
 	ft_strlcat(new, str, len + 1);
 	return (new);
+}
+
+int			end_check(int fd)
+{
+	long size;
+	char c;
+
+	c = 0;
+	if ((size = lseek(fd, -1, SEEK_END)) == -1)
+		perror("lseek error");
+	read(fd, &c, 1);
+	if (c != '\n')
+		return (0);
+	return (1);
 }
