@@ -48,7 +48,8 @@ static bool		copy_player(t_uvector file, t_player *player, char *fp)
 	if (player->header.prog_size != file.length - HEADER_SIZE)
 	{
 		ft_fprintf(stderr,
-			"corewar: file size has been corrupted in \"%s\"\n", fp);
+			"corewar: program size is corrupt in \"%s\"\n\t claim: %u, actual: %u\n",
+			fp, player->header.prog_size, file.length - HEADER_SIZE);
 		return (false);
 	}
 	ft_memcpy(player->prog,
