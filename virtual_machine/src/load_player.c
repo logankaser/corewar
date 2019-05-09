@@ -48,7 +48,8 @@ static bool		copy_player(t_uvector file, t_player *player, char *fp)
 	if (player->header.prog_size != file.length - HEADER_SIZE)
 	{
 		ft_fprintf(stderr,
-			"corewar: file size has been corrupted in \"%s\"\n", fp);
+			"corewar: program size is corrupt in \"%s\", claim: %i, actual: %i\n",
+			fp, player->header.prog_size, file.length - HEADER_SIZE);
 		return (false);
 	}
 	ft_memcpy(player->prog,
@@ -64,7 +65,7 @@ static void		load_player_file(t_vm *vm, char *fp, t_player *player)
 
 	if (!read_file(fp, &file))
 	{
-		ft_fprintf(stderr, "corewar: invalid program path \"%s\"\n", fp);
+		ft_fprintf(stderr, "corewar: could not open \"%s\"\n", fp);
 		exit_usage(vm);
 	}
 	else if (file.length - HEADER_SIZE > CHAMP_MAX_SIZE)

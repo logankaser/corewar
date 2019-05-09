@@ -14,8 +14,9 @@
 
 void		asm_error(char *er_name, char *er_type, int line)
 {
-	ft_printf(RED_TEXT"%s: %s [line %d]\n"COLOR_RESET, er_name, er_type, line);
-	exit(0);
+	ft_fprintf(stderr, 
+		RED_TEXT"%s: %s [line %d]\n"COLOR_RESET, er_name, er_type, line);
+	exit(1);
 }
 
 void		ft_uvector_reset(t_uvector *vector, int size)
