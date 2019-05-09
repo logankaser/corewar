@@ -65,7 +65,7 @@ static void		load_player_file(t_vm *vm, char *fp, t_player *player)
 
 	if (!read_file(fp, &file))
 	{
-		ft_fprintf(stderr, "corewar: invalid program path \"%s\"\n", fp);
+		ft_fprintf(stderr, "corewar: could not open \"%s\"\n", fp);
 		exit_usage(vm);
 	}
 	else if (file.length - HEADER_SIZE > CHAMP_MAX_SIZE)

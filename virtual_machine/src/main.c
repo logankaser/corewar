@@ -76,6 +76,11 @@ int			main(int argc, char **argv)
 
 	vm_init(&vm);
 	parse_options(argc, argv, &vm);
+	if (vm.player_count == 0)
+	{
+		ft_fprintf(stderr, "corewar: no players!\n");
+		exit_usage(&vm);
+	}
 	start_players(&vm);
 	vm_run(&vm);
 	annouce_winner(&vm);
