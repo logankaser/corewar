@@ -31,9 +31,9 @@ t_instruction	*const g_instruction_dispatch[16] = {
 	zjmp,
 	ldi,
 	sti,
-	no_op,
+	ft_fork,
 	lld,
 	lldi,
-	no_op,
+	ft_lfork,
 	aff,
 };
