@@ -27,6 +27,7 @@ aff \
 sub_add \
 zjmp \
 ld_lld \
+fork_lfork
 
 OBJ_DIR = obj
 VPATH = src:src/op

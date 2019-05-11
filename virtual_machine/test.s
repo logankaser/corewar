@@ -2,6 +2,7 @@
 
 .comment "dead alive"
 
+fork %0
 top:
 	st r1,6
 	live %42
