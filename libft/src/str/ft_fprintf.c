@@ -25,7 +25,7 @@ int	ft_fprintf(FILE *stream, const char *format, ...)
 		va_start(args, format);
 		format_iter(&s, (char*)format, args);
 		va_end(args);
-		fwrite(s.data, sizeof(char), s.length, stream);
+		fwrite(s.data, sizeof(char), s.length - 1, stream);
 		free(s.data);
 		return (s.length);
 	}

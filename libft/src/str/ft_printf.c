@@ -157,7 +157,7 @@ int				ft_printf(char *format, ...)
 		va_start(args, format);
 		format_iter(&s, format, args);
 		va_end(args);
-		write(STDOUT_FILENO, s.data, s.length);
+		write(STDOUT_FILENO, s.data, s.length - 1);
 		free(s.data);
 		return (s.length);
 	}
