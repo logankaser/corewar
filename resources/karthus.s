@@ -1,15 +1,33 @@
 .name 		"Karthus"
 .comment	"The Deathsinger"
 
-; r12 = char Q
-; r13 = char U
-; r14 = char A
-; r15 = char !
+# r1 = Q ability
+# r2 = W ability
+# r3 = E ability
+# r4 = Ult
+
+# r5 = Champion's number
+# r6 = Write position
+# r7 = Copy position
+# r8 = Length to copy
+# r9 = Available space
+
+# r12 = char 'Q'
+# r13 = char 'U'
+# r14 = char 'A'
+# r15 = char '!''
 
 
 start:
-	ld		%0, r9
-	sti		r1, %21, %1
+	ld		%0, r6
+	ld		%4, r7
+	ld		%:end, r8
+	ld		%:start, r9
+	sub		r8, r9, r8
+	and		r8, %15, r9
+	add		r8, r7, r8
+	and		r8, %15, r8
+	sti		r1, %15, %1
 	sti		r2, %:global_taunt, %42
 	zjmp	%:death_defied
 
@@ -76,7 +94,10 @@ death_defied: # Passive
 	live	%0
 	fork	%:requiem # R (ult)
 	zjmp	%:death_defied
+
 lay_waste: # Q
 wall_of_pain: # W
 defile: # E
 requiem: # R (ult)
+
+end:
