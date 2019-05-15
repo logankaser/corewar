@@ -24,12 +24,11 @@ start:
 	ld		%:end, r8
 	ld		%:start, r9
 	sub		r8, r9, r8
-	and		r8, %15, r9
+	and		r8, %3, r9
 	add		r8, r7, r8
-	and		r8, %15, r8
-	sti		r1, %15, %1
+	and		r8, %-4, r8
 	sti		r2, %:global_taunt, %42
-	zjmp	%:death_defied
+	zjmp	%:global_taunt
 
 fall:
 	sti		r1, %10, %1
