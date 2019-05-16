@@ -21,7 +21,7 @@ void	ld(t_vm *vm, t_process *p, t_decode *d)
 	p1 = param_read(d, vm->arena, p, 0);
 	p2 = d->values[1];
 	p->registers[p2 - 1] = p1;
-	p->carry = p->registers[p2 - 1] ? 0 : 1;
+	p->carry = !p->registers[p2 - 1];
 }
 
 void	lld(t_vm *vm, t_process *p, t_decode *d)
@@ -38,5 +38,5 @@ void	lld(t_vm *vm, t_process *p, t_decode *d)
 		p1 = arena_load(vm->arena, p->pc + p1, d->direct_width);
 		p->registers[p2 - 1] = p1;
 	}
-	p->carry = p->registers[p2 - 1] ? 0 : 1;
+	p->carry = !p->registers[p2 - 1];
 }

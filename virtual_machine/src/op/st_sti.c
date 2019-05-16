@@ -15,7 +15,7 @@
 void	st(t_vm *vm, t_process *p, t_decode *d)
 {
 	int32_t value;
-	int32_t indirect;
+	int32_t index;
 
 	value = param_read(d, vm->arena, p, 0);
 	if (d->types[1] == REG)
@@ -24,8 +24,8 @@ void	st(t_vm *vm, t_process *p, t_decode *d)
 	}
 	else if (d->types[1] == IND)
 	{
-		indirect = d->values[1];
-		arena_store(vm->arena, p->pc + (indirect % IDX_MOD), value, REG_SIZE);
+		index = (int16_t)d->values[1];
+		arena_store(vm->arena, p->pc + (index % IDX_MOD), value, REG_SIZE);
 	}
 }
 
@@ -37,9 +37,9 @@ void	sti(t_vm *vm, t_process *p, t_decode *d)
 	value = param_read(d, vm->arena, p, 0);
 	index = 0;
 	if (d->types[1] == IND)
-		index = d->values[1];
+		index = (int16_t)d->values[1];
 	else
 		index = param_read(d, vm->arena, p, 1);
 	index += param_read(d, vm->arena, p, 2);
-	arena_store(vm->arena, p->pc + index, value, REG_SIZE);
+	arena_store(vm->arena, p->pc + (index % IDX_MOD), value, REG_SIZE);
 }
