@@ -38,6 +38,7 @@ typedef struct			s_process {
 	unsigned			execute_cycle;
 	unsigned			step;
 	unsigned			last_live_cycle;
+	unsigned			id;
 	int32_t				registers[REG_NUMBER];
 	uint8_t				executing;
 	bool				carry;

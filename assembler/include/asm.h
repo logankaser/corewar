@@ -137,7 +137,7 @@ void			write_cmd_data(t_asm *out);
 void			asm_print_arg(t_asm_arg *arg);
 void			asm_print_cmd(t_asm_cmd *cmd);
 void			asm_print_data(t_asm *data);
-int				create_file(t_asm *out, char *str);
+void			create_file(t_asm *out, char *str);
 char			*get_name(char *str);
 
 #endif

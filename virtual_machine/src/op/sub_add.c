@@ -23,7 +23,7 @@ void	add(t_vm *vm, t_process *p, t_decode *d)
 	p2 = param_read(d, vm->arena, p, 1);
 	p3 = d->values[2];
 	p->registers[p3 - 1] = p1 + p2;
-	p->carry = p->registers[p3 - 1] ? 0 : 1;
+	p->carry = !p->registers[p3 - 1];
 }
 
 void	sub(t_vm *vm, t_process *p, t_decode *d)
@@ -36,5 +36,5 @@ void	sub(t_vm *vm, t_process *p, t_decode *d)
 	p2 = param_read(d, vm->arena, p, 1);
 	p3 = d->values[2];
 	p->registers[p3 - 1] = p1 - p2;
-	p->carry = p->registers[p3 - 1] ? 0 : 1;
+	p->carry = !p->registers[p3 - 1];
 }

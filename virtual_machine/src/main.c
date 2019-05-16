@@ -17,8 +17,14 @@
 
 static void	annouce_player(t_player *player)
 {
-	ft_printf("Loaded Player: \"%s\", core id: 0x%02x\n"
-		, player->header.prog_name, player->id);
+	ft_printf(
+		"* Player %i, weighing %u bytes, \"%s\" (\"%s\") !\n",
+		-player->id,
+		player->header.prog_size,
+		player->header.prog_name,
+		player->header.comment,
+		player->id
+	);
 }
 
 static void	start_players(t_vm *vm)
@@ -81,6 +87,7 @@ int			main(int argc, char **argv)
 		ft_fprintf(stderr, "corewar: no players!\n");
 		exit_usage(&vm);
 	}
+	ft_putendl("Introducing contestants...");
 	start_players(&vm);
 	vm_run(&vm);
 	annouce_winner(&vm);
