@@ -14,6 +14,8 @@
 
 t_process	*process_spawn(t_vm *vm, t_process *parent, unsigned pc)
 {
+	static unsigned id = 0;
+
 	t_process *new_process;
 
 	new_process = ft_memalloc(sizeof(t_process));
@@ -25,6 +27,7 @@ t_process	*process_spawn(t_vm *vm, t_process *parent, unsigned pc)
 	new_process->executing = NONE;
 	new_process->execute_cycle = vm->cycle + 1;
 	new_process->next = vm->processes;
+	new_process->id = ++id;
 	vm->processes = new_process;
 	return (new_process);
 }
@@ -41,7 +44,7 @@ void		process_check(t_vm *vm, t_process **p)
 			free(tmp);
 		}
 		else
-			p = &((*p) ->next);
+			p = &((*p)->next);
 	}
 	if (vm->lives >= NBR_LIVE || ++vm->checks >= MAX_CHECKS)
 	{

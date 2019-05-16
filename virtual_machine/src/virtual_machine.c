@@ -68,14 +68,16 @@ void					vm_run(t_vm *vm)
 				bool loaded = decode_load(&d, &g_op_tab[opi], vm->arena, proc);
 				if (loaded)
 				{
-					// ft_printf("p: %p executing op: \"%s\", param_size: %u, p1: %i, p2: %i, p3: %i\n",
-					// 	proc,
-					// 	g_op_tab[opi].name,
-					// 	proc->step,
-					// 	d.values[0],
-					// 	d.values[1],
-					// 	d.values[2]
-					// );
+					ft_printf("P %4u | %s %s%i %s%i %s%i\n",
+						proc->id,
+						g_op_tab[opi].name,
+						(d.types[0] == REG ? "r" : ""),
+						d.values[0],
+						(d.types[1] == REG ? "r" : ""),
+						d.values[1],
+						(d.types[2] == REG ? "r" : ""),
+						d.values[2]
+					);
 					g_instruction_dispatch[opi](vm, proc, &d);
 				}
 				//else

@@ -18,7 +18,7 @@ void	ft_fork(t_vm *vm, t_process *p, t_decode *d)
 	uint16_t index;
 
 	index = d->values[0];
-	process_spawn(vm, p, p->pc + (index % IDX_MOD));
+	process_spawn(vm, p, (p->pc + index) % IDX_MOD);
 }
 
 void	ft_lfork(t_vm *vm, t_process *p, t_decode *d)
