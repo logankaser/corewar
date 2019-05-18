@@ -28,7 +28,7 @@ start:
 	add		r8, r7, r8
 	and		r8, %-4, r8
 	sti		r2, %:global_taunt, %42
-	zjmp	%:global_taunt
+	zjmp	%:death_defied
 
 fall:
 	sti		r1, %10, %1
@@ -95,8 +95,16 @@ death_defied: # Passive
 	zjmp	%:death_defied
 
 lay_waste: # Q
+	live	%1
+	fork	%:cooldown_q
 wall_of_pain: # W
+	live	%1
+	fork	%:cooldown_w
 defile: # E
+	live	%1
+	fork	%:cooldown_e
 requiem: # R (ult)
+	live	%1
+	fork	%:cooldown_r
 
 end:
