@@ -18,8 +18,8 @@ void	ldi(t_vm *vm, t_process *p, t_decode *d)
 	int32_t	value;
 
 	offset = param_read(d, vm->arena, p, 0) + param_read(d, vm->arena, p, 1);
-	value = arena_load(vm->arena, p->pc + (offset % IDX_MOD), d->direct_width);
-	p->registers[d->values[2]] = value;
+	value = arena_load(vm->arena, p->pc + (offset % IDX_MOD), REG_SIZE);
+	p->registers[d->values[2] - 1] = value;
 	p->carry = !value;
 }
 
@@ -29,7 +29,7 @@ void	lldi(t_vm *vm, t_process *p, t_decode *d)
 	int32_t	value;
 
 	offset = param_read(d, vm->arena, p, 0) + param_read(d, vm->arena, p, 1);
-	value = arena_load(vm->arena, p->pc + offset, d->direct_width);
-	p->registers[d->values[2]] = value;
+	value = arena_load(vm->arena, p->pc + offset, REG_SIZE);
+	p->registers[d->values[2] - 1] = value;
 	p->carry = !value;
 }

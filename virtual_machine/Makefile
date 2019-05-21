@@ -39,19 +39,19 @@ INCLUDES = -I ../libft/include -I src -I ../include -I include
 
 MAKEOPTS=-j4
 
-#OPT = -O3 -flto=full
+OPT = -O3 -flto=full
 
 CPPFLAGS = -Wall -Wextra -Werror $(OPT) -g -march=native \
 $(INCLUDES) \
--fsanitize=address -fsanitize=undefined
+#-fsanitize=address -fsanitize=undefined
 
-LDFLAGS = -L ../libft -lft -pipe \
--fsanitize=address -fsanitize=undefined
+LDFLAGS = -L ../libft -lft -pipe -g \
+#-fsanitize=address -fsanitize=undefined
 
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	make -sC ../libft
+	make -C ../libft
 	@printf "\e[32;1mLinking.. \e[0m\n"
 	$(CC) $^ $(LDFLAGS) -o $@
 	@printf "\e[32;1mCreated:\e[0m %s\n" $@

@@ -16,13 +16,8 @@
 void	ft_bzero(void *m, size_t n)
 {
 	uint8_t		*b8;
-	uint64_t	*b64;
 
 	b8 = m;
-	while (n && n % 8)
-		b8[--n] = 0;
-	n /= 8;
-	b64 = m;
 	while (n)
-		b64[--n] = 0;
+		b8[--n] = 0;
 }
