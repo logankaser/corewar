@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+         #
+#    By: logan <logan@student.42.us.org>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/13 10:03:24 by logan             #+#    #+#              #
-#    Updated: 2019/05/21 11:33:12 by jbeall           ###   ########.fr        #
+#    Updated: 2019/05/06 15:42:44 by tcherret         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,9 +27,7 @@ aff \
 sub_add \
 zjmp \
 ld_lld \
-fork_lfork \
-visual \
-visual2
+fork_lfork
 
 OBJ_DIR = obj
 VPATH = src:src/op
@@ -47,7 +45,7 @@ CPPFLAGS = -Wall -Wextra -Werror $(OPT) -g -march=native \
 $(INCLUDES) \
 -fsanitize=address -fsanitize=undefined
 
-LDFLAGS = -L ../libft -lft -lncurses -pipe \
+LDFLAGS = -L ../libft -lft -pipe \
 -fsanitize=address -fsanitize=undefined
 
 all: $(NAME)
