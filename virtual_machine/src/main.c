@@ -15,17 +15,17 @@
 #include "virtual_machine.h"
 #include "instruction_dispatch.h"
 
-// static void	annouce_player(t_player *player)
-// {
-// 	ft_printf(
-// 		"* Player %i, weighing %u bytes, \"%s\" (\"%s\") !\n",
-// 		-player->id,
-// 		player->header.prog_size,
-// 		player->header.prog_name,
-// 		player->header.comment,
-// 		player->id
-// 	);
-// }
+static void	annouce_player(t_player *player)
+{
+	ft_printf(
+		"* Player %i, weighing %u bytes, \"%s\" (\"%s\") !\n",
+		-player->id,
+		player->header.prog_size,
+		player->header.prog_name,
+		player->header.comment,
+		player->id
+	);
+}
 
 static void	start_players(t_vm *vm)
 {
@@ -43,7 +43,7 @@ static void	start_players(t_vm *vm)
 			(MEM_SIZE / vm->player_count) * i);
 		player->id = -player->id;
 		proc->registers[0] = player->id;
-		//annouce_player(player);
+		annouce_player(player);
 		ft_memcpy(vm->arena + proc->pc,
 			player->prog, player->header.prog_size);
 	}
@@ -69,7 +69,7 @@ static void	annouce_winner(t_vm *vm)
 		i += 1;
 	}
 	if (player && player->last_live_cycle > 0)
-		ft_printf("Player %i (%s) won\n\t\"%s\"\n",
+		ft_printf("Contestant %i, \"%s\", has won !\n",
 			-player->id, player->header.prog_name, player->header.comment);
 	else
 		ft_printf("No winner, no one called live!\n");
@@ -87,7 +87,7 @@ int			main(int argc, char **argv)
 		ft_fprintf(stderr, "corewar: no players!\n");
 		exit_usage(&vm);
 	}
-	//ft_putendl("Introducing contestants...");
+	ft_putendl("Introducing contestants...");
 	start_players(&vm);
 	vm_run(&vm);
 	annouce_winner(&vm);
