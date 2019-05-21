@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   virtual_machine.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+        */
+/*   By: lkaser <lkaser@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/23 17:19:25 by lkaser            #+#    #+#             */
-/*   Updated: 2019/05/20 20:51:50 by jbeall           ###   ########.fr       */
+/*   Updated: 2019/05/01 19:44:38 by tcherret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ typedef struct			s_process {
 	int32_t				registers[REG_NUMBER];
 	uint8_t				executing;
 	bool				carry;
-	int32_t				owner;
 }						t_process;
 
 /*
@@ -61,7 +60,6 @@ typedef struct			s_vm {
 	unsigned			check_cycle;
 	uint8_t				arena[MEM_SIZE];
 	bool				quiet;
-	bool				visual;
 }						t_vm;
 
 # define VALID_REG(x) (x > 0 && x <= REG_NUMBER)
