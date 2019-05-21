@@ -6,7 +6,7 @@
 #    By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/13 10:03:24 by logan             #+#    #+#              #
-#    Updated: 2019/05/20 13:05:41 by jbeall           ###   ########.fr        #
+#    Updated: 2019/05/21 11:33:12 by jbeall           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,8 @@ sub_add \
 zjmp \
 ld_lld \
 fork_lfork \
-visual
+visual \
+visual2
 
 OBJ_DIR = obj
 VPATH = src:src/op

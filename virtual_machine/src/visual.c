@@ -6,7 +6,7 @@
 /*   By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 11:40:49 by jbeall            #+#    #+#             */
-/*   Updated: 2019/05/21 11:23:40 by jbeall           ###   ########.fr       */
+/*   Updated: 2019/05/21 11:32:48 by jbeall           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,83 +29,6 @@ void init_visual(void)
 	init_pair(5, COLOR_RED, COLOR_BLACK);
 	init_pair(6, COLOR_YELLOW, COLOR_BLACK);
 	curs_set(0);
-}
-
-void write_hex(t_vm *vm, int i)
-{
-	move(i / 64, (i % 64) * 3);
-	printw("%02x", vm->arena[i]);
-}
-
-void write_mem(t_vm *vm)
-{
-	int i;
-	int j;
-
-	i = 0;
-	j = 0;
-	move(0, 0);
-    attron(COLOR_PAIR(1));
-	while (i < MEM_SIZE / 64)
-	{
-		j = 0;
-		while (j < 64)
-		{
-			if (!vm->arena[i * 64 + j])
-				attron(COLOR_PAIR(2));
-			write_hex(vm, i * 64 + j);
-			attron(COLOR_PAIR(1));
-			j++;
-		}
-		printw("\n");
-		i++;
-	}
-    attroff(COLOR_PAIR(1));
-}
-
-void render_pc(t_vm *vm)
-{
-	t_process *proc;
-	int color_p[] = {0, 3, 4, 5, 6};
-
-	proc = vm->processes;
-	attron(A_BOLD | A_STANDOUT);
-	while (proc)
-	{
-		attron(COLOR_PAIR(color_p[-proc->owner]));
-		write_hex(vm, proc->pc % MEM_SIZE);
-		attroff(COLOR_PAIR(color_p[-proc->owner]));
-		proc = proc->next;
-	}
-	attroff(A_BOLD | A_STANDOUT);
-}
-
-int count_processes(t_vm *vm)
-{
-	t_process *p;
-	int count;
-
-	p = vm->processes;
-	count = 0;
-	while (p)
-	{
-		count++;
-		p = p->next;
-	}
-	return (count);
-}
-
-void render_vbar(int y)
-{
-	int i;
-
-	i = 0;
-	while (i < 64)
-	{
-		move(i, y);
-		printw("|");
-		i++;
-	}
 }
 
 void render_player_info(t_vm *vm)
