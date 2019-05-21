@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkaser <lkaser@student.42.us.org>          +#+  +:+       +#+        */
+/*   By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 18:28:10 by lkaser            #+#    #+#             */
-/*   Updated: 2019/04/23 14:23:42 by lkaser           ###   ########.fr       */
+/*   Updated: 2019/05/21 11:23:42 by jbeall           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "process.h"
 #include "virtual_machine.h"
 #include "instruction_dispatch.h"
+#include "visual.h"
 
 static void	annouce_player(t_player *player)
 {
@@ -43,6 +44,7 @@ static void	start_players(t_vm *vm)
 			(MEM_SIZE / vm->player_count) * i);
 		player->id = -player->id;
 		proc->registers[0] = player->id;
+		proc->owner = player->id;
 		annouce_player(player);
 		ft_memcpy(vm->arena + proc->pc,
 			player->prog, player->header.prog_size);
@@ -89,7 +91,11 @@ int			main(int argc, char **argv)
 	}
 	ft_putendl("Introducing contestants...");
 	start_players(&vm);
+	if (vm.visual)
+		init_visual();
 	vm_run(&vm);
+	if (vm.visual)
+		endwin();
 	annouce_winner(&vm);
 	ft_printf("final cycle: %u\n", vm.cycle);
 	vm_del(&vm);

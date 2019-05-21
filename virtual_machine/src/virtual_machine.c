@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   virtual_machine.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkaser <lkaser@student.42.us.org>          +#+  +:+       +#+        */
+/*   By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/26 14:03:28 by lkaser            #+#    #+#             */
-/*   Updated: 2019/05/05 15:14:10 by ztisnes          ###   ########.fr       */
+/*   Updated: 2019/05/21 11:14:58 by jbeall           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <limits.h>
 #include "virtual_machine.h"
 #include "instruction_dispatch.h"
+#include "visual.h"
 #include "process.h"
 
 void					vm_init(t_vm *vm)
@@ -68,16 +69,16 @@ void					vm_run(t_vm *vm)
 				bool loaded = decode_load(&d, &g_op_tab[opi], vm->arena, proc);
 				if (loaded)
 				{
-					ft_printf("P %4u | %s %s%i %s%i %s%i\n",
-						proc->id,
-						g_op_tab[opi].name,
-						(d.types[0] == REG ? "r" : ""),
-						d.values[0],
-						(d.types[1] == REG ? "r" : ""),
-						d.values[1],
-						(d.types[2] == REG ? "r" : ""),
-						d.values[2]
-					);
+					// ft_printf("P %4u | %s %s%i %s%i %s%i\n",
+					// 	proc->id,
+					// 	g_op_tab[opi].name,
+					// 	(d.types[0] == REG ? "r" : ""),
+					// 	d.values[0],
+					// 	(d.types[1] == REG ? "r" : ""),
+					// 	d.values[1],
+					// 	(d.types[2] == REG ? "r" : ""),
+					// 	d.values[2]
+					// );
 					g_instruction_dispatch[opi](vm, proc, &d);
 				}
 				//else
@@ -104,5 +105,7 @@ void					vm_run(t_vm *vm)
 		}
 		if (vm->cycle >= vm->check_cycle)
 			process_check(vm, &vm->processes);
+		if (vm->visual)
+			render(vm);
 	}
 }
