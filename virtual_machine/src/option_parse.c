@@ -6,7 +6,7 @@
 /*   By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/25 16:47:49 by lkaser            #+#    #+#             */
-/*   Updated: 2019/05/20 13:40:51 by jbeall           ###   ########.fr       */
+/*   Updated: 2019/05/21 12:31:29 by jbeall           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void				parse_options(int argc, char **argv, t_vm *vm)
 			i = parse_option_id(argc, argv, i, vm);
 		else if (!ft_strcmp(argv[i], "-q") || !ft_strcmp(argv[i], "--quiet"))
 			vm->quiet = true;
-		else if (!ft_strncmp(argv[i], "-v", 1))
+		else if (!ft_strcmp(argv[i], "-v"))
 			vm->visual = true;
 		else if (!ft_strncmp(argv[i], "-", 1))
 		{
