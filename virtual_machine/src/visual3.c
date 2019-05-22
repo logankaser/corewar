@@ -1,28 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   visual.h                                           :+:      :+:    :+:   */
+/*   visual3.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/20 13:02:33 by jbeall            #+#    #+#             */
-/*   Updated: 2019/05/22 12:05:13 by jbeall           ###   ########.fr       */
+/*   Created: 2019/05/22 12:04:31 by jbeall            #+#    #+#             */
+/*   Updated: 2019/05/22 12:05:00 by jbeall           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef VISUAL_H
-# define VISUAL_H
-# include <ncurses.h>
+#include "visual.h"
 
-typedef struct s_vm	t_vm;
+int		check_screen(unsigned *pause)
+{
+	int x;
+	int y;
 
-void	init_visual(void);
-void	render_vbar(int y);
-void	write_hex(t_vm *vm, int i);
-void	write_mem(t_vm *vm);
-int		count_processes(t_vm *vm);
-int		check_screen(unsigned *pause);
-void	render_pc(t_vm *vm);
-void	render(t_vm *vm);
-
-#endif
+	getmaxyx(stdscr, y, x);
+	if (y < 65 | x < 222)
+	{
+		mvprintw(y / 2, x / 2 - 13, "Please increase screen size");
+		*pause = 1;
+		return (1);
+	}
+	return (0);
+}

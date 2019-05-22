@@ -6,35 +6,36 @@
 /*   By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 11:40:49 by jbeall            #+#    #+#             */
-/*   Updated: 2019/05/21 13:18:01 by jbeall           ###   ########.fr       */
+/*   Updated: 2019/05/22 13:11:15 by jbeall           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "virtual_machine.h"
 #include "visual.h"
 
-void init_visual(void)
+void	init_visual(void)
 {
 	initscr();
 	cbreak();
 	noecho();
 	nodelay(stdscr, true);
 	start_color();
-	init_color(COLOR_WHITE, 700, 700, 700);
-	init_color(10, 400, 400, 400);
-	init_pair(1, COLOR_WHITE, COLOR_BLACK);
-	init_pair(2, 10, COLOR_BLACK);
-	init_pair(3, COLOR_GREEN, COLOR_BLACK);
-	init_pair(4, COLOR_BLUE, COLOR_BLACK);
-	init_pair(5, COLOR_RED, COLOR_BLACK);
-	init_pair(6, COLOR_YELLOW, COLOR_BLACK);
+	use_default_colors();
+	init_color(-1, 700, 700, 700);
+	init_color(COLOR_CYAN, 400, 400, 400);
+	init_pair(1, -1, -1);
+	init_pair(2, COLOR_CYAN, -1);
+	init_pair(3, COLOR_GREEN, -1);
+	init_pair(4, COLOR_BLUE, -1);
+	init_pair(5, COLOR_RED, -1);
+	init_pair(6, COLOR_YELLOW, -1);
 	curs_set(0);
 }
 
-void render_player_info(t_vm *vm)
+void	render_player_info(t_vm *vm)
 {
-	unsigned i;
-	int color_p[] = {0, 3, 4, 5, 6};
+	unsigned	i;
+	static int	color_p[] = {0, 3, 4, 5, 6};
 
 	i = 0;
 	while (i < vm->player_count)
@@ -50,7 +51,7 @@ void render_player_info(t_vm *vm)
 	}
 }
 
-void render_info(t_vm *vm, unsigned speed, unsigned pause)
+void	render_info(t_vm *vm, unsigned speed, unsigned pause)
 {
 	render_vbar(197);
 	attron(A_BOLD);
@@ -70,7 +71,7 @@ void render_info(t_vm *vm, unsigned speed, unsigned pause)
 	attroff(A_BOLD);
 }
 
-void get_input(unsigned *speed, unsigned *pause)
+void	get_input(unsigned *speed, unsigned *pause)
 {
 	char in;
 
@@ -88,22 +89,29 @@ void get_input(unsigned *speed, unsigned *pause)
 	}
 }
 
-void render(t_vm *vm)
+void	render(t_vm *vm)
 {
-	int line;
-	static unsigned delay[] = {1000000, 100000, 10000, 1000, 100, 0};
-	static unsigned speed = 2;
-	unsigned pause;
+	int				line;
+	static unsigned	delay[] = {1000000, 100000, 10000, 1000, 100, 0};
+	static unsigned	speed = 2;
+	unsigned		pause;
+	int				loop;
 
 	line = 0;
 	pause = 0;
-	do {
+	loop = 1;
+	while (loop)
+	{
 		erase();
-		write_mem(vm);
-		render_pc(vm);
-		render_info(vm, speed, pause);
+		if (!check_screen(&pause))
+		{
+			write_mem(vm);
+			render_pc(vm);
+			render_info(vm, speed, pause);
+		}
 		refresh();
 		get_input(&speed, &pause);
-	} while (pause);
+		loop = pause;
+	}
 	usleep(delay[speed]);
 }

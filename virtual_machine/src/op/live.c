@@ -6,7 +6,7 @@
 /*   By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/28 12:14:44 by tcherret          #+#    #+#             */
-/*   Updated: 2019/05/21 13:21:38 by jbeall           ###   ########.fr       */
+/*   Updated: 2019/05/22 11:39:50 by jbeall           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ void	live(t_vm *vm, t_process *p, t_decode *d)
 	{
 		if (vm->players[i]->id == player_id)
 		{
-
 			if (!vm->quiet && !vm->visual)
 				ft_printf("Player %i (%s) is said to be alive\n",
 					-player_id, vm->players[i]->header.prog_name);
