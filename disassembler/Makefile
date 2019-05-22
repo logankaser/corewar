@@ -27,14 +27,14 @@ INCLUDES = -I ../libft/include -I src -I ../include -I include
 
 MAKEOPTS=-j4
 
-#OPT = -O3 -flto=full
+OPT = -O3 -flto=full
 
 CPPFLAGS = -Wall -Wextra -Werror $(OPT) -g -march=native \
 $(INCLUDES) \
--fsanitize=address -fsanitize=undefined
+#-fsanitize=address -fsanitize=undefined
 
 LDFLAGS = -L ../libft -lft -pipe \
--fsanitize=address -fsanitize=undefined
+#-fsanitize=address -fsanitize=undefined
 
 all: $(NAME)
 
