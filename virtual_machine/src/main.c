@@ -23,8 +23,7 @@ static void	annouce_player(t_player *player)
 		player->header.prog_size,
 		player->header.prog_name,
 		player->header.comment,
-		player->id
-	);
+		player->id);
 }
 
 static void	start_players(t_vm *vm)
@@ -75,7 +74,6 @@ static void	annouce_winner(t_vm *vm)
 		ft_printf("No winner, no one called live!\n");
 }
 
-
 int			main(int argc, char **argv)
 {
 	t_vm vm;
@@ -91,6 +89,7 @@ int			main(int argc, char **argv)
 	start_players(&vm);
 	vm_run(&vm);
 	annouce_winner(&vm);
-	ft_printf("final cycle: %u\n", vm.cycle);
+	if (!vm.quiet)
+		ft_printf("final cycle: %u\n", vm.cycle);
 	vm_del(&vm);
 }
