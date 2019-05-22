@@ -40,89 +40,6 @@ void					vm_del(t_vm *vm)
 	}
 }
 
-/*
-# define DUMP_LEN 64
-
-static void		build_dump(char *out, uint8_t *arena, int addrlen)
-{
-	size_t	line;
-	size_t	i;
-
-	i = 0;
-	line = 0;
-	out += sprintf(out, "0x%.*x : ", addrlen, 0);
-	while (i < MEM_SIZE)
-	{
-		if (++line == DUMP_LEN)
-		{
-			line = 0;
-			out += sprintf(out, "%.2x \n", arena[i++]);
-			if (i < MEM_SIZE)
-				out += sprintf(out, "%#.*zx : ", addrlen, i);
-			continue ;
-		}
-		out += sprintf(out, "%.2x ", arena[i++]);
-	}
-}
-
-static size_t	dumplen(int *addrlen)
-{
-	int	msize;
-	int	alen;
-
-	alen = 0;
-	if (!(msize = MEM_SIZE))
-		alen = 1;
-	while (msize)
-	{
-		++alen;
-		msize /= 16;
-	}
-	*addrlen = alen;
-	return (((MEM_SIZE / DUMP_LEN) * (alen + 6)) + (MEM_SIZE * 3));
-}
-
-void			dump(t_vm *vm)
-{
-	char	*out;
-	size_t	olen;
-	char	*sep;
-	int		slen;
-	int		addrlen;
-	t_process *p;
-
-	olen = dumplen(&addrlen);
-	slen = (DUMP_LEN * 3) + addrlen + 4;
-	out = malloc(olen + 1);
-	sep = malloc(slen + 1);
-	sep[slen] = '\0';
-	ft_memset(sep, '-', slen);
-	build_dump(out, vm->arena, addrlen);
-	ft_printf("%s\nCORE DUMP [CYCLE %u]\n%s\n", sep, --vm->cycle, sep);
-	write(STDOUT_FILENO, out, olen);
-	free(out);
-	free(sep);
-
-	p = vm->processes;
-	while (p)
-	{
-		printf("P%4u:%u = %s:%u\n",
-			p->id,
-			p->pc,
-			p->executing == NONE ? "NONE" : g_op_tab[p->executing - 1].name,
-			p->execute_cycle
-		);
-		for (int i = 0; i < 16; ++i)
-		{
-			printf("r%.2i = %.8x \n", i + 1, p->registers[i]);
-		}
-		p = p->next;
-	}
-
-	exit(EXIT_SUCCESS);
-}
-*/
-
 void					vm_run(t_vm *vm)
 {
 	t_process	*proc;
@@ -131,10 +48,7 @@ void					vm_run(t_vm *vm)
 	while (vm->processes)
 	{
 		if (++vm->cycle > vm->dump_cycle)
-		{
-			//dump(vm);
 			break ;
-		}
 		proc = vm->processes;
 		while(proc)
 		{
