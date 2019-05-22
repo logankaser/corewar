@@ -13,11 +13,11 @@
 #include "virtual_machine.h"
 #include "decode.h"
 
-void		zjmp(t_vm *vm, t_process *p, t_decode *d)
+void	zjmp(t_vm *vm, t_process *p, t_decode *d)
 {
-	int16_t p1;
+	int16_t	p1;
 
 	p1 = param_read(d, vm->arena, p, 0);
-    if (p->carry == 1)
+	if (p->carry == 1)
 		p->step = p1;
 }

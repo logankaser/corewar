@@ -84,7 +84,7 @@ void				parse_options(int argc, char **argv, t_vm *vm)
 	i = 0;
 	while (++i < argc)
 	{
-		if (!ft_strcmp(argv[i], "-dump") || !ft_strcmp(argv[i], "--dump"))
+		if (!ft_strcmp(argv[i], "-d") || !ft_strcmp(argv[i], "--dump"))
 			i = parse_option_dump(argc, argv, i, vm);
 		else if (!ft_strcmp(argv[i], "-n"))
 			i = parse_option_id(argc, argv, i, vm);

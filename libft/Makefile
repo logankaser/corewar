@@ -38,11 +38,11 @@ DEP = $(OBJ:%.o=%.d)
 
 MAKEOPTS=-j4
 
-#OPT = -O3 -flto=full
+OPT = -O3 -flto=full
 
 CPPFLAGS = -Wall -Wextra -Werror -g \
 -I include -march=native $(OPT) \
--fsanitize=address -fsanitize=undefined
+#-fsanitize=address -fsanitize=undefined
 
 
 all: $(OBJ_DIR) $(NAME)

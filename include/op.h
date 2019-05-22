@@ -67,8 +67,6 @@ typedef char	t_arg_type;
 # define COREWAR_EXEC_MAGIC 0xea83f3
 # define HEADER_SIZE (16 + PROG_NAME_LENGTH + COMMENT_LENGTH)
 
-
-
 typedef struct	s_header
 {
 	unsigned	magic;
