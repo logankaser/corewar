@@ -38,11 +38,11 @@ DEP = $(OBJ:%.o=%.d)
 
 MAKEOPTS=-j4
 
-OPT = -O3 -flto=full
+#OPT = -O3 -flto=full
 
 CPPFLAGS = -Wall -Wextra -Werror -g \
 -I include -march=native $(OPT) \
-#-fsanitize=address -fsanitize=undefined
+-fsanitize=address -fsanitize=undefined
 
 
 all: $(OBJ_DIR) $(NAME)
@@ -58,7 +58,7 @@ $(OBJ_DIR):
 -include $(DEP)
 
 $(OBJ_DIR)/%.o: %.c
-	$(CC) $(CPPFLAGS) -MMD -c $< -o $@
+	@$(CC) $(CPPFLAGS) -MMD -c $< -o $@
 
 clean:
 	@printf "\e[31;1mCleaning..\e[0m\n"
