@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   virtual_machine.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkaser <lkaser@student.42.us.org>          +#+  +:+       +#+        */
+/*   By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/26 14:03:28 by lkaser            #+#    #+#             */
-/*   Updated: 2019/05/05 15:14:10 by ztisnes          ###   ########.fr       */
+/*   Updated: 2019/05/21 11:14:58 by jbeall           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <limits.h>
 #include "virtual_machine.h"
 #include "instruction_dispatch.h"
+#include "visual.h"
 #include "process.h"
 
 void		vm_init(t_vm *vm)
@@ -98,5 +99,7 @@ void		vm_run(t_vm *vm)
 		}
 		if (vm->cycle >= vm->check_cycle)
 			process_check(vm, &vm->processes);
+		if (vm->visual)
+			render(vm);
 	}
 }

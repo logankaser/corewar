@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   option_parse.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkaser <lkaser@student.42.us.org>          +#+  +:+       +#+        */
+/*   By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/25 16:47:49 by lkaser            #+#    #+#             */
-/*   Updated: 2019/05/01 16:43:28 by lkaser           ###   ########.fr       */
+/*   Updated: 2019/05/21 12:31:29 by jbeall           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,8 @@ void				parse_options(int argc, char **argv, t_vm *vm)
 			i = parse_option_id(argc, argv, i, vm);
 		else if (!ft_strcmp(argv[i], "-q") || !ft_strcmp(argv[i], "--quiet"))
 			vm->quiet = true;
+		else if (!ft_strcmp(argv[i], "-v"))
+			vm->visual = true;
 		else if (!ft_strncmp(argv[i], "-", 1))
 		{
 			ft_fprintf(stderr, "corewar: invalid option \"%s\"\n", argv[i]);
