@@ -6,7 +6,7 @@
 /*   By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/26 14:03:28 by lkaser            #+#    #+#             */
-/*   Updated: 2019/05/21 11:14:58 by jbeall           ###   ########.fr       */
+/*   Updated: 2019/05/22 11:41:57 by jbeall           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,6 @@ void		vm_run(t_vm *vm)
 		}
 		if (vm->cycle >= vm->check_cycle)
 			process_check(vm, &vm->processes);
-		if (vm->visual)
-			render(vm);
+		vm->visual ? render(vm) : 0;
 	}
 }
