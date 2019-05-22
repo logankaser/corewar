@@ -41,19 +41,19 @@ INCLUDES = -I ../libft/include -I src -I ../include -I include
 
 MAKEOPTS=-j4
 
-#OPT = -O3 -flto=full
+OPT = -O3 -flto=full
 
 CPPFLAGS = -Wall -Wextra -Werror $(OPT) -g -march=native \
 $(INCLUDES) \
--fsanitize=address -fsanitize=undefined
+#-fsanitize=address -fsanitize=undefined
 
 LDFLAGS = -L ../libft -lft -lncurses -pipe \
--fsanitize=address -fsanitize=undefined
+#-fsanitize=address -fsanitize=undefined
 
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	make -sC ../libft
+	@make -sC ../libft
 	@printf "\e[32;1mLinking.. \e[0m\n"
 	$(CC) $^ $(LDFLAGS) -o $@
 	@printf "\e[32;1mCreated:\e[0m %s\n" $@
@@ -65,15 +65,15 @@ $(OBJ_DIR):
 
 $(OBJ_DIR)/%.o: %.c | $(OBJ_DIR)
 	@printf "\e[34;1mCompiling: \e[0m%s\n" $<
-	$(CC) $(CPPFLAGS) -MMD -c $< -o $@
+	@$(CC) $(CPPFLAGS) -MMD -c $< -o $@
 
 clean:
-	make -sC ../libft clean
+	@make -sC ../libft clean
 	@printf "\e[31;1mCleaning..\e[0m\n"
 	@rm -rf $(OBJ_DIR)
 
 fclean: clean
-	make -sC ../libft fclean
+	@make -sC ../libft fclean
 	@printf "\e[31;1mFull Cleaning..\e[0m\n"
 	@rm -f $(NAME)
 	@rm -rf $(NAME).dSYM

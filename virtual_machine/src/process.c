@@ -14,9 +14,8 @@
 
 t_process	*process_spawn(t_vm *vm, t_process *parent, unsigned pc)
 {
-	static unsigned id = 0;
-
-	t_process *new_process;
+	static unsigned	id = 0;
+	t_process		*new_process;
 
 	new_process = ft_memalloc(sizeof(t_process));
 	if (parent)
@@ -35,6 +34,7 @@ t_process	*process_spawn(t_vm *vm, t_process *parent, unsigned pc)
 void		process_check(t_vm *vm, t_process **p)
 {
 	t_process	*tmp;
+
 	while (*p)
 	{
 		if (vm->cycle - (*p)->last_live_cycle >= vm->cycles_to_die)

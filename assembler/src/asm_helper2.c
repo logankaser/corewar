@@ -14,7 +14,7 @@
 
 void		asm_error(char *er_name, char *er_type, int line)
 {
-	ft_fprintf(stderr, 
+	ft_fprintf(stderr,
 		RED_TEXT"%s: %s [line %d]\n"COLOR_RESET, er_name, er_type, line);
 	exit(1);
 }

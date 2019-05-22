@@ -21,15 +21,15 @@ void	check_file_type(char *str)
 		asm_error("file error", "file must be '.s'", 0);
 }
 
-void		create_file(t_asm *out, char *str)
+void	create_file(t_asm *out, char *str)
 {
 	char	*name;
-  char  *ext;
+	char	*ext;
 	int		fd;
 
 	ext = ft_strrchr(str, '.');
 	if (ext)
-	  *ext = '\0';
+		*ext = '\0';
 	name = ft_strf("%s.cor", str);
 	if ((fd = open(name, O_WRONLY | O_CREAT | O_TRUNC, 0644)) < 0)
 		asm_error("file error", "impossible to create the .cor file", 0);

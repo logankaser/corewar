@@ -26,8 +26,9 @@ void	live(t_vm *vm, t_process *p, t_decode *d)
 	{
 		if (vm->players[i]->id == player_id)
 		{
+
 			if (!vm->quiet && !vm->visual)
-				ft_printf("A process shows that player %i (%s) is alive\n",
+				ft_printf("Player %i (%s) is said to be alive\n",
 					-player_id, vm->players[i]->header.prog_name);
 			vm->players[i]->last_live_cycle = vm->cycle;
 			break ;
