@@ -61,7 +61,7 @@ static void	annouce_winner(t_vm *vm)
 	player = NULL;
 	while (i < vm->player_count)
 	{
-		if (vm->players[i]->last_live_cycle > most_recent_live)
+		if (vm->players[i]->last_live_cycle >= most_recent_live)
 		{
 			most_recent_live = vm->players[i]->last_live_cycle;
 			player = vm->players[i];
@@ -69,7 +69,7 @@ static void	annouce_winner(t_vm *vm)
 		i += 1;
 	}
 	if (player && player->last_live_cycle > 0)
-		ft_printf("Player %i (%s) won\n\t\"%s\"\n",
+		ft_printf("Contestant %i, \"%s\", has won !\n",
 			-player->id, player->header.prog_name, player->header.comment);
 	else
 		ft_printf("No winner, no one called live!\n");

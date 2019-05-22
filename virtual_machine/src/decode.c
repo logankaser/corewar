@@ -22,7 +22,7 @@ int32_t					arena_load(uint8_t *arena, unsigned from,
 
 	assert(size == 1 || size == 2 || size == 4);
 	if (size == 1)
-		return (arena[from % MEM_SIZE]);
+		return ((int8_t)arena[from % MEM_SIZE]);
 	else if (size == 2)
 	{
 		((uint8_t*)&out)[1] = arena[from % MEM_SIZE];

@@ -58,7 +58,7 @@ $(OBJ_DIR):
 -include $(DEP)
 
 $(OBJ_DIR)/%.o: %.c
-	$(CC) $(CPPFLAGS) -MMD -c $< -o $@
+	@$(CC) $(CPPFLAGS) -MMD -c $< -o $@
 
 clean:
 	@printf "\e[31;1mCleaning..\e[0m\n"

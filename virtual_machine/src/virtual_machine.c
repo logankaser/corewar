@@ -47,15 +47,13 @@ void					vm_run(t_vm *vm)
 
 	while (vm->processes)
 	{
-		vm->cycle += 1;
-		if (vm->cycle >= vm->dump_cycle)
+		if (++vm->cycle > vm->dump_cycle)
 			break ;
 		proc = vm->processes;
 		while(proc)
 		{
 			if (vm->cycle < proc->execute_cycle)
 			{
-				// ft_printf("p: %p waiting %u cycles\n", proc, proc->execute_cycle - vm->cycle);
 				proc = proc->next;
 				continue ;
 			}
@@ -67,30 +65,16 @@ void					vm_run(t_vm *vm)
 				proc->step = decode(&d, &g_op_tab[opi], enc);
 				bool loaded = decode_load(&d, &g_op_tab[opi], vm->arena, proc);
 				if (loaded)
-				{
-					ft_printf("P %4u | %s %s%i %s%i %s%i\n",
-						proc->id,
-						g_op_tab[opi].name,
-						(d.types[0] == REG ? "r" : ""),
-						d.values[0],
-						(d.types[1] == REG ? "r" : ""),
-						d.values[1],
-						(d.types[2] == REG ? "r" : ""),
-						d.values[2]
-					);
 					g_instruction_dispatch[opi](vm, proc, &d);
-				}
-				//else
-				//	ft_printf("p: %p skipping op: \"%s\", bad params\n", proc, g_op_tab[opi].name);
 				proc->pc += proc->step;
 				proc->executing = NONE;
+				proc->execute_cycle += 1;
 			}
 			else
 			{
 				uint8_t op = ARENA(vm, proc->pc);
 				if (op > 0 && op < 17)
 				{
-					//ft_printf("p: %p loading op: \"%s\"\n", proc, g_op_tab[op - 1].name);
 					proc->executing = op;
 					proc->execute_cycle = vm->cycle + (g_op_tab[op - 1].cycles - 1);
 				}
