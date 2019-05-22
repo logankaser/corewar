@@ -67,7 +67,6 @@ void					vm_run(t_vm *vm)
 				if (loaded)
 					g_instruction_dispatch[opi](vm, proc, &d);
 				proc->pc += proc->step;
-				proc->pc = proc->pc % MEM_SIZE;
 				proc->executing = NONE;
 				proc->execute_cycle += 1;
 			}

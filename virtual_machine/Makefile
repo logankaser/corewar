@@ -45,7 +45,7 @@ CPPFLAGS = -Wall -Wextra -Werror $(OPT) -g -march=native \
 $(INCLUDES) \
 -fsanitize=address -fsanitize=undefined
 
-LDFLAGS = -L ../libft -lft -pipe -g \
+LDFLAGS = -L ../libft -lft -pipe \
 -fsanitize=address -fsanitize=undefined
 
 all: $(NAME)
