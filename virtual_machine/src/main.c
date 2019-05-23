@@ -35,7 +35,8 @@ static void	start_players(t_vm *vm)
 	t_process	*proc;
 
 	i = -1;
-	ft_putendl("Introducing contestants...");
+	if (vm->dump_cycle == UINT_MAX)
+		ft_putendl("Introducing contestants...");
 	while (++i < MAX_PLAYERS)
 	{
 		player = vm->players[i];
@@ -46,7 +47,8 @@ static void	start_players(t_vm *vm)
 		player->id = -player->id;
 		proc->registers[0] = player->id;
 		proc->owner = player->id;
-		annouce_player(player);
+		if (vm->dump_cycle == UINT_MAX)
+			annouce_player(player);
 		ft_memcpy(vm->arena + proc->pc,
 			player->prog, player->header.prog_size);
 	}
@@ -90,6 +92,8 @@ static void	dump_memory(t_vm *vm)
 			ft_putchar('\n');
 		i += 1;
 	}
+	vm_del(vm);
+	exit(0);
 }
 
 int			main(int argc, char **argv)
