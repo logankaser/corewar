@@ -49,7 +49,7 @@ all: $(OBJ_DIR) $(NAME)
 
 $(NAME): $(OBJ)
 	@printf "\e[32;1mLinking.. \e[0m\n"
-	@ar -rcs $@ $^
+	@$(AR) -rcs $@ $^
 	@printf "\e[32;1mCreated:\e[0m %s\n" $(NAME)
 
 $(OBJ_DIR):

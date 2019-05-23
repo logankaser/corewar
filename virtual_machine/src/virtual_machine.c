@@ -6,7 +6,7 @@
 /*   By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/26 14:03:28 by lkaser            #+#    #+#             */
-/*   Updated: 2019/05/22 11:41:57 by jbeall           ###   ########.fr       */
+/*   Updated: 2019/05/23 17:15:17 by lkaser           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,19 +86,18 @@ void		vm_run(t_vm *vm)
 		proc = vm->processes;
 		while (proc)
 		{
-			if (vm->cycle < proc->execute_cycle)
+			if (vm->cycle >= proc->execute_cycle)
 			{
-				proc = proc->next;
-				continue ;
+				if (proc->executing != NONE)
+					vm_instruction_execute(vm, proc, &d);
+				else
+					vm_instruction_fetch(vm, proc);
 			}
-			if (proc->executing != NONE)
-				vm_instruction_execute(vm, proc, &d);
-			else
-				vm_instruction_fetch(vm, proc);
 			proc = proc->next;
 		}
 		if (vm->cycle >= vm->check_cycle)
 			process_check(vm, &vm->processes);
-		vm->visual ? render(vm) : 0;
+		if (vm->visual)
+			render(vm);
 	}
 }

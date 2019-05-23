@@ -6,7 +6,7 @@
 /*   By: lkaser <lkaser@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/06 11:29:40 by lkaser            #+#    #+#             */
-/*   Updated: 2019/05/14 15:03:16 by lkaser           ###   ########.fr       */
+/*   Updated: 2019/05/23 17:15:42 by lkaser           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ t_process	*process_spawn(t_vm *vm, t_process *parent, unsigned pc)
 	new_process->next = vm->processes;
 	new_process->id = ++id;
 	vm->processes = new_process;
+	vm->process_count += 1;
 	return (new_process);
 }
 
@@ -41,6 +42,7 @@ void		process_check(t_vm *vm, t_process **p)
 		{
 			tmp = *p;
 			*p = (*p)->next;
+			vm->process_count -= 1;
 			free(tmp);
 		}
 		else

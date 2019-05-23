@@ -6,7 +6,7 @@
 #    By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/13 10:03:24 by logan             #+#    #+#              #
-#    Updated: 2019/05/22 12:06:08 by jbeall           ###   ########.fr        #
+#    Updated: 2019/05/23 15:07:49 by lkaser           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,6 @@ ld_lld \
 fork_lfork \
 visual \
 visual2 \
-visual3
 
 OBJ_DIR = obj
 VPATH = src:src/op
