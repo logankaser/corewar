@@ -86,19 +86,18 @@ void		vm_run(t_vm *vm)
 		proc = vm->processes;
 		while (proc)
 		{
-			if (vm->cycle < proc->execute_cycle)
+			if (vm->cycle >= proc->execute_cycle)
 			{
-				proc = proc->next;
-				continue ;
+				if (proc->executing != NONE)
+					vm_instruction_execute(vm, proc, &d);
+				else
+					vm_instruction_fetch(vm, proc);
 			}
-			if (proc->executing != NONE)
-				vm_instruction_execute(vm, proc, &d);
-			else
-				vm_instruction_fetch(vm, proc);
 			proc = proc->next;
 		}
 		if (vm->cycle >= vm->check_cycle)
 			process_check(vm, &vm->processes);
-		vm->visual ? render(vm) : 0;
+		if (vm->visual)
+			render(vm);
 	}
 }
