@@ -6,10 +6,11 @@
 /*   By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 18:28:10 by lkaser            #+#    #+#             */
-/*   Updated: 2019/05/21 11:23:42 by jbeall           ###   ########.fr       */
+/*   Updated: 2019/05/23 17:16:35 by lkaser           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <limits.h>
 #include "libft.h"
 #include "process.h"
 #include "virtual_machine.h"
@@ -34,6 +35,7 @@ static void	start_players(t_vm *vm)
 	t_process	*proc;
 
 	i = -1;
+	ft_putendl("Introducing contestants...");
 	while (++i < MAX_PLAYERS)
 	{
 		player = vm->players[i];
@@ -76,6 +78,20 @@ static void	annouce_winner(t_vm *vm)
 		ft_printf("No winner, no one called live!\n");
 }
 
+static void	dump_memory(t_vm *vm)
+{
+	unsigned i;
+
+	i = 1;
+	while (i <= MEM_SIZE)
+	{
+		ft_printf("%02hhx ", vm->arena[i - 1]);
+		if (i % 32 == 0)
+			ft_putchar('\n');
+		i += 1;
+	}
+}
+
 int			main(int argc, char **argv)
 {
 	t_vm vm;
@@ -87,13 +103,18 @@ int			main(int argc, char **argv)
 		ft_fprintf(stderr, "corewar: no players!\n");
 		exit_usage(&vm);
 	}
-	ft_putendl("Introducing contestants...");
 	start_players(&vm);
 	if (vm.visual)
 		init_visual();
 	vm_run(&vm);
 	if (vm.visual)
+	{
+		vm.pause = true;
+		render(&vm);
 		endwin();
+	}
+	if (vm.dump_cycle != UINT_MAX)
+		dump_memory(&vm);
 	annouce_winner(&vm);
 	if (!vm.quiet)
 		ft_printf("final cycle: %u\n", vm.cycle);
