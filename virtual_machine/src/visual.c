@@ -12,8 +12,9 @@
 
 #include "virtual_machine.h"
 #include "visual.h"
+#define INFO_X 194
 
-void	init_visual(void)
+void		init_visual(void)
 {
 	initscr();
 	cbreak();
@@ -32,7 +33,7 @@ void	init_visual(void)
 	curs_set(0);
 }
 
-void	render_player_info(t_vm *vm)
+static void	render_player_info(t_vm *vm)
 {
 	unsigned	i;
 	static int	color_p[] = {0, 3, 4, 5, 6};
@@ -40,38 +41,38 @@ void	render_player_info(t_vm *vm)
 	i = 0;
 	while (i < vm->player_count)
 	{
-		move(9 + (4 * i), 200);
+		move(9 + (4 * i), INFO_X);
 		printw("Player ");
 		attron(COLOR_PAIR(color_p[i + 1]) | A_STANDOUT);
 		printw("%d\n", i + 1);
 		attroff(COLOR_PAIR(color_p[i + 1]) | A_STANDOUT);
-		move(10 + 4 * i, 200);
+		move(10 + 4 * i, INFO_X);
 		printw("Last Live Cycle: %d", vm->players[i]->last_live_cycle);
 		i++;
 	}
 }
 
-void	render_info(t_vm *vm, unsigned speed, unsigned pause)
+static void	render_info(t_vm *vm, unsigned speed, bool pause)
 {
-	render_vbar(197);
+	render_vbar(192);
 	attron(A_BOLD);
 	if (pause)
-		mvprintw(1, 200, "Paused");
+		mvprintw(1, INFO_X, "Paused");
 	else
-		mvprintw(1, 200, "Speed: %d", speed);
-	mvprintw(3, 200, "Cycle: %d", vm->cycle);
-	mvprintw(5, 200, "Player Count: %d", vm->player_count);
-	mvprintw(7, 200, "Processes: %d", count_processes(vm));
-	mvprintw(55, 200, "Cycles To Die: %d", vm->cycles_to_die);
-	mvprintw(57, 200, "Live Checks: %d", vm->checks);
-	mvprintw(59, 200, "Next Check Cycle: %d", vm->check_cycle);
-	mvprintw(61, 200, "Cycle Delta: %d", CYCLE_DELTA);
-	mvprintw(63, 200, "Lives This Round: %d", vm->lives);
+		mvprintw(1, INFO_X, "Speed: %d", speed);
+	mvprintw(3, INFO_X, "Cycle: %d", vm->cycle);
+	mvprintw(5, INFO_X, "Player Count: %d", vm->player_count);
+	mvprintw(7, INFO_X, "Processes: %d", vm->process_count);
+	mvprintw(55, INFO_X, "Cycles To Die: %d", vm->cycles_to_die);
+	mvprintw(57, INFO_X, "Live Checks: %d", vm->checks);
+	mvprintw(59, INFO_X, "Next Check Cycle: %d", vm->check_cycle);
+	mvprintw(61, INFO_X, "Cycle Delta: %d", CYCLE_DELTA);
+	mvprintw(63, INFO_X, "Lives This Round: %d", vm->lives);
 	render_player_info(vm);
 	attroff(A_BOLD);
 }
 
-void	get_input(unsigned *speed, unsigned *pause)
+static void	get_input(unsigned *speed, bool *pause)
 {
 	char in;
 
@@ -89,29 +90,25 @@ void	get_input(unsigned *speed, unsigned *pause)
 	}
 }
 
-void	render(t_vm *vm)
+void		render(t_vm *vm)
 {
-	int				line;
 	static unsigned	delay[] = {1000000, 100000, 10000, 1000, 100, 0};
 	static unsigned	speed = 2;
-	unsigned		pause;
-	int				loop;
+	bool			loop;
 
-	line = 0;
-	pause = 0;
-	loop = 1;
+	loop = true;
 	while (loop)
 	{
 		erase();
-		if (!check_screen(&pause))
+		if (!check_screen(&vm->pause))
 		{
 			write_mem(vm);
 			render_pc(vm);
-			render_info(vm, speed, pause);
+			render_info(vm, speed, vm->pause);
 		}
 		refresh();
-		get_input(&speed, &pause);
-		loop = pause;
+		get_input(&speed, &vm->pause);
+		loop = vm->pause;
 	}
 	usleep(delay[speed]);
 }

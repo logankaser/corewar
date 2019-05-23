@@ -13,7 +13,7 @@
 #include "visual.h"
 #include "virtual_machine.h"
 
-void	render_vbar(int y)
+void		render_vbar(int y)
 {
 	int i;
 
@@ -26,13 +26,13 @@ void	render_vbar(int y)
 	}
 }
 
-void	write_hex(t_vm *vm, int i)
+static void	write_hex(t_vm *vm, int i)
 {
 	move(i / 64, (i % 64) * 3);
 	printw("%02x", vm->arena[i]);
 }
 
-void	write_mem(t_vm *vm)
+void		write_mem(t_vm *vm)
 {
 	int i;
 	int j;
@@ -57,22 +57,22 @@ void	write_mem(t_vm *vm)
 	attroff(COLOR_PAIR(1));
 }
 
-int		count_processes(t_vm *vm)
+bool		check_screen(bool *pause)
 {
-	t_process	*p;
-	int			count;
+	int x;
+	int y;
 
-	p = vm->processes;
-	count = 0;
-	while (p)
+	getmaxyx(stdscr, y, x);
+	if (y < 65 | x < 222)
 	{
-		count++;
-		p = p->next;
+		mvprintw(y / 2, x / 2 - 13, "Please increase screen size");
+		*pause = 1;
+		return (true);
 	}
-	return (count);
+	return (false);
 }
 
-void	render_pc(t_vm *vm)
+void		render_pc(t_vm *vm)
 {
 	t_process	*proc;
 	static int	color_p[] = {0, 3, 4, 5, 6};

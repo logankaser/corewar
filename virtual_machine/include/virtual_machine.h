@@ -54,14 +54,16 @@ typedef struct			s_vm {
 	unsigned			dump_cycle;
 	t_player			*players[MAX_PLAYERS];
 	t_process			*processes;
+	unsigned			process_count;
+	unsigned			player_count;
 	unsigned			lives;
 	unsigned			checks;
-	unsigned			player_count;
 	unsigned			cycles_to_die;
 	unsigned			check_cycle;
 	uint8_t				arena[MEM_SIZE];
 	bool				quiet;
 	bool				visual;
+	bool				pause;
 }						t_vm;
 
 # define VALID_REG(x) (x > 0 && x <= REG_NUMBER)

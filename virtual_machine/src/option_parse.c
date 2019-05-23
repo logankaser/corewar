@@ -6,14 +6,19 @@
 /*   By: jbeall <jbeall@student.42.us.org>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/25 16:47:49 by lkaser            #+#    #+#             */
-/*   Updated: 2019/05/21 12:31:29 by jbeall           ###   ########.fr       */
+/*   Updated: 2019/05/23 17:15:34 by lkaser           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "virtual_machine.h"
 
 static const char	*g_usage =
-"usage: ./corewar [-dump nbr_cycles] [[-n number] <champ.cor>]";
+"usage: ./corewar [-dump nbr_cycles] [[-n number] <champ.cor>]"
+"\n -d <cycle>, --dump <cycle> | Specify cycle to dump memory"
+"\n -n <num> <player>, --number <num> <player> | Specify player number"
+"\n -q, --quiet  | Enable quiet mode (silence aff and live)"
+"\n -v, --visual | Enable visualization with ncurses, implies quiet mode"
+;
 
 void				exit_usage(t_vm *vm)
 {
@@ -86,11 +91,11 @@ void				parse_options(int argc, char **argv, t_vm *vm)
 	{
 		if (!ft_strcmp(argv[i], "-d") || !ft_strcmp(argv[i], "--dump"))
 			i = parse_option_dump(argc, argv, i, vm);
-		else if (!ft_strcmp(argv[i], "-n"))
+		else if (!ft_strcmp(argv[i], "-n") || !ft_strcmp(argv[i], "--number"))
 			i = parse_option_id(argc, argv, i, vm);
 		else if (!ft_strcmp(argv[i], "-q") || !ft_strcmp(argv[i], "--quiet"))
 			vm->quiet = true;
-		else if (!ft_strcmp(argv[i], "-v"))
+		else if (!ft_strcmp(argv[i], "-v") || !ft_strcmp(argv[i], "--visual"))
 			vm->visual = true;
 		else if (!ft_strncmp(argv[i], "-", 1))
 		{
@@ -100,4 +105,6 @@ void				parse_options(int argc, char **argv, t_vm *vm)
 		else
 			load_player(vm, argv[i], find_free_id(vm));
 	}
+	if (vm->visual)
+		vm->quiet = true;
 }

@@ -18,10 +18,8 @@ typedef struct s_vm	t_vm;
 
 void	init_visual(void);
 void	render_vbar(int y);
-void	write_hex(t_vm *vm, int i);
 void	write_mem(t_vm *vm);
-int		count_processes(t_vm *vm);
-int		check_screen(unsigned *pause);
+bool	check_screen(bool *pause);
 void	render_pc(t_vm *vm);
 void	render(t_vm *vm);
 
