@@ -69,18 +69,24 @@ static void		load_player_file(t_vm *vm, char *fp, t_player *player)
 		ft_fprintf(stderr, "corewar: could not open \"%s\"\n", fp);
 		exit_usage(vm);
 	}
-	else if (file.length - HEADER_SIZE > CHAMP_MAX_SIZE)
+	else if (((int)file.length) - HEADER_SIZE > CHAMP_MAX_SIZE)
 	{
-		ft_fprintf(stderr, "corewar: program \"%s\" is too large \n", fp);
+		ft_fprintf(stderr, "corewar: program \"%s\" is too large\n", fp);
+		free(file.data);
 		exit_usage(vm);
 	}
 	else if (file.length <= HEADER_SIZE)
 	{
-		ft_fprintf(stderr, "corewar: program \"%s\" is too small in \n", fp);
+		ft_fprintf(stderr, "corewar: program \"%s\" is too small\n", fp);
+		free(file.data);
 		exit_usage(vm);
 	}
 	if (!copy_player(file, player, fp))
+	{
+		free(file.data);
 		exit_usage(vm);
+	}
+	free(file.data);
 }
 
 void			load_player(t_vm *vm, char *fp, int32_t id)

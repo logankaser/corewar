@@ -45,8 +45,6 @@ typedef struct	s_disasm
 }				t_disasm;
 
 void			write_header(t_disasm *file_data);
-unsigned		write_program_op(uint8_t op, t_disasm *file_data);
-unsigned		write_live_zjmp_fork(uint8_t op, t_disasm *file_data);
 unsigned		write_program(t_disasm *file_data);
 unsigned		write_param(unsigned type, uint8_t op, t_disasm *file_data);
 bool			validate_types(uint8_t *arena, unsigned pc);
