@@ -25,7 +25,7 @@ void			write_header(t_disasm *file_data)
 	write(file_data->fdc, "\"\n\n", 3);
 }
 
-unsigned		write_program_op(uint8_t op, t_disasm *file_data)
+static unsigned	write_program_op(uint8_t op, t_disasm *file_data)
 {
 	if (op > 0 && op < 17)
 	{
@@ -35,7 +35,7 @@ unsigned		write_program_op(uint8_t op, t_disasm *file_data)
 	return (1);
 }
 
-unsigned		write_live_zjmp_fork(uint8_t op, t_disasm *file_data)
+static unsigned	write_live_zjmp_fork(uint8_t op, t_disasm *file_data)
 {
 	int16_t	param;
 	int32_t	param1;
@@ -62,27 +62,26 @@ unsigned		write_live_zjmp_fork(uint8_t op, t_disasm *file_data)
 	return (0);
 }
 
-unsigned		wrong_cor(void)
+static void		wrong_cor(t_disasm *file_data)
 {
-	ft_printf(RED_TEXT"Error: the cor file is not valid"COLOR_RESET);
+	ft_printf(RED_TEXT"Error: the cor file is not valid\n"COLOR_RESET);
+	close(file_data->fdc);
 	exit(-1);
-	return (-1);
 }
 
 unsigned		write_program(t_disasm *file_data)
 {
-	uint8_t		op;
-	unsigned	enc;
+	uint8_t	op;
+	uint8_t	enc;
 
 	enc = 0;
 	if (!validate_types(file_data->program, file_data->index))
-		return (wrong_cor());
-	ft_memcpy(&op, file_data->program + file_data->index, 1);
+		wrong_cor(file_data);
+	op = file_data->program[file_data->index];
 	file_data->index += write_program_op(op, file_data);
 	if (g_op_tab[op - 1].encoded == 1)
 	{
-		ft_memcpy(&enc, file_data->program + file_data->index, 1);
-		file_data->index++;
+		enc = file_data->program[file_data->index++];
 		if (P1(enc))
 			file_data->index += write_param(P1(enc), op, file_data);
 		if (P2(enc))
@@ -92,6 +91,6 @@ unsigned		write_program(t_disasm *file_data)
 	}
 	else
 		file_data->index += write_live_zjmp_fork(op, file_data);
-	write(file_data->fdc, "\n\0", 2);
+	write(file_data->fdc, "\n", 1);
 	return (0);
 }

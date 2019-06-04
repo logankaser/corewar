@@ -12,7 +12,7 @@
 
 #include "disasm.h"
 
-unsigned		write_dir(unsigned type, uint8_t op, t_disasm *file_data)
+static unsigned	write_dir(unsigned type, uint8_t op, t_disasm *file_data)
 {
 	int64_t param;
 
