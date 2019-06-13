@@ -7,6 +7,8 @@ compiled to bytecode and run on a VM with a cycilic memory space.
 Each Warrior must attempt to spead their code while defending from enemies  
 that are attempting to do the same.
 
+![visualizer screenshot](https://raw.githubusercontent.com/logankaser/corewar/master/resources/screenshot.png)
+
 ## Building
 
 ### Requires
