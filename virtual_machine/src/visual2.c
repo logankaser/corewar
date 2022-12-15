@@ -63,7 +63,7 @@ bool		check_screen(bool *pause)
 	int y;
 
 	getmaxyx(stdscr, y, x);
-	if (y < 65 | x < 222)
+	if (y < 65 || x < 222)
 	{
 		mvprintw(y / 2, x / 2 - 13, "Please increase screen size");
 		*pause = 1;

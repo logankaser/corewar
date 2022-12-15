@@ -41,7 +41,7 @@ MAKEOPTS=-j4
 OPT = -O3 -flto=full
 
 CPPFLAGS = -Wall -Wextra -Werror -g \
--I include -march=native $(OPT) \
+-I include -march=native -Wno-error=strict-aliasing -Wno-error=unused-result $(OPT) \
 #-fsanitize=address -fsanitize=undefined
 
 

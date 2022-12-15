@@ -28,7 +28,7 @@ MAKEOPTS=-j4
 OPT = -O3 -flto=full
 
 CPPFLAGS = -Wall -Wextra -Werror $(OPT) -g -march=native \
-$(INCLUDES) \
+$(INCLUDES) -Wno-error=unused-result \
 #-fsanitize=address -fsanitize=undefined
 
 LDFLAGS = -L ../libft -lft -pipe \

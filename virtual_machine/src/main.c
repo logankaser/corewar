@@ -123,4 +123,5 @@ int			main(int argc, char **argv)
 	if (!vm.quiet)
 		ft_printf("final cycle: %u\n", vm.cycle);
 	vm_del(&vm);
+	return 0;
 }
